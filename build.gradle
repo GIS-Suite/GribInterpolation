@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.gis.suite'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://artifacts.unidata.ucar.edu/repository/unidata-all/"
+    }
+
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation "edu.ucar:cdm-core:5.5.3"
+    runtimeOnly "org.slf4j:slf4j-jdk14:2.0.11"
+    runtimeOnly "edu.ucar:grib:5.5.3"
+}
+
+test {
+    useJUnitPlatform()
+}
