@@ -22,8 +22,10 @@ public class Main {
                     System.out.println(gribFileNames[i]);
                     String gribFileName = gribFileNames[i];
                     String gribFilePath = folderPath + "\\" + gribFileName;
-                    var testGrib1 = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
-                    System.out.println(testGrib1.getDataVariables() + "\n");
+
+                    //test grib file read with ucar
+                    var testGrib = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
+                    System.out.println(testGrib.getDataVariables() + "\n");
                 }
             }else {
                 System.out.println("The folder is empty. Please check folder.");
