@@ -6,12 +6,12 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         //check if args is empty
-        if (args.length == 0){
+        if (args.length == 0) {
             System.out.println("The arguments array is empty. Please pass at least 1 argument into main.");
             System.exit(0);
         }
         //Creating String array of grib file names from folder.
-        try{
+        try {
             File folderPath = new File(args[0]);
             String[] gribFileNameArray = folderPath.list();
 
@@ -25,11 +25,12 @@ public class Main {
                     var testGrib = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
                     System.out.println(testGrib.getDataVariables() + "\n");
                 }
-            }else {
+            } else {
                 System.out.println("The folder is empty. Please check folder.");
                 System.exit(0);
             }
-        }catch (IOException e) {
+
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
