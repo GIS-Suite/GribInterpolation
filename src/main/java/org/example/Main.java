@@ -10,17 +10,15 @@ public class Main {
             System.out.println("The arguments array is empty. Please pass at least 1 argument into main.");
             System.exit(0);
         }
-
         //Creating String array of grib file names from folder.
         try{
             File folderPath = new File(args[0]);
-            String[] gribFileNames = folderPath.list();
+            String[] gribFileNameArray = folderPath.list();
 
-            if (gribFileNames != null && gribFileNames.length != 0) {
+            if (gribFileNameArray != null && gribFileNameArray.length != 0) {
                 //Combining folder path with grib file name to create full grib file path to read all grib files
-                for (int i = 0; i < gribFileNames.length; ++i) {
-                    System.out.println(gribFileNames[i]);
-                    String gribFileName = gribFileNames[i];
+                for (String gribFileName : gribFileNameArray) {
+                    System.out.println(gribFileName);
                     String gribFilePath = folderPath + "\\" + gribFileName;
 
                     //test grib file read with ucar
@@ -34,6 +32,5 @@ public class Main {
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
