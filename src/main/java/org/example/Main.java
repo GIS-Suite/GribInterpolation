@@ -24,11 +24,14 @@ public class Main {
                 }
 
                 //test all grib file read with ucar
-                for (String gribFilePath : gribFilePathList) {
-                    var testGrib = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
-                    System.out.println(testGrib.getDataVariables() + "\n");
+                if (!gribFilePathList.isEmpty()) {
+                    for (String gribFilePath : gribFilePathList) {
+                        var testGrib = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
+                        System.out.println(testGrib.getDataVariables() + "\n");
+                    }
+                } else {
+                    System.out.println("List of grib file paths is empty.");
                 }
-
             } else {
                 System.out.println("The folder is empty. Please check folder.");
                 System.exit(0);
