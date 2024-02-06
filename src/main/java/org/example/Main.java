@@ -1,7 +1,8 @@
 package org.example;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,21 +11,24 @@ public class Main {
             System.out.println("The arguments array is empty. Please pass at least 1 argument into main.");
             System.exit(0);
         }
-        //Creating String array of grib file names from folder.
+
         try {
-            File folderPath = new File(args[0]);
-            String[] gribFileNameArray = folderPath.list();
+            //Passing folder path as an argument
+            File gribFolderPath = new File(args[0]);
+            if (gribFolderPath.exists()){
 
-            if (gribFileNameArray != null && gribFileNameArray.length != 0) {
-                //Combining folder path with grib file name to create full grib file path to read all grib files
-                for (String gribFileName : gribFileNameArray) {
-                    System.out.println(gribFileName);
-                    String gribFilePath = folderPath + "\\" + gribFileName;
+                //Create list of grib file paths in the folder
+                ArrayList<String>gribFilePathList = new ArrayList<>();
+                for (File gribFileEntry : Objects.requireNonNull(gribFolderPath.listFiles())) {
+                    gribFilePathList.add(gribFileEntry.getPath());
+                }
 
-                    //test grib file read with ucar
+                //test all grib file read with ucar
+                for (String gribFilePath : gribFilePathList) {
                     var testGrib = ucar.nc2.dt.grid.GridDataset.open(gribFilePath);
                     System.out.println(testGrib.getDataVariables() + "\n");
                 }
+
             } else {
                 System.out.println("The folder is empty. Please check folder.");
                 System.exit(0);
