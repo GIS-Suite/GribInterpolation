@@ -29,14 +29,16 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build and Test
+      #TODO: Add spotlessApply
         run: |
           ./gradlew build
-          ./gradlew spotlessApply
           ./gradlew test
 
   dependency-submission:
     name: Generate and Submit Dependency Graph
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
