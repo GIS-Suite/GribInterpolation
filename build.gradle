@@ -54,7 +54,5 @@ spotless {
                 .aosp()
                 .reflowLongStrings()
                 .formatJavadoc(true)
-
-
     }
 }
