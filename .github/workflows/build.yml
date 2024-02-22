@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: 
+      - 'main'
+      - 'dev'
+      - 'staging'
+      - 'feat/*'
+      - 'fix/*'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'dev'
+      - 'staging'
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK and Gradle
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Build and Test
+        run: |
+          ./gradlew spotlessApply
+          ./gradlew build
+          ./gradlew test
+
+  dependency-submission:
+    name: Generate and Submit Dependency Graph
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK and Gradle
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+
