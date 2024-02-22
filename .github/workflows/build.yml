@@ -6,8 +6,8 @@ on:
       - 'main'
       - 'dev'
       - 'staging'
-      - 'feat/**'
-      - 'fix/**'
+      - 'feat/*'
+      - 'fix/*'
   pull_request:
     branches: 
       - 'main'
@@ -31,8 +31,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build and Test
-      #TODO: Add spotlessApply
         run: |
+          ./gradlew spotlessApply
           ./gradlew build
           ./gradlew test
 
