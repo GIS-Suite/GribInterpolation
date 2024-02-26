@@ -28,7 +28,6 @@ test {
 }
 
 spotless {
-	ratchetFrom 'origin/main'
 	//Formatting for miscellaneous files
 	format 'misc', {
 		// define the files to apply `misc` to
