@@ -20,29 +20,5 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
-*
+* 
  */
-package com.github.gissuite.gribinterpolation;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
-public class ExampleTest {
-
-    private int addNumbers(int x, int y) {
-        return x + y;
-    }
-
-    @Test
-    public void exampleTest() {
-        int x = 10;
-        int y = 5;
-        int expectedResult = 15;
-
-        int result = addNumbers(x, y);
-
-        assertEquals(expectedResult, result);
-    }
-
-}

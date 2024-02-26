@@ -27,6 +27,7 @@ package com.github.gissuite.gribinterpolation.data;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,31 +35,49 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.dt.grid.GridDataset;
 
-public class GridFileReader extends FileReader {
+public class GribFileReader extends FileReader {
 
-    private final Logger logger = LoggerFactory.getLogger(GridFileReader.class);
-    public Set<String> listFilesInDirectory(Path path) throws IOException {
-        try (Stream<Path> stream = Files.walk(path)) {
-            return stream
-                    .filter(file -> !Files.isDirectory(file))
-                    .map(Path::getFileName)
-                    .map(Path::toString)
-                    .collect(Collectors.toSet());
-        }
-    }
-    public GridDataset generateDatasetFromGridFile(String filePath) {
-        try(GridDataset dataset = GridDataset.open(filePath)) {
-            return dataset;
-        } catch (IOException exception) {
-            logger.error("Unable to create dataset from file", exception);
-            return null;
-        }
-    }
+  private final Logger logger = LoggerFactory.getLogger(GribFileReader.class);
 
-    private boolean isGribFile(Path file) {
-        final String gribFileExtension = ".grb2";
-        return file.toString().toLowerCase().endsWith(gribFileExtension);
+  /**
+   * Lists all the grib files in a directory
+   * {@inheritDoc}
+   */
+  @Override
+  public Set<String> listFilesInDirectory(Path path) throws IOException {
+    try (Stream<Path> stream = Files.walk(path)) {
+      return stream
+          .filter(file -> !Files.isDirectory(file))
+          .filter(this::isGribFile)
+          .map(Path::toString)
+          .collect(Collectors.toSet());
     }
+  }
+
+  /**
+   * Generates a NetCDF GridDataset from a grib file
+   *
+   * @param filePath The path to the grib file
+   * @return GridDataset
+   */
+  //
+  public GridDataset generateDatasetFromGribFile(String filePath) {
+    Set<NetcdfDataset.Enhance> enhancements = new HashSet<>();
+    enhancements.add(NetcdfDataset.Enhance.CoordSystems);
+    try (GridDataset dataset = GridDataset.open(filePath, enhancements)) {
+
+      return dataset;
+    } catch (IOException exception) {
+      logger.error("Unable to create dataset from file", exception);
+      return null;
+    }
+  }
+
+  private boolean isGribFile(Path file) {
+    final String gribFileExtension = ".grb2";
+    return file.toString().toLowerCase().endsWith(gribFileExtension);
+  }
 }
