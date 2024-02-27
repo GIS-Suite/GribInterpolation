@@ -13,27 +13,58 @@ import ucar.nc2.dt.grid.GridDataset;
 import java.util.List;
 
 public class DataPointBuilder {
-    GridDataset dataset;
+    static GridDataset dataset;
+    static GridCoordSystem coordSystem;
     double[] latitudeCoords;
     double[] longitudeCoords;
     double[] times;
-    double[] surfaceDepth;
+    double[] surfaceDepths;
     double[] temperatures;
 
     DataPointBuilder(GridDataset dataset) {
         this.dataset = dataset;
     }
 
-    public double getlatCoords() {
+    public static void main() {
+        //create GridCoordSystem
+        coordSystem = createGridCoordSystem();
+
+        //
+    }
+
+    public static GridCoordSystem createGridCoordSystem() {
         List<GridDatatype> grids = dataset.getGrids();
-        GridCoordSystem system = grids.get(0).getCoordinateSystem();
+        GridDatatype grid = grids.get(0);
+        GridCoordSystem system = grid.getCoordinateSystem();
+        return system;
+    }
+
+    public double getLatitudeCoords(GridCoordSystem system) {
         CoordinateAxis lat = system.getYHorizAxis();
-        lat.get
+        //code to get latitude value from CoordinateAxis
 
+        return;
+    }
+    public double getlongitudeCoords(GridCoordSystem system) {
+        CoordinateAxis lon = system.getXHorizAxis();
+        //code to get longitude value from CoordinateAxis
 
-        //List<CoordinateAxis> coordinateAxes = system.getCoordinateAxes();
+        return;
+    }
 
-        return
+    public double getTimes(GridCoordSystem system) {
+        CoordinateAxis time = system.getTimeAxis();
+        //code to get time value from CoordinateAxis
+
+        return;
+    }
+
+    public double getSurfaceDepths() {
+
+    }
+
+    public double getTemperatures() {
+
     }
 
 }
