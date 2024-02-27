@@ -1,14 +1,11 @@
 package com.github.gissuite.gribinterpolation.data;
 
-
-import ucar.nc2.Variable;
 import ucar.nc2.dataset.CoordinateAxis;
+import ucar.nc2.dataset.CoordinateAxis1DTime;
 import ucar.nc2.dt.GridCoordSystem;
 import ucar.nc2.dt.GridDatatype;
-
-import ucar.nc2.dt.grid.GridCoordSys;
 import ucar.nc2.dt.grid.GridDataset;
-
+import ucar.nc2.time.CalendarDate;
 
 import java.util.List;
 
@@ -45,26 +42,35 @@ public class DataPointBuilder {
         double latValue = lat.getMaxValue();    //test latValue, no getValue() method.
         return latValue;
     }
+
     public double getlongitudeCoords(GridCoordSystem system) {
         CoordinateAxis lon = system.getXHorizAxis();
+
         //code to get longitude value from CoordinateAxis
 
         return;
     }
 
     public double getTimes(GridCoordSystem system) {
-        CoordinateAxis time = system.getTimeAxis();
+        if (system.hasTimeAxis1D()) {
+            CoordinateAxis1DTime timeAxis1D = system.getTimeAxis1D();
+            List<CalendarDate> dates = timeAxis1D.getCalendarDates();
+        }
+        else if (system.hasTimeAxis()) {
+            CoordinateAxis timeAxis = system.getTimeAxis();
+        }
+
         //code to get time value from CoordinateAxis
 
         return;
     }
 
-    public double getSurfaceDepths() {
+//    public double getSurfaceDepths() {
+//
+//    }
 
-    }
-
-    public double getTemperatures() {
-
-    }
+//    public double getTemperatures() {
+//
+//    }
 
 }
