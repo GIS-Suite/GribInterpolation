@@ -1,6 +1,7 @@
 package com.github.gissuite.gribinterpolation.data;
 
 import ucar.nc2.dataset.CoordinateAxis;
+import ucar.nc2.dataset.CoordinateAxis1D;
 import ucar.nc2.dataset.CoordinateAxis1DTime;
 import ucar.nc2.dt.GridCoordSystem;
 import ucar.nc2.dt.GridDatatype;
@@ -65,12 +66,16 @@ public class DataPointBuilder {
         return;
     }
 
-//    public double getSurfaceDepths() {
-//
-//    }
+    public double getSurfaceDepths(GridCoordSystem system) {
+        CoordinateAxis1D srfDpth = system.getVerticalAxis();
+
+        //code to get surface depth value from CoordinateAxis1D
+
+        return;
+    }
 
 //    public double getTemperatures() {
-//
+//      return;
 //    }
 
 }
