@@ -42,8 +42,8 @@ public class DataPointBuilder {
     public double getLatitudeCoords(GridCoordSystem system) {
         CoordinateAxis lat = system.getYHorizAxis();
         //code to get latitude value from CoordinateAxis
-
-        return;
+        double latValue = lat.getMaxValue();    //test latValue, no getValue() method.
+        return latValue;
     }
     public double getlongitudeCoords(GridCoordSystem system) {
         CoordinateAxis lon = system.getXHorizAxis();
