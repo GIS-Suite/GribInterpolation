@@ -2,7 +2,7 @@ package com.github.gissuite.gribinterpolation.core;
 
 import java.lang.Math;
 import java.util.Arrays;
-public class kNearestNeighbor {
+public class NearestNeighbor {
 
         public static void main(String[] args) {
             System.out.println("Hello world!");
@@ -31,20 +31,21 @@ public class kNearestNeighbor {
 
         }
 
-        public static float getDistanceXYZ(float x1, float y1, float z1, float x2, float y2, float z2) {
-            return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2));
+
+        public static double haverSine (double latitude1, double longitude1, double latitude2, double longitude2){
+            double rad = 6378.137; //km
+            double distanceBetweenLatitudes = latitude2-latitude1;
+            double distanceBetweenLongitudes = longitude2-longitude1;
+            double DistancelatInRAD = distanceBetweenLongitudes * Math.PI/180;
+            double DistancelongInRAD = distanceBetweenLongitudes * Math.PI/180;
+            return 10.7;
         }
+
+
         public static float getDistanceXYZ(float[] points, float[] mypoint) {
             float[] point1;
             float[] point2;
             return (float) Math.sqrt(Math.pow(points[0] - mypoint[0], 2) + Math.pow(points[1] - mypoint[1], 2) + Math.pow(points[2] - mypoint[2], 2));
-
-
-
-        }
-
-        public static float getDistanceXY(float x1, float y1, float x2, float y2) {
-            return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         }
 
         //float
