@@ -34,14 +34,21 @@ public class NearestNeighbor {
 
         public static double haverSine (double latitude1, double longitude1, double latitude2, double longitude2){
             double rad = 6378.137; //km
+            double r = 6371.0; //radians
             double distanceBetweenLatitudes = latitude2-latitude1;
             double distanceBetweenLongitudes = longitude2-longitude1;
             double DistancelatInRAD = distanceBetweenLongitudes * Math.PI/180;
             double DistancelongInRAD = distanceBetweenLongitudes * Math.PI/180;
-            return 10.7;
+            // d = 2r sin^-1 (sqrt of sin^2 (x2-x1)/2) + cos(x1)(cos(x2)sin^2((y2-y1)/2))
+            //A^2 + B^2 = C^2
+            //A = d
+            //B = 2 * arcsin(sqrt of A)
+            //C = return r*B;
+            return 10.7; //random double for now so no errors for return type
         }
 
 
+    //will delete lines 52 - 56
         public static float getDistanceXYZ(float[] points, float[] mypoint) {
             float[] point1;
             float[] point2;
@@ -52,6 +59,7 @@ public class NearestNeighbor {
         // K nearest neighbor we need to determine how many neighbors we want to look at
         // above depends on how many points we find in grib files/netCDF
         //need to find out what to return for getNearestNeighbor function
+    // will re do this after finishing haversine function
         public static float[] getNearestNeighbor(float[][] points, float[] mypoint) {
 
             int amountOfPointsToLookAt = 3;
