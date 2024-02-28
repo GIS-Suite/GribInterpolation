@@ -1,7 +1,6 @@
 package com.github.gissuite.gribinterpolation;
 
 import com.github.gissuite.gribinterpolation.core.DistanceFinder;
-import com.github.gissuite.gribinterpolation.core.NearestNeighbor;
 
 import org.junit.jupiter.api.Test;
 
