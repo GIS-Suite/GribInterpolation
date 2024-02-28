@@ -1,23 +1,21 @@
 package com.github.gissuite.gribinterpolation.data;
 
+import ucar.ma2.Array;
 import ucar.nc2.dataset.CoordinateAxis;
-import ucar.nc2.dataset.CoordinateAxis1D;
 import ucar.nc2.dataset.CoordinateAxis1DTime;
 import ucar.nc2.dt.GridCoordSystem;
 import ucar.nc2.dt.GridDatatype;
 import ucar.nc2.dt.grid.GridDataset;
-import ucar.nc2.time.CalendarDate;
-
+import java.io.IOException;
 import java.util.List;
 
 public class DataPointBuilder {
     static GridDataset dataset;
     static GridCoordSystem coordSystem;
-    double[] latitudeCoords;
-    double[] longitudeCoords;
-    double[] times;
-    double[] surfaceDepths;
-    double[] temperatures;
+    static Array latitudeCoords;
+    static Array longitudeCoords;
+    static Array surfaceDepths;
+    static Array temperatureValues;
 
     DataPointBuilder(GridDataset dataset) {
         this.dataset = dataset;
@@ -27,7 +25,25 @@ public class DataPointBuilder {
         //create GridCoordSystem
         coordSystem = createGridCoordSystem();
 
-        //
+        //get array of Latitude coordinates
+        latitudeCoords = getLatitudeCoords(coordSystem);
+
+        //get array of longitude coordinates
+        longitudeCoords = getlongitudeCoords(coordSystem);
+
+        //call appropriate Time getter method
+        if (coordSystem.hasTimeAxis1D()) {
+            CoordinateAxis1DTime timeAxis1D = coordSystem.getTimeAxis1D();
+        }
+        else if (coordSystem.hasTimeAxis()) {
+            CoordinateAxis timeAxis = coordSystem.getTimeAxis();
+        }
+
+        //get array of surface depths
+        surfaceDepths = getSurfaceDepths(coordSystem);
+
+        //get array of temperatures
+
     }
 
     public static GridCoordSystem createGridCoordSystem() {
@@ -37,45 +53,41 @@ public class DataPointBuilder {
         return system;
     }
 
-    public double getLatitudeCoords(GridCoordSystem system) {
+    public static Array getLatitudeCoords(GridCoordSystem system) {
+        Array latValues;
         CoordinateAxis lat = system.getYHorizAxis();
-        //code to get latitude value from CoordinateAxis
-        double latValue = lat.getMaxValue();    //test latValue, no getValue() method.
-        return latValue;
+        try {
+            latValues = lat.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return latValues;
     }
 
-    public double getlongitudeCoords(GridCoordSystem system) {
+    public static Array getlongitudeCoords(GridCoordSystem system) {
+        Array lonValues;
         CoordinateAxis lon = system.getXHorizAxis();
-
-        //code to get longitude value from CoordinateAxis
-
-        return;
+            try {
+                lonValues = lon.read();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        return lonValues;
     }
 
-    public double getTimes(GridCoordSystem system) {
-        if (system.hasTimeAxis1D()) {
-            CoordinateAxis1DTime timeAxis1D = system.getTimeAxis1D();
-            List<CalendarDate> dates = timeAxis1D.getCalendarDates();
-        }
-        else if (system.hasTimeAxis()) {
-            CoordinateAxis timeAxis = system.getTimeAxis();
-        }
-
-        //code to get time value from CoordinateAxis
-
-        return;
+    public static Array getSurfaceDepths(GridCoordSystem system) {
+        Array srfDpthValues;
+        CoordinateAxis srfDpth = system.getVerticalAxis();
+            try {
+                srfDpthValues = srfDpth.read();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        return srfDpthValues;
     }
 
-    public double getSurfaceDepths(GridCoordSystem system) {
-        CoordinateAxis1D srfDpth = system.getVerticalAxis();
-
-        //code to get surface depth value from CoordinateAxis1D
-
-        return;
-    }
-
-//    public double getTemperatures() {
-//      return;
+//    public static Array getTemperatures(GridCoordSystem system) {
+//        Array tempValues;
 //    }
 
 }
