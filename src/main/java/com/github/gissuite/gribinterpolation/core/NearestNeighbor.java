@@ -5,46 +5,47 @@ import java.util.Arrays;
 public class NearestNeighbor {
 
         public static void main(String[] args) {
-            System.out.println("Hello world!");
-            // need to get nearest neighbor in general.
-//        System.out.println(getDistanceXYZ(2, 2, 2, 2, 2, 2));
-            float point1x = 1F;
-            float point1y = 1F;
-            float point1z = 1F;
-            float[] point1 = new float[3];
-            point1[0] = 1F;
-            point1[1] = 1F;
-            point1[2] = 1F;
-            float[] myPoint = new float[3];
-            myPoint[0] = 2F;
-            myPoint[1] = 2F;
-            myPoint[2] = 2F;
-            float[] point3 = new float[3];
-            point3[0] = 5F;
-            point3[1] = 5F;
-            point3[2] = 5F;
-
-            float[][] points = {point1, point3};
-
-            System.out.println(Arrays.toString( getNearestNeighbor(points, myPoint)));
-
+            double latitude1 = -1.151917306; //-66.0
+            double longitude1 = 1.084896663; //62.16
+            double latitude2 = -1.117010721; //-64.0
+            double longitude2 = 1.08768919; //62.32
+            double expectedResult = 223.0605246;
+            haverSine(latitude1, longitude1, latitude2, longitude2);
+//            System.out.println("Hello world!");
+//            // need to get nearest neighbor in general.
+////        System.out.println(getDistanceXYZ(2, 2, 2, 2, 2, 2));
+//            float point1x = 1F;
+//            float point1y = 1F;
+//            float point1z = 1F;
+//            float[] point1 = new float[3];
+//            point1[0] = 1F;
+//            point1[1] = 1F;
+//            point1[2] = 1F;
+//            float[] myPoint = new float[3];
+//            myPoint[0] = 2F;
+//            myPoint[1] = 2F;
+//            myPoint[2] = 2F;
+//            float[] point3 = new float[3];
+//            point3[0] = 5F;
+//            point3[1] = 5F;
+//            point3[2] = 5F;
+//
+//            float[][] points = {point1, point3};
+//
+//            System.out.println(Arrays.toString( getNearestNeighbor(points, myPoint)));
+//
 
         }
 
 
         public static double haverSine (double latitude1, double longitude1, double latitude2, double longitude2){
-            double rad = 6378.137; //km
             double r = 6371.0; //radians
-            double distanceBetweenLatitudes = latitude2-latitude1;
-            double distanceBetweenLongitudes = longitude2-longitude1;
-            double DistancelatInRAD = distanceBetweenLongitudes * Math.PI/180;
-            double DistancelongInRAD = distanceBetweenLongitudes * Math.PI/180;
-            // d = 2r sin^-1 (sqrt of sin^2 (x2-x1)/2) + cos(x1)(cos(x2)sin^2((y2-y1)/2))
-            //A^2 + B^2 = C^2
-            //A = d
-            //B = 2 * arcsin(sqrt of A)
-            //C = return r*B;
-            return 10.7; //random double for now so no errors for return type
+            double sineSquaredOfLat = Math.pow(((latitude2 - latitude1) / 2), 2);
+            double sineSquaredOfLong = Math.pow(((longitude2 - longitude1) / 2), 2);
+            //Quadratic Formula
+            double A= (2 * r) * Math.asin(Math.sqrt(sineSquaredOfLat + Math.cos(latitude1) * (Math.cos(latitude2) * sineSquaredOfLong)));
+            double B = 2 * Math.asin(Math.sqrt(A));
+            return r * B;
         }
 
 

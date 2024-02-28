@@ -1,12 +1,13 @@
 package com.github.gissuite.gribinterpolation;
 
+import com.github.gissuite.gribinterpolation.core.DistanceFinder;
 import com.github.gissuite.gribinterpolation.core.NearestNeighbor;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NearestNeighborTest {
+public class DistanceFinderTest {
     @Test
     public void distanceTest(){
         //test values converted to radians, actual long and lat in comments
@@ -23,8 +24,10 @@ public class NearestNeighborTest {
         double longitude4 = 1.08768919; //62.32
         double expectedResult2 = 17.79118952;
 
-        double result = NearestNeighbor.haverSine(latitude1,longitude1,latitude2,longitude2);
-        assertEquals(expectedResult, result);
+//        double result = DistanceFinder.haverSine(latitude1,longitude1,latitude2,longitude2);
+        double result = DistanceFinder.haverSine(latitude3,longitude3,latitude4,longitude4);
+//        assertEquals(expectedResult, result);
+        assertEquals(expectedResult2, result);
     }
 }
 
