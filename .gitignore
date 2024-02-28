@@ -6,7 +6,7 @@ build/
 
 .idea
 .gradle
-
+.github/
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
