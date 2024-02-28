@@ -22,43 +22,40 @@
 * SOFTWARE.
 *
  */
-package com.github.gissuite.gribinterpolation.data;
+package com.github.gissuite.gribinterpolation;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.gissuite.gribinterpolation.data.GribFileReader;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import ucar.nc2.dt.grid.GridDataset;
 
-public class GridFileReader extends FileReader {
+@SuppressWarnings("OptionalGetWithoutIsPresent")
+public class GribFileReaderTests {
+  private final Path path = Paths.get("src/test/java/com/github/gissuite/gribinterpolation/NAVGEM");
+  @Test
+  public void listFilesInDirectory_Should_Return_PopulatedSet() throws IOException {
+    GribFileReader fileReader = new GribFileReader();
 
-    private final Logger logger = LoggerFactory.getLogger(GridFileReader.class);
-    public Set<String> listFilesInDirectory(Path path) throws IOException {
-        try (Stream<Path> stream = Files.walk(path)) {
-            return stream
-                    .filter(file -> !Files.isDirectory(file))
-                    .map(Path::getFileName)
-                    .map(Path::toString)
-                    .collect(Collectors.toSet());
-        }
-    }
-    public GridDataset generateDatasetFromGridFile(String filePath) {
-        try(GridDataset dataset = GridDataset.open(filePath)) {
-            return dataset;
-        } catch (IOException exception) {
-            logger.error("Unable to create dataset from file", exception);
-            return null;
-        }
-    }
+    Set<String> files = fileReader.listFilesInDirectory(path);
+    Assertions.assertNotEquals(files.size(), 0);
+  }
 
-    private boolean isGribFile(Path file) {
-        final String gribFileExtension = ".grb2";
-        return file.toString().toLowerCase().endsWith(gribFileExtension);
-    }
+  @Test
+  public void generateDatasetShouldNotReturnNull() throws IOException {
+    GribFileReader fileReader = new GribFileReader();
+    Set<String> files = fileReader.listFilesInDirectory(path);
+    Optional<String> file = files.stream().findFirst();
+
+    String data = file.get();
+    GridDataset dataset = fileReader.generateDatasetFromGribFile(data);
+    Assertions.assertNotNull(dataset);
+  }
 }

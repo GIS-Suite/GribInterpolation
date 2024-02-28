@@ -39,16 +39,17 @@ spotless {
 	}
 	//Fomatting for java files
 	java {
-		importOrder()
-		googleJavaFormat()
-				.reflowLongStrings()
-				.formatJavadoc(true)
+		licenseHeaderFile rootProject.file('etc/spotless/mit-license.java')
+		importOrder('java', 'javax', 'com', 'org')
+
+		cleanthat()
+				.addMutator("SafeAndConsensual")
 
 		removeUnusedImports()
 		trimTrailingWhitespace()
 		endWithNewline()
 		formatAnnotations()
-		//Ensures copyright header gets places in every file
-		licenseHeader '/* Copyright (C) $YEAR OpenGISViewer */'
+
+		custom 'Lambda fix', { it.replace('} )', '})').replace('} ,', '},') }
 	}
 }
