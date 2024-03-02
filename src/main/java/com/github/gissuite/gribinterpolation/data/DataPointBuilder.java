@@ -1,13 +1,14 @@
 package com.github.gissuite.gribinterpolation.data;
 
 import ucar.ma2.Array;
+import ucar.nc2.Variable;
 import ucar.nc2.dataset.CoordinateAxis;
-import ucar.nc2.dataset.CoordinateAxis1DTime;
 import ucar.nc2.dt.GridCoordSystem;
 import ucar.nc2.dt.GridDatatype;
 import ucar.nc2.dt.grid.GridDataset;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class DataPointBuilder {
     static GridDataset dataset;
@@ -16,34 +17,11 @@ public class DataPointBuilder {
     static Array longitudeCoords;
     static Array surfaceDepths;
     static Array temperatureValues;
+    static String varNameForTemperatureValues;
 
-    DataPointBuilder(GridDataset dataset) {
+    DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
         this.dataset = dataset;
-    }
-
-    public static void main() {
-        //create GridCoordSystem
-        coordSystem = createGridCoordSystem();
-
-        //get array of Latitude coordinates
-        latitudeCoords = getLatitudeCoords(coordSystem);
-
-        //get array of longitude coordinates
-        longitudeCoords = getlongitudeCoords(coordSystem);
-
-        //call appropriate Time getter method
-        if (coordSystem.hasTimeAxis1D()) {
-            CoordinateAxis1DTime timeAxis1D = coordSystem.getTimeAxis1D();
-        }
-        else if (coordSystem.hasTimeAxis()) {
-            CoordinateAxis timeAxis = coordSystem.getTimeAxis();
-        }
-
-        //get array of surface depths
-        surfaceDepths = getSurfaceDepths(coordSystem);
-
-        //get array of temperatures
-
+        this.varNameForTemperatureValues = varNameForTemperatureValues;
     }
 
     public static GridCoordSystem createGridCoordSystem() {
@@ -86,8 +64,14 @@ public class DataPointBuilder {
         return srfDpthValues;
     }
 
-//    public static Array getTemperatures(GridCoordSystem system) {
-//        Array tempValues;
-//    }
-
+    public static Array getTemperatures(GridDataset dataset) {
+        Array tempValues;
+        Variable v = Objects.requireNonNull(dataset.getNetcdfFile()).findVariable(varNameForTemperatureValues);
+        try {
+            tempValues = Objects.requireNonNull(v).read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return tempValues;
+    }
 }
