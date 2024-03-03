@@ -11,27 +11,27 @@ import java.util.List;
 import java.util.Objects;
 
 public class DataPointBuilder {
-    static GridDataset dataset;
-    static GridCoordSystem coordSystem;
-    static Array latitudeCoords;
-    static Array longitudeCoords;
-    static Array surfaceDepths;
-    static Array temperatureValues;
-    static String varNameForTemperatureValues;
+    GridDataset dataset;
+    GridCoordSystem coordinateSystem;
+    Array latitudeCoordinates;
+    Array longitudeCoordinates;
+    Array surfaceDepths;
+    Array temperatureValues;
+    String varNameForTemperatureValues;
 
     DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
         this.dataset = dataset;
         this.varNameForTemperatureValues = varNameForTemperatureValues;
     }
 
-    public static GridCoordSystem createGridCoordSystem() {
+    public GridCoordSystem createGridCoordinateSystem() {
         List<GridDatatype> grids = dataset.getGrids();
         GridDatatype grid = grids.get(0);
         GridCoordSystem system = grid.getCoordinateSystem();
         return system;
     }
 
-    public static Array getLatitudeCoords(GridCoordSystem system) {
+    public Array getLatitudeCoordinates(GridCoordSystem system) {
         Array latValues;
         CoordinateAxis lat = system.getYHorizAxis();
         try {
@@ -42,7 +42,7 @@ public class DataPointBuilder {
         return latValues;
     }
 
-    public static Array getlongitudeCoords(GridCoordSystem system) {
+    public Array getLongitudeCoordinates(GridCoordSystem system) {
         Array lonValues;
         CoordinateAxis lon = system.getXHorizAxis();
             try {
@@ -53,18 +53,18 @@ public class DataPointBuilder {
         return lonValues;
     }
 
-    public static Array getSurfaceDepths(GridCoordSystem system) {
-        Array srfDpthValues;
-        CoordinateAxis srfDpth = system.getVerticalAxis();
+    public Array getSurfaceDepths(GridCoordSystem system) {
+        Array srfDepthValues;
+        CoordinateAxis srfDepth = system.getVerticalAxis();
             try {
-                srfDpthValues = srfDpth.read();
+                srfDepthValues = srfDepth.read();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        return srfDpthValues;
+        return srfDepthValues;
     }
 
-    public static Array getTemperatures(GridDataset dataset) {
+    public Array getTemperatureValues(GridDataset dataset) {
         Array tempValues;
         Variable v = Objects.requireNonNull(dataset.getNetcdfFile()).findVariable(varNameForTemperatureValues);
         try {
