@@ -19,6 +19,9 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 
 	implementation "edu.ucar:cdm-core:5.5.3"
+	implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+
+
 	runtimeOnly "org.slf4j:slf4j-jdk14:2.0.11"
 	runtimeOnly "edu.ucar:grib:5.5.3"
 }
