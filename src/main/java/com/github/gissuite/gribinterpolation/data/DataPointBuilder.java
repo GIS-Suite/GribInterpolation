@@ -19,7 +19,7 @@ public class DataPointBuilder {
     Array temperatureValues;
     String varNameForTemperatureValues;
 
-    DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
+    public DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
         this.dataset = dataset;
         this.varNameForTemperatureValues = varNameForTemperatureValues;
     }
