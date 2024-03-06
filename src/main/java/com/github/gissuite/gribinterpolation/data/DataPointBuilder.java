@@ -31,7 +31,6 @@ public class DataPointBuilder {
 
         DataPointBuilder builder = new DataPointBuilder(dataset, "sea_temp_dpth_sfc");
         coordinateSystem = builder.createCoordinateSystem();
-
     }
 
     public CoordinateSystem createCoordinateSystem() {
@@ -43,28 +42,30 @@ public class DataPointBuilder {
 
     public double[] getLatitudeCoordinates(CoordinateSystem system) {
         CoordinateAxis lat = system.getLatAxis();
-        double [] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
+        double[] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
         return latCoordinates;
     }
 
     public double[] getLongitudeCoordinates(CoordinateSystem system) {
-        CoordinateAxis lon = system.getLatAxis();
-        double [] lonCoordinates = ((CoordinateAxis1D)lon).getCoordValues();
+        CoordinateAxis lon = system.getLonAxis();
+        double[] lonCoordinates = ((CoordinateAxis1D)lon).getCoordValues();
         return lonCoordinates;
     }
 
     public double[] getSurfaceDepths(CoordinateSystem system) {
         CoordinateAxis depth = system.getZaxis();
-        double [] srfDpths = ((CoordinateAxis1D)depth).getCoordValues();
+        double[] srfDpths = ((CoordinateAxis1D)depth).getCoordValues();
         return srfDpths;
     }
 
-//    public double[] getTime(CoordinateSystem system) {
-//
-//        return
-//    }
+    public double[] getTimes(CoordinateSystem system) {
+        CoordinateAxis time = system.getTaxis();
+        double[] times = ((CoordinateAxis1D)time).getCoordValues();
+        return times;
+    }
 
     public double getTemperatureValue(GridDataset dataset, double lat, double lon) {
+
         GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);
         GridCoordSystem gridCoordSystem = grid.getCoordinateSystem();
 
