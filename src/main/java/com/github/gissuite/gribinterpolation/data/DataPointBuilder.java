@@ -41,26 +41,28 @@ public class DataPointBuilder {
         return system;
     }
 
-    public static double[] getLatitudeCoordinates(CoordinateSystem system) {
-        VariableDS lat = system.getLatAxis();
+    public double[] getLatitudeCoordinates(CoordinateSystem system) {
+        CoordinateAxis lat = system.getLatAxis();
         double [] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
         return latCoordinates;
     }
 
     public double[] getLongitudeCoordinates(CoordinateSystem system) {
-
-        return
+        CoordinateAxis lon = system.getLatAxis();
+        double [] lonCoordinates = ((CoordinateAxis1D)lon).getCoordValues();
+        return lonCoordinates;
     }
 
     public double[] getSurfaceDepths(CoordinateSystem system) {
-
-        return
+        CoordinateAxis depth = system.getZaxis();
+        double [] srfDpths = ((CoordinateAxis1D)depth).getCoordValues();
+        return srfDpths;
     }
 
-    public double[] getTime(CoordinateSystem system) {
-
-        return
-    }
+//    public double[] getTime(CoordinateSystem system) {
+//
+//        return
+//    }
 
     public double getTemperatureValue(GridDataset dataset, double lat, double lon) {
         GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);

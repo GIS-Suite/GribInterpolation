@@ -36,6 +36,9 @@ public class Main {
 
         DataPointBuilder builder = new DataPointBuilder(dataset, "sea_temp_dpth_sfc");
         CoordinateSystem coordinateSystem = builder.createCoordinateSystem();
-
+        double[] surfaceDepths = builder.getSurfaceDepths(coordinateSystem);
+        for (double surfaceDepth : surfaceDepths) {
+            System.out.println(surfaceDepth);
+        }
     }
 }
