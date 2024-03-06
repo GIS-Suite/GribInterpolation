@@ -1,6 +1,8 @@
 package com.github.gissuite.gribinterpolation.data;
 
 import ucar.ma2.Array;
+import ucar.nc2.dataset.CoordinateAxis;
+import ucar.nc2.dataset.CoordinateAxis1D;
 import ucar.nc2.dataset.CoordinateSystem;
 import ucar.nc2.dataset.VariableDS;
 import ucar.nc2.dt.GridCoordSystem;
@@ -39,9 +41,10 @@ public class DataPointBuilder {
         return system;
     }
 
-    public double[] getLatitudeCoordinates(CoordinateSystem system) {
-        lat = system.getLatAxis();
-        return
+    public static double[] getLatitudeCoordinates(CoordinateSystem system) {
+        VariableDS lat = system.getLatAxis();
+        double [] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
+        return latCoordinates;
     }
 
     public double[] getLongitudeCoordinates(CoordinateSystem system) {
