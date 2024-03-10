@@ -27,26 +27,38 @@ package com.github.gissuite.gribinterpolation.core;
 import com.github.gissuite.gribinterpolation.data.DataPointBuilder;
 import com.github.gissuite.gribinterpolation.data.GribFileReader;
 import ucar.nc2.dataset.CoordinateSystem;
+import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.dt.grid.GridDataset;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
         GribFileReader reader = new GribFileReader();
-        GridDataset dataset = reader.generateDatasetFromGribFile("C:\\Users\\zhink\\Desktop\\Southeastern Louisiana University\\Spring 2024\\CMPS 491 - Special Topics (Water Bodies Temperature Project)\\GribInterpolation\\src\\main\\resources\\dev-dataset.HYCOM\\2023-07-30T12_00_00Z\\HYCOM__2023073012__hycom-glbu-a1__sea_temp__dpth_sfc__00000000__00000000__fcst_ops__0360.grb");
-        String fullVariableName = dataset.getDataVariables().get(0).getFullName();
-        DataPointBuilder builder = new DataPointBuilder(dataset, fullVariableName);
-        CoordinateSystem coordinateSystem = builder.createCoordinateSystem();
-        double[] latitudeCoordinates = builder.getLatitudeCoordinates(coordinateSystem);
-        double[] longitudeCoordinates = builder.getLongitudeCoordinates(coordinateSystem);
-        double[] surfaceDepths = builder.getSurfaceDepths(coordinateSystem);
-        double[] times = builder.getTimes(coordinateSystem);
-        //test print Coordinates with above double arrays
-        for (double lon : longitudeCoordinates) {
-            System.out.println(lon);
-        }
+        String filePath = "D:\\Projects\\GribInterpolation\\src\\main\\resources\\dev-dataset.HYCOM\\2023-07-30T12_00_00Z\\HYCOM__2023073012__hycom-glbu-a1__sea_temp__dpth_sfc__00080000__00000000__fcst_ops__0360.grb";
+        Set<NetcdfDataset.Enhance> enhancements = new HashSet<>();
+        enhancements.add(NetcdfDataset.Enhance.CoordSystems);
 
-        //testprint temp value
-        double tempValue = builder.getTemperatureValue(dataset,latitudeCoordinates[50],longitudeCoordinates[40]);
-        System.out.println(tempValue);
+        try (GridDataset dataset = GridDataset.open(filePath, enhancements)) {
+            String fullVariableName = dataset.getDataVariables().get(0).getFullName();
+            DataPointBuilder builder = new DataPointBuilder(dataset, fullVariableName);
+            CoordinateSystem coordinateSystem = builder.createCoordinateSystem();
+            double[] latitudeCoordinates = builder.getLatitudeCoordinates(coordinateSystem);
+            double[] longitudeCoordinates = builder.getLongitudeCoordinates(coordinateSystem);
+            double[] surfaceDepths = builder.getSurfaceDepths(coordinateSystem);
+            double[] times = builder.getTimes(coordinateSystem);
+
+            float tempValue = 0;
+            for (double longitudeCoordinate : longitudeCoordinates) {
+                for (double latitudeCoordinate : latitudeCoordinates) {
+                    tempValue = builder.getTemperatureValue(dataset, latitudeCoordinate, longitudeCoordinate);
+                    System.out.printf("%s %f || %s %f || %s %f\n", "lat: ", latitudeCoordinate, "lon: ", longitudeCoordinate, "Value: ", tempValue);
+                }
+            }
+        } catch (IOException exception) {
+            System.out.println("Uh oh there was an exception.");
+        }
     }
 }

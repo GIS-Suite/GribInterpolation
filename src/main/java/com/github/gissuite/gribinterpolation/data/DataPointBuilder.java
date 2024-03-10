@@ -64,20 +64,18 @@ public class DataPointBuilder {
         return times;
     }
 
-    public double getTemperatureValue(GridDataset dataset, double lat, double lon) {
+    public float getTemperatureValue(GridDataset dataset, double lat, double lon) {
+        Array data;
 
         GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);
         GridCoordSystem gridCoordSystem = grid.getCoordinateSystem();
-
         int[] xy = gridCoordSystem.findXYindexFromLatLon(lat,lon, null);
 
-        Array data;
         try {
-            data = grid.readDataSlice(0,0,xy[1],xy[0]);
+            data = grid.readDataSlice(-1,-1,xy[1],xy[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        double value = data.getDouble(0);
-        return value;
+        return data.getFloat(0);
     }
 }
