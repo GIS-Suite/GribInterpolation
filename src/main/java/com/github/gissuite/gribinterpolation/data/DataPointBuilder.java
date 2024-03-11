@@ -25,14 +25,6 @@ public class DataPointBuilder {
         this.varNameForTemperatureValues = varNameForTemperatureValues;
     }
 
-    public void buildDataPoint() {
-        GribFileReader reader = new GribFileReader();
-        dataset = reader.generateDatasetFromGribFile("C:\\Users\\zhink\\Desktop\\Southeastern Louisiana University\\Spring 2024\\CMPS 491 - Special Topics (Water Bodies Temperature Project)\\GribInterpolation\\src\\main\\resources\\dev-dataset.HYCOM\\2023-07-30T12_00_00Z\\HYCOM__2023073012__hycom-glbu-a1__sea_temp__dpth_sfc__00000000__00000000__fcst_ops__0360.grb");
-
-        DataPointBuilder builder = new DataPointBuilder(dataset, "sea_temp_dpth_sfc");
-        coordinateSystem = builder.createCoordinateSystem();
-    }
-
     public CoordinateSystem createCoordinateSystem() {
         List<GridDatatype> grids = dataset.getGrids();
         VariableDS v = grids.get(0).getVariable();
