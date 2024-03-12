@@ -53,12 +53,12 @@ public class GridFileReader extends FileReader {
 
     public GridDataset generateDatasetFromGridFile(String filePath, Set<NetcdfDataset.Enhance> enhancements) {
        try {
-            GridDataset dataset = GridDataset.open(filePath, enhancements);
-            return dataset;
-        } catch (IOException exception) {
-            logger.error("Unable to create dataset from file", exception);
-            return null;
-        }
+           GridDataset dataset = GridDataset.open(filePath, enhancements);
+           return dataset;
+       } catch (IOException exception) {
+           logger.error("Unable to create dataset from file", exception);
+           return null;
+         }
     }
 
     private boolean isGribFile(Path file) {

@@ -13,11 +13,6 @@ import java.util.List;
 
 public class DataPointBuilder {
     GridDataset dataset;
-    CoordinateSystem coordinateSystem;
-    double[] latitudeCoordinates;
-    double[] longitudeCoordinates;
-    double[] surfaceDepths;
-    double temperatureValue;
     String varNameForTemperatureValues;
 
     public DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
@@ -56,13 +51,11 @@ public class DataPointBuilder {
         return times;
     }
 
-    public float getTemperatureValue(GridDataset dataset, double lat, double lon) {
+    public float getTemperatureValue(double lat, double lon) {
         Array data;
-
         GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);
         GridCoordSystem gridCoordSystem = grid.getCoordinateSystem();
         int[] xy = gridCoordSystem.findXYindexFromLatLon(lat,lon, null);
-
         try {
             data = grid.readDataSlice(-1,-1,xy[1],xy[0]);
         } catch (IOException e) {
