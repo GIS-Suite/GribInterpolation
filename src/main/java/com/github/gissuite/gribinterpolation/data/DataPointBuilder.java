@@ -1,22 +1,18 @@
 package com.github.gissuite.gribinterpolation.data;
 
 import ucar.ma2.Array;
-import ucar.nc2.Variable;
 import ucar.nc2.dataset.CoordinateAxis;
+import ucar.nc2.dataset.CoordinateAxis1D;
+import ucar.nc2.dataset.CoordinateSystem;
+import ucar.nc2.dataset.VariableDS;
 import ucar.nc2.dt.GridCoordSystem;
 import ucar.nc2.dt.GridDatatype;
 import ucar.nc2.dt.grid.GridDataset;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 public class DataPointBuilder {
     GridDataset dataset;
-    GridCoordSystem coordinateSystem;
-    Array latitudeCoordinates;
-    Array longitudeCoordinates;
-    Array surfaceDepths;
-    Array temperatureValues;
     String varNameForTemperatureValues;
 
     public DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
@@ -24,54 +20,47 @@ public class DataPointBuilder {
         this.varNameForTemperatureValues = varNameForTemperatureValues;
     }
 
-    public GridCoordSystem createGridCoordinateSystem() {
+    public CoordinateSystem createCoordinateSystem() {
         List<GridDatatype> grids = dataset.getGrids();
-        GridDatatype grid = grids.get(0);
-        GridCoordSystem system = grid.getCoordinateSystem();
+        VariableDS v = grids.get(0).getVariable();
+        CoordinateSystem system = v.getCoordinateSystems().get(0);
         return system;
     }
 
-    public Array getLatitudeCoordinates(GridCoordSystem system) {
-        Array latValues;
-        CoordinateAxis lat = system.getYHorizAxis();
+    public double[] getLatitudeCoordinates(CoordinateSystem system) {
+        CoordinateAxis lat = system.getLatAxis();
+        double[] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
+        return latCoordinates;
+    }
+
+    public double[] getLongitudeCoordinates(CoordinateSystem system) {
+        CoordinateAxis lon = system.getLonAxis();
+        double[] lonCoordinates = ((CoordinateAxis1D)lon).getCoordValues();
+        return lonCoordinates;
+    }
+
+    public double[] getSurfaceDepths(CoordinateSystem system) {
+        CoordinateAxis depth = system.getZaxis();
+        double[] srfDpths = ((CoordinateAxis1D)depth).getCoordValues();
+        return srfDpths;
+    }
+
+    public double[] getTimes(CoordinateSystem system) {
+        CoordinateAxis time = system.getTaxis();
+        double[] times = ((CoordinateAxis1D)time).getCoordValues();
+        return times;
+    }
+
+    public float getTemperatureValue(double lat, double lon) {
+        Array data;
+        GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);
+        GridCoordSystem gridCoordSystem = grid.getCoordinateSystem();
+        int[] xy = gridCoordSystem.findXYindexFromLatLon(lat,lon, null);
         try {
-            latValues = lat.read();
+            data = grid.readDataSlice(-1,-1,xy[1],xy[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return latValues;
-    }
-
-    public Array getLongitudeCoordinates(GridCoordSystem system) {
-        Array lonValues;
-        CoordinateAxis lon = system.getXHorizAxis();
-            try {
-                lonValues = lon.read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        return lonValues;
-    }
-
-    public Array getSurfaceDepths(GridCoordSystem system) {
-        Array srfDepthValues;
-        CoordinateAxis srfDepth = system.getVerticalAxis();
-            try {
-                srfDepthValues = srfDepth.read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        return srfDepthValues;
-    }
-
-    public Array getTemperatureValues(GridDataset dataset) {
-        Array tempValues;
-        Variable v = Objects.requireNonNull(dataset.getNetcdfFile()).findVariable(varNameForTemperatureValues);
-        try {
-            tempValues = Objects.requireNonNull(v).read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return tempValues;
+        return data.getFloat(0);
     }
 }
