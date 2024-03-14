@@ -5,8 +5,8 @@ build/
 !**/src/test/**/build/
 
 .idea
-.gradle
 .github/
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -43,3 +43,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+src/main/resources/dev-dataset.HYCOM/2023-07-30T12_00_00Z/
+src/main/resources/dev-dataset/NAVGEM/
