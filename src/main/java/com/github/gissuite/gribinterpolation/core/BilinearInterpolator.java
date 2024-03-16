@@ -11,6 +11,10 @@ public class BilinearInterpolator {
     double[] dataPoint4;
     double[][] terpedDataPointArray;
     int numberOfDepthsMT;
+    double lonUpperDepthTemp;
+    double lonLowerDepthTemp;
+    double latUpperDepthTemp;
+    double latLowerDepthTemp;
 
     public BilinearInterpolator(double[] dPMissingTemp, double[] dP1, double[] dP2, double[] dP3, double[] dP4) {
         this.dataPointMT = dPMissingTemp;
@@ -24,22 +28,20 @@ public class BilinearInterpolator {
 
     //Call this method to interpolate temperature with dynamic longitude;
     public double[][] InterpolateWithDynamicLon() {
-        //interpolate temperature value from datapoint1 and datapoint2; East/West Upper surface depth
+        //interpolate temperature value from datapoint1 and datapoint2; West/East Upper surface depth
         double[] longitudeOfDP1AndDP2 = {dataPoint1[1], dataPoint2[1]};
         double[] temperatureOfDP1AndDp2 = {dataPoint1[3], dataPoint2[3]};
         double lonOfDataPointMT = dataPointMT[1];
-        double upperDepthTemp = linearTerp.interpolate(longitudeOfDP1AndDP2, temperatureOfDP1AndDp2).value(lonOfDataPointMT);
+        lonUpperDepthTemp = linearTerp.interpolate(longitudeOfDP1AndDP2, temperatureOfDP1AndDp2).value(lonOfDataPointMT);
 
-        //interpolate temperature value from datapoint3 and datapoint4; East/West Lower surface depth
+        //interpolate temperature value from datapoint3 and datapoint4; West/East Lower surface depth
         double[] longitudeOfDP3AndDP4 = {dataPoint3[1], dataPoint4[1]};
         double[] temperatureOfDP3AndDP4 = {dataPoint3[3], dataPoint4[3]};
-        double lowerDepthTemp = linearTerp.interpolate(longitudeOfDP3AndDP4, temperatureOfDP3AndDP4).value(lonOfDataPointMT);
-
-        //interpolate temperature value from upperDepth and lowerDepth;
-        double[] depthOfDP1AndDP3 = {dataPoint1[2], dataPoint3[2]};
-        double[] temperatureOfUpperAndLowerDepth = {upperDepthTemp, lowerDepthTemp};
+        lonLowerDepthTemp = linearTerp.interpolate(longitudeOfDP3AndDP4, temperatureOfDP3AndDP4).value(lonOfDataPointMT);
 
         //interpolate temperature value for each missing depth at the coordinate of DataPointMT; fill terpedDataPointArray
+        double[] depthOfDP1AndDP3 = {dataPoint1[2], dataPoint3[2]};
+        double[] temperatureOfUpperAndLowerDepth = {lonUpperDepthTemp, lonLowerDepthTemp};
         int depthIndex = 0;
         for (double depthLevel = depthOfDP1AndDP3[0]+1; depthLevel < depthOfDP1AndDP3[1]; depthLevel++) {
             terpedDataPointArray[depthIndex][0] = dataPointMT[0];
@@ -56,17 +58,17 @@ public class BilinearInterpolator {
         //interpolate temperature value from datapoint1 and datapoint2; South/North Upper surface depth
         double[] latitudeOfDP1AndDP2 = {dataPoint1[0], dataPoint2[0]};
         double[] temperatureOfDP1AndDp2 = {dataPoint1[3], dataPoint2[3]};
-        double latOfDataPointMT = dataPointMT[1];
-        double upperDepthTemp = linearTerp.interpolate(latitudeOfDP1AndDP2, temperatureOfDP1AndDp2).value(latOfDataPointMT);
+        double latOfDataPointMT = dataPointMT[0];
+        latUpperDepthTemp = linearTerp.interpolate(latitudeOfDP1AndDP2, temperatureOfDP1AndDp2).value(latOfDataPointMT);
 
         //interpolate temperature value from datapoint3 and datapoint4; South/North Lower surface depth
         double[] latitudeOfDP3AndDP4 = {dataPoint3[0], dataPoint4[0]};
         double[] temperatureOfDP3AndDP4 = {dataPoint3[3], dataPoint4[3]};
-        double lowerDepthTemp = linearTerp.interpolate(latitudeOfDP3AndDP4, temperatureOfDP3AndDP4).value(latOfDataPointMT);
+        latLowerDepthTemp = linearTerp.interpolate(latitudeOfDP3AndDP4, temperatureOfDP3AndDP4).value(latOfDataPointMT);
 
         //interpolate temperature value from upperDepth and lowerDepth;
         double[] depthOfDP1AndDP3 = {dataPoint1[2], dataPoint3[2]};
-        double[] temperatureOfUpperAndLowerDepth = {upperDepthTemp, lowerDepthTemp};
+        double[] temperatureOfUpperAndLowerDepth = {latUpperDepthTemp, latLowerDepthTemp};
 
         //interpolate temperature value for each missing depth at the coordinate of DataPointMT; fill terpedDataPointArray
         int depthIndex = 0;
