@@ -29,7 +29,6 @@ public class Main {
         //PLEASE NOTE: dataPoint = {latitude, longitude, depth below surface, temperature value}
         //datapoint1 and datapoint2; Western/Eastern Upper surface depth
         //datapoint3 and datapoint4; Western/Eastern Lower surface depth
-        //dataPointMT longitude must fall between the lowest and highest longitude values
         double[] dataPoint1 = {100, 100, 0, 100};
         double[] dataPoint2 = {100, 102, 0, 105};
         double[] dataPoint3 = {100, 100, 4, 50};
@@ -54,7 +53,6 @@ public class Main {
         //PLEASE NOTE: dataPoint = {latitude, longitude, depth below surface, temperature value}
         //datapoint1 and datapoint2; Southern/Northern Upper surface depth
         //datapoint3 and datapoint4; Southern/Northern Lower surface depth
-        //dataPointMT latitude must fall between the lowest and highest latitude values
         double[] dataPoint5 = {5, 100, 0, 100};
         double[] dataPoint6 = {7, 100, 0, 96};
         double[] dataPoint7 = {5, 100, 4, 50};
