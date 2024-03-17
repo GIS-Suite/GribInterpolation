@@ -1,55 +1,26 @@
 package com.github.gissuite.gribinterpolation.data;
 
 public class DataPoint {
-    double latitude;
-    double longitude;
-    double time;
-    double surfaceDepth;
-    double temperature;
 
-    //pass in arrays from DataPointBuilder
-    DataPoint() {
+    private float longitude;
+    private float latitude;
+    private float  temperatureF;
 
+    public DataPoint(float longitude, float latitude, float temperatureF) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.temperatureF = temperatureF;
     }
 
-    public void setLatitude() {
-
-    }
-
-    public void setLongitude() {
-
-    }
-
-    public void setTime() {
-
-    }
-
-    public void setSurfaceDepth() {
-
-    }
-
-    public void setTemperature() {
-
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public double getTime() {
-        return time;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public double getSurfaceDepth() {
-        return surfaceDepth;
+    public float getTemperatureF() {
+        return temperatureF;
     }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
 }
