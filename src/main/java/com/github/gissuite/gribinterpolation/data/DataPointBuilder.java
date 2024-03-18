@@ -1,66 +1,59 @@
 package com.github.gissuite.gribinterpolation.data;
 
-import ucar.ma2.Array;
-import ucar.nc2.dataset.CoordinateAxis;
-import ucar.nc2.dataset.CoordinateAxis1D;
-import ucar.nc2.dataset.CoordinateSystem;
-import ucar.nc2.dataset.VariableDS;
-import ucar.nc2.dt.GridCoordSystem;
-import ucar.nc2.dt.GridDatatype;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ucar.ma2.ArrayFloat;
+import ucar.nc2.Variable;
 import ucar.nc2.dt.grid.GridDataset;
-import java.io.IOException;
-import java.util.List;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
+/**
+ * Builds a set of data points from a grid dataset.
+ */
 public class DataPointBuilder {
-    GridDataset dataset;
-    String varNameForTemperatureValues;
 
-    public DataPointBuilder(GridDataset dataset, String varNameForTemperatureValues) {
-        this.dataset = dataset;
-        this.varNameForTemperatureValues = varNameForTemperatureValues;
-    }
+    private final String TEMPERATURE_VARIABLE_NAME = "sea_temp_dpth_sfc";
+    private final String LATITUDE_VARIABLE_NAME = "lat";
+    private final String LONGITUDE_VARIABLE_NAME = "lon";
+    private final String DEPTH_VARIABLE_NAME = "dpth_sfc";
 
-    public CoordinateSystem createCoordinateSystem() {
-        List<GridDatatype> grids = dataset.getGrids();
-        VariableDS v = grids.get(0).getVariable();
-        CoordinateSystem system = v.getCoordinateSystems().get(0);
-        return system;
-    }
+    private final Logger logger = LoggerFactory.getLogger(DataPointBuilder.class);
 
-    public double[] getLatitudeCoordinates(CoordinateSystem system) {
-        CoordinateAxis lat = system.getLatAxis();
-        double[] latCoordinates = ((CoordinateAxis1D)lat).getCoordValues();
-        return latCoordinates;
-    }
+    /**
+     * Builds a set of data points from the given NetCDF dataset.
+     *
+     * @param dataset the NetCDF dataset
+     * @return a Set of data points (DataPoint)
+     */
+    public Set<DataPoint> buildDataPoints(GridDataset dataset) {
+        Set<DataPoint> dataPoints = new HashSet<>();
+        try (dataset) {
+            Variable temperatures = (Variable) dataset.getDataVariable("sea_temp_dpth_sfc");
+            Variable latVar = (Variable) dataset.getDataVariable("lat");
+            Variable lonVar = (Variable) dataset.getDataVariable("lon");
+            Variable depthVar = (Variable) dataset.getDataVariable("dpth_sfc");
 
-    public double[] getLongitudeCoordinates(CoordinateSystem system) {
-        CoordinateAxis lon = system.getLonAxis();
-        double[] lonCoordinates = ((CoordinateAxis1D)lon).getCoordValues();
-        return lonCoordinates;
-    }
+            ArrayFloat.D4 tempArr = (ArrayFloat.D4) temperatures.read();
+            ArrayFloat.D1 latArr = (ArrayFloat.D1) latVar.read();
+            ArrayFloat.D1 lonArr = (ArrayFloat.D1) lonVar.read();
+            ArrayFloat.D1 depthArr = (ArrayFloat.D1) depthVar.read();
 
-    public double[] getSurfaceDepths(CoordinateSystem system) {
-        CoordinateAxis depth = system.getZaxis();
-        double[] srfDpths = ((CoordinateAxis1D)depth).getCoordValues();
-        return srfDpths;
-    }
-
-    public double[] getTimes(CoordinateSystem system) {
-        CoordinateAxis time = system.getTaxis();
-        double[] times = ((CoordinateAxis1D)time).getCoordValues();
-        return times;
-    }
-
-    public float getTemperatureValue(double lat, double lon) {
-        Array data;
-        GridDatatype grid = dataset.findGridDatatype(varNameForTemperatureValues);
-        GridCoordSystem gridCoordSystem = grid.getCoordinateSystem();
-        int[] xy = gridCoordSystem.findXYindexFromLatLon(lat,lon, null);
-        try {
-            data = grid.readDataSlice(-1,-1,xy[1],xy[0]);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            float depth = depthArr.get(0);
+            for (int latIndex = 0; latIndex < latVar.getSize(); latIndex++) {
+                for (int lonIndex = 0; lonIndex < lonVar.getSize(); lonIndex++) {
+                    float temp = tempArr.get(0, 0, latIndex, lonIndex);
+                    float lat = latArr.get(latIndex);
+                    float lon = lonArr.get(lonIndex);
+                    DataPoint dp = new DataPoint(lat, lon, temp, depth);
+                    dataPoints.add(dp);
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("An error occurred.", ex);
         }
-        return data.getFloat(0);
+        return dataPoints;
     }
 }
