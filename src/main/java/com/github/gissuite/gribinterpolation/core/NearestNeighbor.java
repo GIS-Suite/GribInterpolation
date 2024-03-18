@@ -1,5 +1,7 @@
 package com.github.gissuite.gribinterpolation.core;
 
+import com.github.gissuite.gribinterpolation.data.DataPoint;
+
 public class NearestNeighbor {
     public static void main(String[] args) {
         //datapoints[0] = {lat,long,temp,depth}
@@ -12,13 +14,14 @@ public class NearestNeighbor {
         double[] pointinterpolating= {2,3,-4}; // only lat, long, depth //want to find temp
         getNearestNeighbor(points, pointinterpolating, 2);
     }
-    public static double[][] getNearestNeighbor(double[][] points, double[] Pointinterpolating, int k) {
-        double[][] nearestNeighbors = new double[k][4];
+    public static DataPoint getNearestNeighbor(DataPoint dataPoint, double[] Pointinterpolating, int k, int amountOfDataPoints) {
+        DataPoint[] nearestNeighbors = new DataPoint[k];
         double[] distancesFromPointInterpolating = new double[k];
         double maxValue = Double.MAX_VALUE;
 
-        for (int i = 0; i < points.length; i++) {
-            double distance = DistanceFinder.haverSine(points[i][0], points[0][i], Pointinterpolating[0],Pointinterpolating[1]);
+        for (int i = 0; i < amountOfDataPoints; i++) {
+            //will change the Pointinterpolating to type DataPoint later
+            double distance = DistanceFinder.haverSine(dataPoint.getLatitude(), dataPoint.getLongitude(), Pointinterpolating[0],Pointinterpolating[1]);
             if (distance < maxValue){
                 maxValue = distance;
 //                nearestNeighbors[i][] = closetPoint; //function to get lat/long/depth/temp and put in array of nearestNeighbors
