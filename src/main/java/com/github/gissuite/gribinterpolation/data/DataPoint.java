@@ -4,12 +4,20 @@ public class DataPoint {
 
     private float longitude;
     private float latitude;
-    private float  temperatureF;
+    private float temperatureK;
+    private float depth;
 
-    public DataPoint(float longitude, float latitude, float temperatureF) {
+    public DataPoint(float longitude, float latitude, float temperaturek, float depth) {
         this.longitude = longitude;
         this.latitude = latitude;
-        this.temperatureF = temperatureF;
+        this.temperatureK = temperaturek;
+        this.depth = depth;
+    }
+    public DataPoint(float longitude, float latitude, float temperaturek) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.temperatureK = temperaturek;
+        this.depth = 0;
     }
 
     public float getLongitude() {
@@ -20,7 +28,11 @@ public class DataPoint {
         return latitude;
     }
 
-    public float getTemperatureF() {
-        return temperatureF;
+    public float getTemperatureK() {
+        return temperatureK;
+    }
+
+    public float getDepth() {
+        return depth;
     }
 }

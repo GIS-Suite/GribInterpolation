@@ -29,7 +29,6 @@ public class DataPointBuilder {
                     float temp = tempArr.get(0, 0, latIndex, lonIndex);
                     float lat = latArr.get(latIndex);
                     float lon = lonArr.get(lonIndex);
-
                     DataPoint dp = new DataPoint(lat, lon, temp);
                     dataPoints.add(dp);
                 }
