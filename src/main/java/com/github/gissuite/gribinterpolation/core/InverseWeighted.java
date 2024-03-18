@@ -11,7 +11,7 @@ public class InverseWeighted {
     public static void main(String[] args) {
 
     }
-    public static double inverseWeighted(ArrayList<DataPoint> dataPoints, double latitude, double longitude) {
+    public static double inverseWeighted(ArrayList<DataPoint> dataPoints, float latitude, float longitude) {
         double weightedSum = 0;
         double inverseWeightedSum = 0;
 
@@ -26,7 +26,7 @@ public class InverseWeighted {
             inverseWeightedSum += inverseWeight;
 
             // add the weighted data to the weighted sum
-            weightedSum += dataPoint.getTemperature() * inverseWeight;
+            weightedSum += dataPoint.getTemperatureK() * inverseWeight;
         }
 
         if (weightedSum == 0) {
