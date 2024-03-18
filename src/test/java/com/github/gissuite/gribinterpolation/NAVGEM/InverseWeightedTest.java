@@ -18,6 +18,13 @@ public class InverseWeightedTest {
         double latitude = 38.9072;
         double longitude = -77.0369;
 
+        //calculate
+        double expected = 23.07602564958306; // Expected value based on provided sample data
+        double result = inverseWeighted(dataPoints, latitude, longitude);
+        System.out.println("Expected Inverse Weighted Average: " + expected);
+        System.out.println("Actual Inverse Weighted Average: " + result);
 
+        //test
+        assertEquals(expected, result);
     }
 }
