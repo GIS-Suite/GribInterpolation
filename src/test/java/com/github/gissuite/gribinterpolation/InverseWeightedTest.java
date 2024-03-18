@@ -1,4 +1,4 @@
-package com.github.gissuite.gribinterpolation.NAVGEM;
+package com.github.gissuite.gribinterpolation;
 import org.junit.jupiter.api.Test;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import static com.github.gissuite.gribinterpolation.core.InverseWeighted.inverseWeighted;
