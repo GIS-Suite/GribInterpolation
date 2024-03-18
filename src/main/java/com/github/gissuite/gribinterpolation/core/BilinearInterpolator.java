@@ -27,24 +27,17 @@ public class BilinearInterpolator {
         this.terpedDataPointArray = new DataPoint[numberOfDepthsMissingTemp];
     }
 
-    //Call this method to interpolate temperature with dynamic longitude;
-    public double[][] InterpolateWithDynamicLon() {
+    public double[][] Interpolate() {
         //interpolate temperature value from upperDepthDataPoint1 and upperDepthDataPoint2;
         double[] depthsOfUDDP1AndUDDP2 = {upperDepthDataPoint1.getDepth(), upperDepthDataPoint2.getDepth()};
         double[] tempsOfUDDP1AndUDDP2 = {upperDepthDataPoint1.getTemperatureK(), upperDepthDataPoint2.getTemperatureK()};
         double upperDepthTemp = linearInterpolator.interpolate(depthsOfUDDP1AndUDDP2, tempsOfUDDP1AndUDDP2).value(targetDataPoint.getDepth());
-//        double[] longitudeOfDP1AndDP2 = {upperDepthDataPoint1.getLongitude(), upperDepthDataPoint2.getLongitude()};
-//        double[] temperatureOfDP1AndDp2 = {upperDepthDataPoint1.getTemperatureK(), upperDepthDataPoint2.getTemperatureK()};
-//        double lonOfDataPointMT = dataPointMT[1];
-//        lonUpperDepthTemp = linearInterpolator.interpolate(longitudeOfDP1AndDP2, temperatureOfDP1AndDp2).value(lonOfDataPointMT);
+//
 
         //interpolate temperature value from lowerDepthDataPoint1 and lowerDepthDataPoint2;
         double[] depthsOfLDDP1AndLDDP2 = {lowerDepthDataPoint1.getDepth(), lowerDepthDataPoint2.getDepth()};
         double[] tempsOfLDDP1AndLDDP2 = {lowerDepthDataPoint1.getTemperatureK(), lowerDepthDataPoint2.getTemperatureK()};
         double lowerDepthTemp = linearInterpolator.interpolate(depthsOfLDDP1AndLDDP2, tempsOfLDDP1AndLDDP2).value(targetDataPoint.getDepth());
-//        double[] longitudeOfDP3AndDP4 = {lowerDepthDataPoint1[1], lowerDepthDataPoint2[1]};
-//        double[] temperatureOfDP3AndDP4 = {lowerDepthDataPoint1[3], lowerDepthDataPoint2[3]};
-//        lonLowerDepthTemp = linearInterpolator.interpolate(longitudeOfDP3AndDP4, temperatureOfDP3AndDP4).value(lonOfDataPointMT);
 
         //interpolate temperature value for each missing depth at the coordinate of DataPointMT; fill terpedDataPointArray
         double[] upperAndLowerDepthOfDP1 = {upperDepthDataPoint1.getDepth(), lowerDepthDataPoint1.getDepth()};
