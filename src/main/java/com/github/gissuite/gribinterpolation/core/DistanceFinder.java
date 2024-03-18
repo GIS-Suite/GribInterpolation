@@ -2,9 +2,6 @@ package com.github.gissuite.gribinterpolation.core;
 import java.lang.Math;
 
 public class DistanceFinder {
-    public static void main(String[] args){
-
-    }
     public static double haverSine(double latitude1, double longitude1, double latitude2, double longitude2) {
         double r = 6371.0;
          latitude1 = convertToRadians(latitude1);
