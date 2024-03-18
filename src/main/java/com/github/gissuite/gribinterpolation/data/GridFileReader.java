@@ -27,6 +27,8 @@ package com.github.gissuite.gribinterpolation.data;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,6 +36,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ucar.nc2.dataset.Enhancements;
 import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.dt.grid.GridDataset;
 
@@ -51,14 +54,35 @@ public class GridFileReader extends FileReader {
         }
     }
 
-    public GridDataset generateDatasetFromGridFile(String filePath, Set<NetcdfDataset.Enhance> enhancements) {
+    /**
+     *
+     * @summary Read a GRIB file and return a GridDataset.
+     *
+     * @param filePath the path to the file
+     * @param enhancements any enhancements
+     * @return the GridDataset or null if an error occurred
+     */
+    public GridDataset generateDataset(String filePath, Set<NetcdfDataset.Enhance> enhancements) {
        try {
-           GridDataset dataset = GridDataset.open(filePath, enhancements);
-           return dataset;
-       } catch (IOException exception) {
-           logger.error("Unable to create dataset from file", exception);
-           return null;
-         }
+            Set<NetcdfDataset.Enhance> defaultEnhancements = new HashSet<>();
+            defaultEnhancements.add(NetcdfDataset.Enhance.IncompleteCoordSystems);
+            defaultEnhancements.add(NetcdfDataset.Enhance.ConvertUnsigned);
+            defaultEnhancements.addAll(enhancements);
+					 return GridDataset.open(filePath, defaultEnhancements);
+        } catch (IOException exception) {
+            logger.error("Unable to create dataset from file", exception);
+            return null;
+        }
+    }
+    /**
+     * @summary Reads a GRIB file and returns a GridDataset.
+     *
+     * @param filePath the path to the file
+     * @return the GridDataset or null if an error occurred
+     */
+    public GridDataset generateDataset(String filePath) {
+        Set<NetcdfDataset.Enhance> enhancements = Collections.emptySet();
+        return generateDataset(filePath, enhancements);
     }
 
     private boolean isGribFile(Path file) {
