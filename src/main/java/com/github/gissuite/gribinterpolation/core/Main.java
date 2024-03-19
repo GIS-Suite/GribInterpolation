@@ -28,8 +28,7 @@ import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 import java.util.ArrayList;
 
-import static com.github.gissuite.gribinterpolation.core.BilinearInterpolator.InterpolateWithStaticLat;
-import static com.github.gissuite.gribinterpolation.core.BilinearInterpolator.InterpolateWithStaticLon;
+import static com.github.gissuite.gribinterpolation.core.BilinearInterpolator.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -45,7 +44,7 @@ public class Main {
         DataPoint lowerDepthDataPoint2 = new DataPoint(102, 100, 47, 4);
 
         //pass target Lon/Lat and 4 datapoints into BilinearInterpolator to interpolate temperature values for the depths at the target Lon/Lat
-        ArrayList<DataPoint> LonterpedDataPointArray = InterpolateWithStaticLat(targetLonLat, upperDepthDataPoint1, upperDepthDataPoint2, lowerDepthDataPoint1, lowerDepthDataPoint2);
+        ArrayList<DataPoint> LonterpedDataPointArray = interpolateWithStaticLat(targetLonLat, upperDepthDataPoint1, upperDepthDataPoint2, lowerDepthDataPoint1, lowerDepthDataPoint2);
         System.out.println("\nTemperature interpolation at target Lon/Lat: ");
         System.out.println("\nData Points:");
         for (DataPoint dataPoint : LonterpedDataPointArray) {
@@ -67,7 +66,7 @@ public class Main {
         DataPoint lowerDepthDataPoint4 = new DataPoint(100, 100.7f, 48, 4);
 
         //pass target Lon/Lat and 4 datapoints into BilinearInterpolator to interpolate temperature values for the depths at the target Lon/Lat
-        ArrayList<DataPoint> LatterpedDataPointArray = InterpolateWithStaticLon(targetLonLat2, upperDepthDataPoint3, upperDepthDataPoint4, lowerDepthDataPoint3, lowerDepthDataPoint4);
+        ArrayList<DataPoint> LatterpedDataPointArray = interpolateWithStaticLon(targetLonLat2, upperDepthDataPoint3, upperDepthDataPoint4, lowerDepthDataPoint3, lowerDepthDataPoint4);
         System.out.println("\nTemperature interpolation at target Lon/Lat: ");
         System.out.println("\nData Points:");
         for (DataPoint dataPoint : LatterpedDataPointArray) {
