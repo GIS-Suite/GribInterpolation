@@ -24,53 +24,25 @@
  */
 package com.github.gissuite.gribinterpolation.core;
 
+import com.github.gissuite.gribinterpolation.data.DataPoint;
+
 public class Main {
     public static void main(String[] args) {
-        //PLEASE NOTE: dataPoint = {latitude, longitude, depth below surface, temperature value}
-        //datapoint1 and datapoint2; Western/Eastern Upper surface depth
-        //datapoint3 and datapoint4; Western/Eastern Lower surface depth
-//        double[] dataPoint1 = {100, 100, 0, 100};
-//        double[] dataPoint2 = {100, 102, 0, 105};
-//        double[] dataPoint3 = {100, 100, 4, 50};
-//        double[] dataPoint4 = {100, 102, 4, 49.6};
-//        double[] dataPointMTLon = {100, 100.3};
-//
-//        System.out.println("Interpolating with dynamic longitude:");
-//        BilinearInterpolator terpingDynamicLon = new BilinearInterpolator(dataPointMTLon, dataPoint1, dataPoint2, dataPoint3, dataPoint4);
-//        double[][] LonterpedDataPointArray = terpingDynamicLon.InterpolateWithDynamicLon();
-//        System.out.println("Upper Depth temperature(@DataPointMT): " + terpingDynamicLon.lonUpperDepthTemp);
-//        System.out.println("Lower Depth temperature(@DataPointMT): " + terpingDynamicLon.lonLowerDepthTemp);
-//        System.out.println("\nData Points at the missing depths: ");
-//        for(int dataPointIndex = 0; dataPointIndex < LonterpedDataPointArray.length; dataPointIndex++){
-//            for(int dataPointValuesIndex = 0; dataPointValuesIndex < 4; dataPointValuesIndex++) {
-//                System.out.print(LonterpedDataPointArray[dataPointIndex][dataPointValuesIndex] + ", ");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
-//
-//
-//        //PLEASE NOTE: dataPoint = {latitude, longitude, depth below surface, temperature value}
-//        //datapoint1 and datapoint2; Southern/Northern Upper surface depth
-//        //datapoint3 and datapoint4; Southern/Northern Lower surface depth
-//        double[] dataPoint5 = {5, 100, 0, 100};
-//        double[] dataPoint6 = {7, 100, 0, 96};
-//        double[] dataPoint7 = {5, 100, 4, 50};
-//        double[] dataPoint8 = {7, 100, 4, 46};
-//        double[] dataPointMTLat = {5.8, 100};
-//
-//        System.out.println("Interpolating with dynamic latitude: ");
-//        BilinearInterpolator terpingDynamicLat = new BilinearInterpolator(dataPointMTLat, dataPoint5, dataPoint6, dataPoint7, dataPoint8);
-//        double[][] LatterpedDataPointArray = terpingDynamicLat.InterpolateWithDynamicLat();
-//        System.out.println("Upper Depth temperature(@DataPointMT): " + terpingDynamicLat.latUpperDepthTemp);
-//        System.out.println("Lower Depth temperature(@DataPointMT): " + terpingDynamicLat.latLowerDepthTemp);
-//        System.out.println("\nData Points at the missing depths: ");
-//        for(int dataPointIndex = 0; dataPointIndex < LatterpedDataPointArray.length; dataPointIndex++){
-//            for(int dataPointValuesIndex = 0; dataPointValuesIndex < 4; dataPointValuesIndex++) {
-//                System.out.print(LatterpedDataPointArray[dataPointIndex][dataPointValuesIndex] + ", ");
-//            }
-//            System.out.println();
-//        }
 
+        DataPoint dataPoint1 = new DataPoint(100, 100, 100, 0);
+        DataPoint dataPoint2 = new DataPoint(102, 100, 105, 0);
+        DataPoint dataPoint3 = new DataPoint(100, 100, 50, 4);
+        DataPoint dataPoint4 = new DataPoint(102, 100, 49, 4);
+        DataPoint dataPointMT = new DataPoint(101, 100, 212, 0);
+
+        BilinearInterpolator terping = new BilinearInterpolator(dataPointMT, dataPoint1, dataPoint2, dataPoint3, dataPoint4);
+        DataPoint[] LonterpedDataPointArray = terping.Interpolate();
+        System.out.println("Upper Depth temperature(@DataPointMT): " + terping.upperDepthTemp);
+        System.out.println("Lower Depth temperature(@DataPointMT): " + terping.lowerDepthTemp);
+        System.out.println("\nData Points at the missing depths: ");
+        for(int dataPointIndex = 0; dataPointIndex < LonterpedDataPointArray.length; dataPointIndex++){
+                System.out.print(LonterpedDataPointArray[dataPointIndex].getTemperatureK() + ", ");
+        }
+        System.out.println();
     }
 }
