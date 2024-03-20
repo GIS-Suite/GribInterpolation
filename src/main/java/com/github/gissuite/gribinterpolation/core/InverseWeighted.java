@@ -17,9 +17,20 @@ public class InverseWeighted {
 
         // Iterate through the data points
         for (DataPoint dataPoint : dataPoints) {
+            System.out.print("latitude is ");
+            System.out.print(dataPoint.getLatitude());
+            System.out.println();
+            System.out.print("longitude is ");
+            System.out.print(dataPoint.getLongitude());
+            System.out.println();
+
+
 
             //convert lat+long points into distance
             double distance = haverSine(latitude, longitude, dataPoint.getLatitude(), dataPoint.getLongitude());
+            System.out.print("distance is ");
+            System.out.print(distance);
+            System.out.println();
 
             //inverse weight
             double inverseWeight = 1.0 / distance;
@@ -27,6 +38,13 @@ public class InverseWeighted {
 
             // add the weighted data to the weighted sum
             weightedSum += dataPoint.getTemperatureK() * inverseWeight;
+
+            System.out.print(weightedSum);
+            System.out.print(" / ");
+            System.out.print(inverseWeightedSum);
+            System.out.print(" = ");
+            System.out.print(weightedSum / inverseWeightedSum);
+            System.out.println();
         }
 
         if (weightedSum == 0) {
