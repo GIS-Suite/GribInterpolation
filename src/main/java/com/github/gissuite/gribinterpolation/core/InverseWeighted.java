@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSine;
 
 public class InverseWeighted {
-    public static void main(String[] args) {
+    public static float inverseWeighted(ArrayList<DataPoint> dataPoints, DataPoint interpolatedPoint) {
+        float weightedSum = 0;
+        float inverseWeightedSum = 0;
+        float longitude = interpolatedPoint.getLongitude();
+        float latitude = interpolatedPoint.getLatitude();
+        float temp = interpolatedPoint.getTemperatureK();
 
-    }
-    public static double inverseWeighted(ArrayList<DataPoint> dataPoints, float latitude, float longitude) {
-        double weightedSum = 0;
-        double inverseWeightedSum = 0;
 
         // Iterate through the data points
         for (DataPoint dataPoint : dataPoints) {
@@ -43,8 +44,9 @@ public class InverseWeighted {
         if (weightedSum == 0) {
             return 0; // Handle division by zero
         }
-
-        // Return the inverse weighted average
+        // Return the interpolated point temp
         return weightedSum / inverseWeightedSum;
+
     }
+
 }

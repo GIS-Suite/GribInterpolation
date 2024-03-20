@@ -4,6 +4,7 @@ import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSine;
 import static com.github.gissuite.gribinterpolation.core.InverseWeighted.inverseWeighted;
+import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 
@@ -17,12 +18,11 @@ public class InverseWeightedTest {
         dataPoints.add(new DataPoint((float)-74.0060, (float)40.7128, 30));
 
         //sample lat/long
-        float latitude = (float) 38.9072;
-        float longitude = (float) -77.0369;
+        DataPoint interpolatedPoint = new DataPoint((float) -77.0369, (float) 38.9072, NaN);
 
         //calculate
         double expected = 27.81695454; // Expected value based on provided sample data
-        double result = inverseWeighted(dataPoints, latitude, longitude);
+        double result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result);
 
@@ -38,12 +38,11 @@ public class InverseWeightedTest {
         dataPoints.add(new DataPoint((float)0.8134, (float) 0.5261, 20));
 
         //sample lat/long
-        float latitude = (float) 0.0;
-        float longitude = (float) 0.0;
+        DataPoint interpolatedPoint = new DataPoint((float) 0.0, (float) 0.0, NaN);
 
         //calculate
         double expected = 16.1173942; // Expected value based on provided sample data
-        double result = inverseWeighted(dataPoints, latitude, longitude);
+        double result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result);
 
