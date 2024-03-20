@@ -21,8 +21,8 @@ public class InverseWeightedTest {
         DataPoint interpolatedPoint = new DataPoint((float) -77.0369, (float) 38.9072, NaN);
 
         //calculate
-        double expected = 27.81695454; // Expected value based on provided sample data
-        double result = inverseWeighted(dataPoints, interpolatedPoint);
+        float expected = 27.81695454F; // Expected value based on provided sample data
+        float result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result);
 
@@ -41,8 +41,8 @@ public class InverseWeightedTest {
         DataPoint interpolatedPoint = new DataPoint((float) 0.0, (float) 0.0, NaN);
 
         //calculate
-        double expected = 16.1173942; // Expected value based on provided sample data
-        double result = inverseWeighted(dataPoints, interpolatedPoint);
+        float expected = 16.1173942F; // Expected value based on provided sample data
+        float result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result);
 
