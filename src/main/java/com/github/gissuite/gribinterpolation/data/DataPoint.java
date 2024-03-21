@@ -35,4 +35,8 @@ public class DataPoint {
     public float getDepth() {
         return depth;
     }
+
+    public void setTemperatureK(float temperatureK) {
+        this.temperatureK = temperatureK;
+    }
 }
