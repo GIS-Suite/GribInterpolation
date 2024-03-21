@@ -10,6 +10,10 @@ public class LinearInterpolaterTest {
     public void exampleTest() {
         double[] datapoint1 = {-62, 38.8, 271.4, 300};
         double[] datapoint2 = {-62, 38.8, 273.3, 400};
-        LinearInt.Interpolate(datapoint1, datapoint2);
+
+        double[] newDataPoint = LinearInt.interpolate(datapoint1, datapoint2, 355);
+        for(int i = 0; i<4; i++){
+            System.out.print(newDataPoint[i] + " ");
+        }
     }
 }
