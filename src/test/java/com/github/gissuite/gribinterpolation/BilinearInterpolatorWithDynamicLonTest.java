@@ -21,6 +21,7 @@ public class BilinearInterpolatorWithDynamicLonTest {
         DataPoint lowerDepthDataPoint1 = new DataPoint(100, 100, 50, 4);
         DataPoint lowerDepthDataPoint2 = new DataPoint(102, 100, 48, 4);
 
+        //expected data point with interpolated temperature value
         DataPoint expectedResultDataPoint = new DataPoint(101f, 100f, 75.75f, 2f);
 
         DataPoint resultDataPoint = BilinearInterpolator.interpolateWithDynamicLon(interpolationPoint, upperDepthDataPoint1, upperDepthDataPoint2, lowerDepthDataPoint1, lowerDepthDataPoint2);
