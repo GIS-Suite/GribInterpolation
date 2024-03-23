@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class BilinearInterpolatorWithDynamicLatTest {
     @Test
-    public void bilinearInterpolatorWithDynamicLatTest() {
+    public void bilinearInterpolation_Should_Return_DataPoint() {
 
         //data point with missing temperature
         DataPoint interpolationPoint = new DataPoint(100, 0, 0, 6);
