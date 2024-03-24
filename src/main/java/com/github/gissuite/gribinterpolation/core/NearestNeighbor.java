@@ -1,9 +1,12 @@
 package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+import java.util.HashMap;
+
 
 public class NearestNeighbor {
     public static void main(String[] args) {
+
         //datapoints[0] = {lat,long,temp,depth}
         double[] point1 = {3,3,37,-4};
         double[] point2 = {3,4, 43, -4};
@@ -14,28 +17,36 @@ public class NearestNeighbor {
         double[] pointinterpolating= {2,3,-4}; // only lat, long, depth //want to find temp
         getNearestNeighbor(points, pointinterpolating, 2);
     }
-    public static DataPoint getNearestNeighbor(DataPoint dataPoint, double[] Pointinterpolating, int k, int amountOfDataPoints) {
+    public static DataPoint[] getNearestNeighbor(DataPoint[] dataPoint, DataPoint dataPointInterpolatng, int k, int amountOfDataPoints) {
         DataPoint[] nearestNeighbors = new DataPoint[k];
         double[] distancesFromPointInterpolating = new double[k];
         double maxValue = Double.MAX_VALUE;
+        HashMap<DataPoint, Double> hashMap = new HashMap<>();
 
         for (int i = 0; i < amountOfDataPoints; i++) {
             //will change the Pointinterpolating to type DataPoint later
-            double distance = DistanceFinder.haverSine(dataPoint.getLatitude(), dataPoint.getLongitude(), Pointinterpolating[0],Pointinterpolating[1]);
-            if (distance < maxValue){
-                maxValue = distance;
+            double distance = DistanceFinder.haverSine(dataPoint[i].getLatitude(), dataPoint[i].getLongitude(), dataPointInterpolatng.getLatitude(),dataPointInterpolatng.getLongitude());
+            hashMap.put(dataPoint[i], distance);
+            //just need to find a way to order hash map by distance.
+//            if (distance < maxValue){
+//                maxValue = distance;
+
+
+                //create a map from datapoint to double(of distances), sort by map[pointc] - map[pointb].. then take first k elements
+//
+//
 //                nearestNeighbors[i][] = closetPoint; //function to get lat/long/depth/temp and put in array of nearestNeighbors
 
-                distancesFromPointInterpolating[i] = distance;
-                if (distance < distancesFromPointInterpolating[i]){
-                    distancesFromPointInterpolating[i] = distance;
-                            //maybe a sort to sort all the points in acending order based on distances????
+//                distancesFromPointInterpolating[i] = distance;
+//                if (distance < distancesFromPointInterpolating[i]){
+//                    distancesFromPointInterpolating[i] = distance;
+//                            //maybe a sort to sort all the points in acending order based on distances????
                 }
 
-            }
-            else if (distance > maxValue) {
-                //do nothing
-            }
+//            }
+//            else if (distance > maxValue) {
+//                //do nothing
+//            }
             }
 
         return nearestNeighbors;
