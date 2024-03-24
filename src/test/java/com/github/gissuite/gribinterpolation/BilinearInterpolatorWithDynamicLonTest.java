@@ -1,5 +1,6 @@
 package com.github.gissuite.gribinterpolation;
 
+import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.gissuite.gribinterpolation.core.BilinearInterpolator;
@@ -11,7 +12,7 @@ public class BilinearInterpolatorWithDynamicLonTest {
     public void bilinearInterpolation_Should_Return_DataPoint() {
 
         //data point with missing temperature
-        DataPoint interpolationPoint = new DataPoint(101, 100, 0, 2);
+        DataPoint interpolationPoint = new DataPoint(101, 100, NaN, 2);
 
         //2 closest points to interpolation point at identical latitude at closest upper depth. upperDepthDataPoint1 = lower Lon
         DataPoint upperDepthDataPoint1 = new DataPoint(100, 100, 100, 0);
