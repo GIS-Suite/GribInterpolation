@@ -33,7 +33,8 @@ public class NearestNeighbor {
         DataPoint a = nearestNeighbors[0];
         System.out.println(a.getTemperatureK());
     }
-
+//still need to find a way to get the amount of datapoints...
+    //also need to know k
     public static DataPoint[] getNearestNeighbor(DataPoint[] dataPoint, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
         DataPoint[] nearestNeighbors = new DataPoint[k];
         HashMap<DataPoint, Double> hashMap = new HashMap<>();
@@ -46,8 +47,8 @@ public class NearestNeighbor {
         HashMap sortedHashMap = sortByValue(hashMap);
         System.out.println(sortedHashMap.values());
 //            System.out.println(sortedHashMap.keySet());
-            Set<DataPoint> keySet = hashMap.keySet();
-            Iterator<DataPoint> iterator = keySet.iterator();
+        Set<DataPoint> keySet = hashMap.keySet();
+        Iterator<DataPoint> iterator = keySet.iterator();
         int count = 0;
         while(iterator.hasNext() && count < k){
             DataPoint key = iterator.next();
