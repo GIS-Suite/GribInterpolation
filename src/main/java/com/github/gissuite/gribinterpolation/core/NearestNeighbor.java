@@ -1,10 +1,26 @@
 package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
-import java.util.HashMap;
+
+import java.util.*;
 
 
 public class NearestNeighbor {
+    public static HashMap<DataPoint,Double>sortByValue(HashMap<DataPoint,Double>map) {
+        List<Map.Entry<DataPoint, Double>> list = new LinkedList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<DataPoint, Double>>() {
+            @Override
+            public int compare(Map.Entry<DataPoint, Double> o1, Map.Entry<DataPoint, Double> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+        HashMap<DataPoint, Double> sortedMap = new LinkedHashMap<>();
+        for(Map.Entry<DataPoint,Double> entry : list){
+            sortedMap.put(entry.getKey(), entry.getValue());
+
+        }
+        return sortedMap;
+    }
     public static void main(String[] args) {
 
 //        datapoints[0] = {lat,long,temp,depth}
@@ -25,6 +41,10 @@ public class NearestNeighbor {
         for (int i = 0; i < amountOfDataPoints; i++) {
             double distance = DistanceFinder.haverSine(dataPoint[i].getLatitude(), dataPoint[i].getLongitude(), latitudeToInterpolate,longitudeToInterpolate);
             hashMap.put(dataPoint[i], distance);
+//            System.out.println(hashMap.get(dataPoint[i]));
+            HashMap sortedHashMap = sortByValue(hashMap);
+            System.out.println(sortedHashMap.values());
+
             //just need to find a way to order hash map by distance.
 //            if (distance < maxValue){
 //                maxValue = distance;
