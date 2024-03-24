@@ -49,14 +49,14 @@ public class NearestNeighbor {
         System.out.println(hashMap.values());
         HashMap sortedHashMap = sortByValue(hashMap);
         System.out.println(sortedHashMap.values());
-        for(int j = 0; j < k; j++){
 //            System.out.println(sortedHashMap.keySet());
             Set<DataPoint> keySet = hashMap.keySet();
             for (DataPoint key : keySet) {
+
                 System.out.println(key);
             }
-//            nearestNeighbors[j] =sortedHashMap.keySet();
-        }
+//        nearestNeighbors[j] =sortedHashMap.keySet();
+
         return nearestNeighbors;
     }
 }
