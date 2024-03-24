@@ -7,25 +7,23 @@ import java.util.HashMap;
 public class NearestNeighbor {
     public static void main(String[] args) {
 
-        //datapoints[0] = {lat,long,temp,depth}
-        double[] point1 = {3,3,37,-4};
-        double[] point2 = {3,4, 43, -4};
-        double[] point3 = {2,3, 38, -4};
-        double[] point4 = {3, 4,44, -3};
-        double[] point5 = {2,3, 90, -3};
-        double[][] points = {point1,point2,point3,point4,point5};
-        double[] pointinterpolating= {2,3,-4}; // only lat, long, depth //want to find temp
-        getNearestNeighbor(points, pointinterpolating, 2);
-    }
-    public static DataPoint[] getNearestNeighbor(DataPoint[] dataPoint, DataPoint dataPointInterpolatng, int k, int amountOfDataPoints) {
+//        datapoints[0] = {lat,long,temp,depth}
+//        DataPoint a = new DataPoint(1,1,5,1);
+        DataPoint first = new DataPoint(-66, 38.8f, 271.4f, 300);
+        DataPoint second = new DataPoint(-62, 38.8f, 273.3f, 400);
+        DataPoint expectedResult = new DataPoint(-62, 38.8f, 272.44498f, 355);
+        DataPoint[] arrayOfDataPoints = {first,second};
+//        DataPoint dataPointToInterpolate = {-62, 38.8f, 355 };
+        getNearestNeighbor(arrayOfDataPoints, -62,38.8f, 2,2);
+    }//end main
+    public static void getNearestNeighbor(DataPoint[] dataPoint, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
         DataPoint[] nearestNeighbors = new DataPoint[k];
         double[] distancesFromPointInterpolating = new double[k];
         double maxValue = Double.MAX_VALUE;
         HashMap<DataPoint, Double> hashMap = new HashMap<>();
 
         for (int i = 0; i < amountOfDataPoints; i++) {
-            //will change the Pointinterpolating to type DataPoint later
-            double distance = DistanceFinder.haverSine(dataPoint[i].getLatitude(), dataPoint[i].getLongitude(), dataPointInterpolatng.getLatitude(),dataPointInterpolatng.getLongitude());
+            double distance = DistanceFinder.haverSine(dataPoint[i].getLatitude(), dataPoint[i].getLongitude(), latitudeToInterpolate,longitudeToInterpolate);
             hashMap.put(dataPoint[i], distance);
             //just need to find a way to order hash map by distance.
 //            if (distance < maxValue){
@@ -47,11 +45,12 @@ public class NearestNeighbor {
 //            else if (distance > maxValue) {
 //                //do nothing
 //            }
-            }
+            }//end nearest neighbor
 
-        return nearestNeighbors;
-    }
-}
+//        return nearestNeighbors;
+    }//end class
+
+
 //       for (int i = 0; i < points.length; i++) {
 //double distance = DistanceFinder.haverSine(points[i][0], points[0][i], Pointinterpolating[0],Pointinterpolating[1]);
 ////            dist1 = getDistanceXYZ(points[i], mypoint);
