@@ -2,7 +2,7 @@ package com.github.gissuite.gribinterpolation.core;
 
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
-
+import org.tribuo.*;
 import java.util.*;
 
 public class NearestNeighbor {
@@ -48,7 +48,7 @@ public class NearestNeighbor {
         HashMap sortedHashMap = sortByValue(hashMap);
         System.out.println(sortedHashMap.values());
 //            System.out.println(sortedHashMap.keySet());
-        Set<DataPoint> keySet = hashMap.keySet();
+        Set<DataPoint> keySet = sortedHashMap.keySet();
         Iterator<DataPoint> iterator = keySet.iterator();
         int count = 0;
         while(iterator.hasNext() && count < k){
