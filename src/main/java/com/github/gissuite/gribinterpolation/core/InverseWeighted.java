@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSine;
 
 public class InverseWeighted {
+    /**
+     * @param dataPoints An array of data points with known temperatures used to compute the temperature of the interpolatedPoint
+     * @param interpolatedPoint The data point with a missing temperature value to find
+     * @return The data point with the interpolated temperature value
+     */
     public static DataPoint inverseWeighted(ArrayList<DataPoint> dataPoints, DataPoint interpolatedPoint) {
         float weightedSum = 0;
         float inverseWeightedSum = 0;
