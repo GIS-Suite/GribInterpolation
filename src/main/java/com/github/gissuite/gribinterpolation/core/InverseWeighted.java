@@ -9,7 +9,7 @@ import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSin
 
 public class InverseWeighted {
     /**
-     * @param dataPoints An array of data points with known temperatures used to compute the temperature of the interpolatedPoint
+     * @param dataPoints An array list of data points with known temperatures used to compute the temperature of the interpolatedPoint
      * @param interpolatedPoint The data point with a missing temperature value to find
      * @return The data point with the interpolated temperature value
      */
