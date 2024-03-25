@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class InverseWeightedTest {
     @Test
-    public void test1InverseWeighted() {
+    public void inverseWeightedInterpolation_Should_Return_DataPoint1() {
         //sample data points
         ArrayList<DataPoint> dataPoints = new ArrayList<>();
         dataPoints.add(new DataPoint((float)-122.4194,(float)37.7749, 10));
@@ -30,7 +30,7 @@ public class InverseWeightedTest {
         assertEquals(expected, result.getTemperatureK());
     }
     @Test
-    public void test2InverseWeighted() {
+    public void inverseWeightedInterpolation_Should_Return_DataPoint2() {
         //sample data points
         ArrayList<DataPoint> dataPoints = new ArrayList<>();
         dataPoints.add(new DataPoint((float)-1.0109,(float) 0.8993, 15));
