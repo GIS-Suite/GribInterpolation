@@ -58,8 +58,6 @@ public class NearestNeighbor {
         }
         return nearestNeighbors;
     }
-    public static float nearestNeighborAlgorithm(int k, DataPoint[] nearestNeighbors){
-        return 1F;
-    }
+
 }
 
