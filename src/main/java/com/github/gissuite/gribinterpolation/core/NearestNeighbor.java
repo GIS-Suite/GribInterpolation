@@ -1,5 +1,6 @@
 package com.github.gissuite.gribinterpolation.core;
 
+
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 import java.util.*;
@@ -56,6 +57,9 @@ public class NearestNeighbor {
             count++;
         }
         return nearestNeighbors;
+    }
+    public static float nearestNeighborAlgorithm(int k, DataPoint[] nearestNeighbors){
+        return 1F;
     }
 }
 
