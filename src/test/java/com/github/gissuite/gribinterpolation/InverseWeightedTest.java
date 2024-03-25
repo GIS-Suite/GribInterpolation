@@ -22,12 +22,12 @@ public class InverseWeightedTest {
 
         //calculate
         float expected = 27.81695454F; // Expected value based on provided sample data
-        float result = inverseWeighted(dataPoints, interpolatedPoint);
+        DataPoint result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
-        System.out.println("Actual Inverse Weighted Average: " + result);
+        System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
 
         //test
-        assertEquals(expected, result);
+        assertEquals(expected, result.getTemperatureK());
     }
     @Test
     public void test2InverseWeighted() {
@@ -42,11 +42,11 @@ public class InverseWeightedTest {
 
         //calculate
         float expected = 16.1173942F; // Expected value based on provided sample data
-        float result = inverseWeighted(dataPoints, interpolatedPoint);
+        DataPoint result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
-        System.out.println("Actual Inverse Weighted Average: " + result);
+        System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
 
         //test
-        assertEquals(expected, result);
+        assertEquals(expected, result.getTemperatureK());
     }
 }
