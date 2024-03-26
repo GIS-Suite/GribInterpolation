@@ -14,8 +14,8 @@ public class DividedDifference {
      */
 
     public static DataPoint interpolate(ArrayList<DataPoint> columnedDataPoints, DataPoint wantedPoint){
-        double[] x = columnedDataPoints.stream().mapToDouble(dataPoint -> (float)(dataPoint.getDepth())).toArray();
-        double[] y = columnedDataPoints.stream().mapToDouble(dataPoint -> (float)(dataPoint.getTemperatureK())).toArray();
+        double[] x = columnedDataPoints.stream().mapToDouble(DataPoint::getDepth).toArray();
+        double[] y = columnedDataPoints.stream().mapToDouble(DataPoint::getTemperatureK).toArray();
 
         PolynomialFunctionNewtonForm interpolator = new DividedDifferenceInterpolator().interpolate(x,y);
         double interpolatedTemperature = interpolator.value(wantedPoint.getDepth());
