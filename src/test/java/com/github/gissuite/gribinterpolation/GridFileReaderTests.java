@@ -27,12 +27,17 @@ package com.github.gissuite.gribinterpolation;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Set;
 
 import com.github.gissuite.gribinterpolation.data.GridFileReader;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ucar.nc2.dataset.NetcdfDataset;
+import ucar.nc2.dt.grid.GridDataset;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GridFileReaderTests {
 
@@ -42,5 +47,14 @@ public class GridFileReaderTests {
         Path path = Paths.get("src/test/java/com/github/gissuite/gribinterpolation/NAVGEM");
         Set<String> files = fileReader.listFilesInDirectory(path);
         Assertions.assertNotEquals(files.size(), 0);
+    }
+
+    @Test
+    public void testGenerateDataset() throws IOException {
+        GridFileReader reader = new GridFileReader();
+        String filePath = "src/main/resources/dev-dataset.HYCOM/2023-07-30T12_00_00Z/HYCOM__2023073012__hycom-glbu-a1__sea_temp__dpth_sfc__00020000__00000000__fcst_ops__0360.grb";
+        Set<NetcdfDataset.Enhance> enhancements = Collections.emptySet();
+        GridDataset dataset = reader.generateDataset(filePath, enhancements);
+        assertNotNull(dataset);
     }
 }
