@@ -2,12 +2,12 @@ package com.github.gissuite.gribinterpolation;
 import org.junit.jupiter.api.Test;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
-import static com.github.gissuite.gribinterpolation.core.interpolation.InverseWeighted.inverseWeighted;
+import static com.github.gissuite.gribinterpolation.core.interpolation.InverseWeightedIntepolator.interpolate;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 
-public class InverseWeightedTest {
+public class InverseWeightedIntepolatorTest {
     @Test
     public void inverseWeightedInterpolation_Should_Return_DataPoint1() {
         //sample data points
@@ -21,7 +21,7 @@ public class InverseWeightedTest {
 
         //calculate
         float expected = 27.81695454F; // Expected value based on provided sample data
-        DataPoint result = inverseWeighted(dataPoints, interpolatedPoint);
+        DataPoint result = interpolate(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
 
@@ -41,7 +41,7 @@ public class InverseWeightedTest {
 
         //calculate
         float expected = 16.1173942F; // Expected value based on provided sample data
-        DataPoint result = inverseWeighted(dataPoints, interpolatedPoint);
+        DataPoint result = interpolate(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
 

@@ -1,6 +1,6 @@
 package com.github.gissuite.gribinterpolation;
 
-import com.github.gissuite.gribinterpolation.core.interpolation.LinearInt;
+import com.github.gissuite.gribinterpolation.core.interpolation.LinearInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ public class LinearInterpolaterTests {
         DataPoint second = new DataPoint(-62, 38.8f, 273.3f, 400);
         DataPoint expectedResult = new DataPoint(-62, 38.8f, 272.44498f, 355);
 
-        DataPoint result = LinearInt.interpolate(first, second, 355);
+        DataPoint result = LinearInterpolator.interpolate(first, second, 355);
         System.out.print(result.getLongitude() + " " + result.getLatitude() + " " + result.getTemperatureK() + " " + result.getDepth());
         assertEquals(expectedResult.getTemperatureK(), result.getTemperatureK());
     }

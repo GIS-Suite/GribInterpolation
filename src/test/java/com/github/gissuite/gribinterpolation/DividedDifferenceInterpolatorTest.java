@@ -1,6 +1,6 @@
 package com.github.gissuite.gribinterpolation;
 
-import com.github.gissuite.gribinterpolation.core.interpolation.DividedDifference;
+import com.github.gissuite.gribinterpolation.core.interpolation.DividedDifferenceInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DividedDifferenceTest {
+public class DividedDifferenceInterpolatorTest {
     @Test
     public void dividedDifferenceInterpolation_Should_Return_DataPoint() {
         //initialize wanted dataPoint
@@ -27,7 +27,7 @@ public class DividedDifferenceTest {
         //expected return result for interpolated value
         DataPoint expectedReturnValue = new DataPoint(10, 10, 16, 4);
 
-        DataPoint interpolatedValue = DividedDifference.interpolate(dataPoints, wanted);
+        DataPoint interpolatedValue = DividedDifferenceInterpolator.interpolate(dataPoints, wanted);
 
         assertEquals(expectedReturnValue.getTemperatureK(), interpolatedValue.getTemperatureK());
     }
