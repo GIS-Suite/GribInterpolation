@@ -1,4 +1,4 @@
-package com.github.gissuite.gribinterpolation.core;
+package com.github.gissuite.gribinterpolation.core.interpolation;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;

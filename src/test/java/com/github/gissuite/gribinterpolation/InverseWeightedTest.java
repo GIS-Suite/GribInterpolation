@@ -2,8 +2,7 @@ package com.github.gissuite.gribinterpolation;
 import org.junit.jupiter.api.Test;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
-import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSine;
-import static com.github.gissuite.gribinterpolation.core.InverseWeighted.inverseWeighted;
+import static com.github.gissuite.gribinterpolation.core.interpolation.InverseWeighted.inverseWeighted;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;

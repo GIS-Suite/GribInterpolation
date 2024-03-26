@@ -1,6 +1,6 @@
 package com.github.gissuite.gribinterpolation;
 
-import com.github.gissuite.gribinterpolation.core.LinearInt;
+import com.github.gissuite.gribinterpolation.core.interpolation.LinearInt;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.junit.jupiter.api.Test;
 

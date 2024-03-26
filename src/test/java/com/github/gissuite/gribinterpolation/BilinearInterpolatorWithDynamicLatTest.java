@@ -3,7 +3,7 @@ package com.github.gissuite.gribinterpolation;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.gissuite.gribinterpolation.core.BilinearInterpolator;
+import com.github.gissuite.gribinterpolation.core.interpolation.BilinearInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.junit.jupiter.api.Test;
 
