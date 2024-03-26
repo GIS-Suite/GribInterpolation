@@ -6,64 +6,65 @@ import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 public class BilinearInterpolator {
 
     /**
-     * @param interpolationPoint The data point for the bilinear interpolated temperature
-     * @param upperDepthDataPoint1 The data point closest to the interpolation data point at the upper depth with the lower longitude
-     * @param upperDepthDataPoint2 The data point closest to the interpolation data point at the upper depth with the higher longitude
-     * @param lowerDepthDataPoint1 The data point closest to the interpolation data point at the lower depth with the lower longitude
-     * @param lowerDepthDataPoint2 The data point closest to the interpolation data point at the lower depth with the higher longitude
-     * @return The data point with the interpolated temperature value
+     * Performs bilinear interpolation to estimate the temperature at a specified longitude and depth.
+     * This method interpolates temperatures between two layers (upper and lower) at a given longitude.
+     *
+     * @param interpolationPoint The target point for interpolation, specifying the desired longitude and depth.
+     * @param upperDataPoints Data points on the upper layer, providing temperature and longitude.
+     * @param lowerDataPoints Data points on the lower layer, providing temperature and longitude.
+     * @return The interpolation point with its temperature set to the interpolated value.
      */
-    public static DataPoint interpolateWithDynamicLon(DataPoint interpolationPoint,DataPoint upperDepthDataPoint1, DataPoint upperDepthDataPoint2, DataPoint lowerDepthDataPoint1, DataPoint lowerDepthDataPoint2) {
+    public static DataPoint interpolateWithDynamicLon(DataPoint interpolationPoint, DataPoint[] upperDataPoints, DataPoint[] lowerDataPoints) {
         LinearInterpolator linearInterpolator = new LinearInterpolator();
 
-        //interpolate temperature value from upperDepthDataPoint1 and upperDepthDataPoint2; (this is linear interpolation in the x-direction)
-        double[] upperDepthDataPointLongitudes = {upperDepthDataPoint1.getLongitude(), upperDepthDataPoint2.getLongitude()};
-        double[] upperDepthDataPointTemperatures = {upperDepthDataPoint1.getTemperatureK(), upperDepthDataPoint2.getTemperatureK()};
-        double upperDepthInterpolationPointTemperature = linearInterpolator.interpolate(upperDepthDataPointLongitudes, upperDepthDataPointTemperatures).value(interpolationPoint.getLongitude());
+        double upperTemperature = interpolateTemperatureAtLongitude(linearInterpolator, upperDataPoints, interpolationPoint.getLongitude());
+        double lowerTemperature = interpolateTemperatureAtLongitude(linearInterpolator, lowerDataPoints, interpolationPoint.getLongitude());
 
-        //interpolate temperature value from lowerDepthDataPoint1 and lowerDepthDataPoint2; (this is linear interpolation in the x-direction)
-        double[] lowerDepthDataPointLongitudes = {lowerDepthDataPoint1.getLongitude(), lowerDepthDataPoint2.getLongitude()};
-        double[] lowerDepthDataPointTemperatures = {lowerDepthDataPoint1.getTemperatureK(), lowerDepthDataPoint2.getTemperatureK()};
-        double lowerDepthInterpolationPointTemperature = linearInterpolator.interpolate(lowerDepthDataPointLongitudes, lowerDepthDataPointTemperatures).value(interpolationPoint.getLongitude());
+        // Perform linear interpolation between the upper and lower temperatures at the given depth
+        double[] depths = { upperDataPoints[0].getDepth(), lowerDataPoints[0].getDepth() };
+        double[] temps = { upperTemperature, lowerTemperature};
+        double interpolatedTemperature = interpolateTemperatureAtDepth(linearInterpolator, depths, temps, interpolationPoint.getDepth());
 
-        //interpolate temperature value from upperDepthTemp and lowerDepthTemp at interpolation point depth (this is linear interpolation in the y-direction)
-        double[] upperAndLowerDepths = {upperDepthDataPoint1.getDepth(), lowerDepthDataPoint1.getDepth()};
-        double[] upperAndLowerDepthTemperatures = {upperDepthInterpolationPointTemperature, lowerDepthInterpolationPointTemperature};
-        float interpolationPointTemperature = (float)linearInterpolator.interpolate(upperAndLowerDepths, upperAndLowerDepthTemperatures).value(interpolationPoint.getDepth());
-
-        //set interpolated temperature to interpolation point and return
-        interpolationPoint.setTemperatureK(interpolationPointTemperature);
+        interpolationPoint.setTemperatureK((float)interpolatedTemperature);
         return interpolationPoint;
     }
 
     /**
-     * @param interpolationPoint The data point for the bilinear interpolated temperature
-     * @param upperDepthDataPoint1 The data point closest to the interpolation data point at the upper depth with the lower latitude
-     * @param upperDepthDataPoint2 The data point closest to the interpolation data point at the upper depth with the higher latitude
-     * @param lowerDepthDataPoint1 The data point closest to the interpolation data point at the lower depth with the lower latitude
-     * @param lowerDepthDataPoint2 The data point closest to the interpolation data point at the lower depth with the higher latitude
-     * @return The data point with the interpolated temperature value
+     * Performs bilinear interpolation to estimate the temperature at a specified latitude and depth.
+     * This method interpolates temperatures between two layers (upper and lower) at a given latitude.
+     *
+     * @param interpolationPoint The target point for interpolation, specifying the desired latitude and depth.
+     * @param upperDataPoints Data points on the upper layer, providing temperature and latitude.
+     * @param lowerDataPoints Data points on the lower layer, providing temperature and latitude.
+     * @return The interpolation point with its temperature set to the interpolated value.
      */
-    public static DataPoint interpolateWithDynamicLat(DataPoint interpolationPoint, DataPoint upperDepthDataPoint1, DataPoint upperDepthDataPoint2, DataPoint lowerDepthDataPoint1, DataPoint lowerDepthDataPoint2) {
+    public static DataPoint interpolateWithDynamicLat(DataPoint interpolationPoint, DataPoint[] upperDataPoints, DataPoint[] lowerDataPoints) {
         LinearInterpolator linearInterpolator = new LinearInterpolator();
 
-        //interpolate temperature value from upperDepthDataPoint1 and upperDepthDataPoint2; (this is linear interpolation in the x-direction)
-        double[] upperDepthDataPointLatitudes = {upperDepthDataPoint1.getLatitude(), upperDepthDataPoint2.getLatitude()};
-        double[] upperDepthDataPointTemperatures = {upperDepthDataPoint1.getTemperatureK(), upperDepthDataPoint2.getTemperatureK()};
-        double upperDepthInterpolationPointTemperature = linearInterpolator.interpolate(upperDepthDataPointLatitudes, upperDepthDataPointTemperatures).value(interpolationPoint.getLatitude());
+        double upperTemperature = interpolateTemperatureAtLatitude(linearInterpolator, upperDataPoints[0], upperDataPoints[1], interpolationPoint.getLatitude());
+        double lowerTemperature = interpolateTemperatureAtLatitude(linearInterpolator, lowerDataPoints[0], lowerDataPoints[1], interpolationPoint.getLatitude());
 
-        //interpolate temperature value from lowerDepthDataPoint1 and lowerDepthDataPoint2; (this is linear interpolation in the x-direction)
-        double[] lowerDepthDataPointLatitudes = {lowerDepthDataPoint1.getLatitude(), lowerDepthDataPoint2.getLatitude()};
-        double[] lowerDepthDataPointTemperatures = {lowerDepthDataPoint1.getTemperatureK(), lowerDepthDataPoint2.getTemperatureK()};
-        double lowerDepthInterpolationPointTemperature = linearInterpolator.interpolate(lowerDepthDataPointLatitudes, lowerDepthDataPointTemperatures).value(interpolationPoint.getLatitude());
+        double[] depths = { upperDataPoints[0].getDepth(), lowerDataPoints[0].getDepth()};
+        double[] temps = { upperTemperature, lowerTemperature};
+        double interpolatedTemperature = interpolateTemperatureAtDepth(linearInterpolator, depths, temps, interpolationPoint.getDepth());
 
-        //interpolate temperature value from upperDepthInterpolationPointTemperature and lowerDepthInterpolationPointTemperature at interpolation point depth (this is linear interpolation in the y-direction)
-        double[] upperAndLowerDepths = {upperDepthDataPoint1.getDepth(), lowerDepthDataPoint1.getDepth()};
-        double[] upperAndLowerDepthTemperatures = {upperDepthInterpolationPointTemperature, lowerDepthInterpolationPointTemperature};
-        float interpolationPointTemperature = (float)linearInterpolator.interpolate(upperAndLowerDepths, upperAndLowerDepthTemperatures).value(interpolationPoint.getDepth());
-
-        //set interpolated temperature to interpolation point and return
-        interpolationPoint.setTemperatureK(interpolationPointTemperature);
+        interpolationPoint.setTemperatureK((float)interpolatedTemperature);
         return interpolationPoint;
+    }
+
+    private static double interpolateTemperatureAtLongitude(LinearInterpolator interpolator, DataPoint[] dataPoints, double longitude) {
+        double[] longitudes = new double[]{dataPoints[0].getLongitude(), dataPoints[1].getLongitude()};
+        double[] temperatures = new double[]{dataPoints[0].getTemperatureK(), dataPoints[1].getTemperatureK()};
+        return interpolator.interpolate(longitudes, temperatures).value(longitude);
+    }
+
+    private static double interpolateTemperatureAtLatitude(LinearInterpolator interpolator, DataPoint point1, DataPoint point2, double latitude) {
+        double[] latitudes = new double[]{point1.getLatitude(), point2.getLatitude()};
+        double[] temperatures = new double[]{point1.getTemperatureK(), point2.getTemperatureK()};
+        return interpolator.interpolate(latitudes, temperatures).value(latitude);
+    }
+
+    private static double interpolateTemperatureAtDepth(LinearInterpolator interpolator, double[] depths, double[] temperatures, double targetDepth) {
+        return interpolator.interpolate(depths, temperatures).value(targetDepth);
     }
 }
