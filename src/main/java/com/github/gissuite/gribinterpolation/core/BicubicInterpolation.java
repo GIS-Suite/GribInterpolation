@@ -4,12 +4,11 @@ import org.apache.commons.math3.analysis.interpolation.BicubicInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 public class BicubicInterpolation {
-    private BicubicInterpolatingFunction bicubicfunc;
-    
-    BicubicInterpolation(DataPoint[][] points){
+
+    public DataPoint interpolate(DataPoint[][] points, DataPoint unknownTemp){
         BicubicInterpolator bicubic = new BicubicInterpolator();
 
-        //extracting the information from the fake data points
+        //extracting the information from the data points
         int rowlen = points[0].length;
         double[] lats = new double[rowlen];
         double[] longs = new double[rowlen];
@@ -29,12 +28,10 @@ public class BicubicInterpolation {
             }
         }
 
-        bicubicfunc = bicubic.interpolate(lats, longs, temps);
+        BicubicInterpolatingFunction bicubicfunc = bicubic.interpolate(lats, longs, temps);
 
-    }
-
-    public double interpolate(double x, double y){
-        return bicubicfunc.value(x,y);
+        unknownTemp.setTemperatureK((float)bicubicfunc.value(unknownTemp.getLongitude(), unknownTemp.getLatitude()));
+        return unknownTemp;
     }
 
     public static void main(String args[]){
@@ -53,8 +50,10 @@ public class BicubicInterpolation {
             longitude += 0.5;
         }
 
-        BicubicInterpolation interpolator = new BicubicInterpolation(points);
+        BicubicInterpolation interpolator = new BicubicInterpolation();
         //should be about 327.5
-        System.out.println(interpolator.interpolate(60.55, 60.55));
+        DataPoint pointToFind = new DataPoint((float)(60.55), (float)(60.55), (float)(0));
+        pointToFind = interpolator.interpolate(points, pointToFind);
+        System.out.println(pointToFind.getTemperatureK());
     }
 }
