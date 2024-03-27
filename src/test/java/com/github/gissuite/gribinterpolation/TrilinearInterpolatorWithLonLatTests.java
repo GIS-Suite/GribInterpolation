@@ -9,28 +9,26 @@ import java.util.ArrayList;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TrilinearInterpolatorTests {
+public class TrilinearInterpolatorWithLonLatTests {
     @Test
     public void trilinearInterpolation_Should_Return_DataPoint() {
 
         //data point with missing temperature
         DataPoint interpolationPoint = new DataPoint(100, 0, NaN, 6);
 
-        //2 closest points to interpolation point at identical latitude at closest upper depth. upperDepthDataPoint1 = lower Lat
-        DataPoint upperDepthDataPoint1 = new DataPoint(100, -1, 100, 4);
-        DataPoint upperDepthDataPoint2 = new DataPoint(100, 1, 105, 4);
+        //The 4 adjacent pre-defined data points surrounding the interpolation point with the higher latitude
+        DataPoint upperDepthLowerLonUpperLat = new DataPoint(98, 2, 103, 8);
+        DataPoint upperDepthUpperLonUpperLat = new DataPoint(102, 3, 104, 8);
+        ArrayList<DataPoint> upperLatDataPoints = null;
 
-        //2 closest points to interpolation point at identical latitude at closest lower depth. lowerDepthDataPoint1 = lower Lat
-        DataPoint lowerDepthDataPoint1 = new DataPoint(100, -1, 50, 8);
-        DataPoint lowerDepthDataPoint2 = new DataPoint(100, 1, 47, 8);
+        //  The 4 adjacent pre-defined data points surrounding the interpolation point with the lower latitude
+        ArrayList<DataPoint> lowerLatDataPoints = null;
 
-        //
-        ArrayList<DataPoint> dataPoints = null;
-        
         //expected data point with interpolated temperature value
         DataPoint expectedResultDataPoint = new DataPoint(100f, 0f, 75.5f, 6f);
 
-        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithLonLat(interpolationPoint, dataPoints);
+
+        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithLonLat(interpolationPoint, upperLatDataPoints, lowerLatDataPoints);
         assertEquals(expectedResultDataPoint.getTemperatureK(), resultDataPoint.getTemperatureK());
     }
 }
