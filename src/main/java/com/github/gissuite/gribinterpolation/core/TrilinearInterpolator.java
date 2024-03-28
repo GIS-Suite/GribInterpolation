@@ -11,40 +11,40 @@ public class TrilinearInterpolator {
 
     /**
      * @param interpolationDataPoint The target data point with the missing temperature value
-     * @param upperLatDataPoints The 4 adjacent pre-defined data points surrounding the interpolation point with the higher latitude
      * @param lowerLatDataPoints The 4 adjacent pre-defined data points surrounding the interpolation point with the lower latitude
+     * @param upperLatDataPoints The 4 adjacent pre-defined data points surrounding the interpolation point with the higher latitude
      * @return the target data point with the interpolated temperature value
      */
-    public static DataPoint interpolateWithLonLat(DataPoint interpolationDataPoint, ArrayList<DataPoint> upperLatDataPoints, ArrayList<DataPoint> lowerLatDataPoints) {
+    public static DataPoint interpolateWithLonLat(DataPoint interpolationDataPoint, ArrayList<DataPoint> lowerLatDataPoints, ArrayList<DataPoint> upperLatDataPoints) {
         LinearInterpolator linearInterpolator = new LinearInterpolator();
 
-        //Interpolate temperature at the interpolationDataPoint longitude and depth for the four upper latitude data points using bilinear interpolation.
-        DataPoint upperLatInterpolationPoint = new DataPoint(interpolationDataPoint.getLongitude(), upperLatDataPoints.get(0).getLatitude(), NaN, interpolationDataPoint.getDepth());
-        DataPoint upperDepthLowerLonUpperLatDataPoint = upperLatDataPoints.get(0);
-        DataPoint upperDepthUpperLonUpperLatDataPoint = upperLatDataPoints.get(1);
-        DataPoint lowerDepthLowerLonUpperLatDataPoint = upperLatDataPoints.get(2);
-        DataPoint lowerDepthUpperLonUpperLatDataPoint = upperLatDataPoints.get(3);
-
-        DataPoint upperLatDataPoint = BilinearInterpolator.interpolateWithDynamicLon(
-                upperLatInterpolationPoint,
-                upperDepthLowerLonUpperLatDataPoint,
-                upperDepthUpperLonUpperLatDataPoint,
-                lowerDepthLowerLonUpperLatDataPoint,
-                lowerDepthUpperLonUpperLatDataPoint);
-
         //Interpolate temperature at the interpolationDataPoint longitude and depth for the four lower latitude data points using bilinear interpolation.
-        DataPoint lowerLatInterpolationPoint = new DataPoint(interpolationDataPoint.getLongitude(), lowerLatDataPoints.get(0).getLatitude(), NaN, interpolationDataPoint.getDepth());
+        DataPoint upperLatInterpolationPoint = new DataPoint(interpolationDataPoint.getLongitude(), lowerLatDataPoints.get(0).getLatitude(), NaN, interpolationDataPoint.getDepth());
         DataPoint upperDepthLowerLonLowerLatDataPoint = lowerLatDataPoints.get(0);
         DataPoint upperDepthUpperLonLowerLatDataPoint = lowerLatDataPoints.get(1);
         DataPoint lowerDepthLowerLonLowerLatDataPoint = lowerLatDataPoints.get(2);
         DataPoint lowerDepthUpperLonLowerLatDataPoint = lowerLatDataPoints.get(3);
 
-        DataPoint lowerLatDataPoint = BilinearInterpolator.interpolateWithDynamicLon(
-                lowerLatInterpolationPoint,
+        DataPoint upperLatDataPoint = BilinearInterpolator.interpolateWithDynamicLon(
+                upperLatInterpolationPoint,
                 upperDepthLowerLonLowerLatDataPoint,
                 upperDepthUpperLonLowerLatDataPoint,
                 lowerDepthLowerLonLowerLatDataPoint,
                 lowerDepthUpperLonLowerLatDataPoint);
+
+        //Interpolate temperature at the interpolationDataPoint longitude and depth for the four upper latitude data points using bilinear interpolation.
+        DataPoint lowerLatInterpolationPoint = new DataPoint(interpolationDataPoint.getLongitude(), upperLatDataPoints.get(0).getLatitude(), NaN, interpolationDataPoint.getDepth());
+        DataPoint upperDepthLowerLonUpperLatDataPoint = upperLatDataPoints.get(0);
+        DataPoint upperDepthUpperLonUpperLatDataPoint = upperLatDataPoints.get(1);
+        DataPoint lowerDepthLowerLonUpperLatDataPoint = upperLatDataPoints.get(2);
+        DataPoint lowerDepthUpperLonUpperLatDataPoint = upperLatDataPoints.get(3);
+
+        DataPoint lowerLatDataPoint = BilinearInterpolator.interpolateWithDynamicLon(
+                lowerLatInterpolationPoint,
+                upperDepthLowerLonUpperLatDataPoint,
+                upperDepthUpperLonUpperLatDataPoint,
+                lowerDepthLowerLonUpperLatDataPoint,
+                lowerDepthUpperLonUpperLatDataPoint);
 
         //Interpolate temperature at the interpolationDataPoint between upper and lower latitude data points using linear interpolation.
         double[] upperAndLowerLats = {upperLatDataPoint.getLatitude(), lowerLatDataPoint.getLatitude()};

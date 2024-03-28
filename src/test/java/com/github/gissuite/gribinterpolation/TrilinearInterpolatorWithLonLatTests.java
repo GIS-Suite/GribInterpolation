@@ -16,19 +16,37 @@ public class TrilinearInterpolatorWithLonLatTests {
         //data point with missing temperature
         DataPoint interpolationPoint = new DataPoint(100, 0, NaN, 6);
 
-        //The 4 adjacent pre-defined data points surrounding the interpolation point with the higher latitude
-        DataPoint upperDepthLowerLonUpperLat = new DataPoint(98, 2, 103, 8);
-        DataPoint upperDepthUpperLonUpperLat = new DataPoint(102, 3, 104, 8);
-        ArrayList<DataPoint> upperLatDataPoints = null;
+        //The 4 adjacent pre-defined data points surrounding the interpolation point with the static lower latitude
+        DataPoint upperDepthLowerLonLowerLat = new DataPoint(98, -5, 70, 4);
+        DataPoint upperDepthUpperLonLowerLat = new DataPoint(102, -5, 71, 4);
+        DataPoint lowerDepthLowerLonLowerLat = new DataPoint(97, -5, 50, 8);
+        DataPoint lowerDepthUpperLonLowerLat = new DataPoint(103, -5, 51,8);
 
-        //  The 4 adjacent pre-defined data points surrounding the interpolation point with the lower latitude
-        ArrayList<DataPoint> lowerLatDataPoints = null;
+        //Add the 4 upper latitude data points by lower longitude and upper depth first
+        ArrayList<DataPoint> lowerLatDataPoints = new ArrayList<>();
+        lowerLatDataPoints.add(upperDepthLowerLonLowerLat);
+        lowerLatDataPoints.add(upperDepthUpperLonLowerLat);
+        lowerLatDataPoints.add(lowerDepthLowerLonLowerLat);
+        lowerLatDataPoints.add(lowerDepthUpperLonLowerLat);
+
+        //  The 4 adjacent pre-defined data points surrounding the interpolation point with the static higher latitude
+        DataPoint upperDepthLowerLonUpperLat = new DataPoint(99, 1, 110, 4);
+        DataPoint upperDepthUpperLonUpperLat = new DataPoint(101, 1, 110, 4);
+        DataPoint lowerDepthLowerLonUpperLat = new DataPoint(98, 1, 89, 8);
+        DataPoint lowerDepthUpperLonUpperLat = new DataPoint(102, 1, 89, 8);
+
+        //Add the 4 lower latitude data points by lower longitude and upper depth first
+        ArrayList<DataPoint> upperLatDataPoints = new ArrayList<>();
+        upperLatDataPoints.add(upperDepthLowerLonUpperLat);
+        upperLatDataPoints.add(upperDepthUpperLonUpperLat);
+        upperLatDataPoints.add(lowerDepthLowerLonUpperLat);
+        upperLatDataPoints.add(lowerDepthUpperLonUpperLat);
 
         //expected data point with interpolated temperature value
-        DataPoint expectedResultDataPoint = new DataPoint(100f, 0f, 75.5f, 6f);
+        DataPoint expectedResultDataPoint = new DataPoint(100, 0, 93f, 6);
 
+        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithLonLat(interpolationPoint, lowerLatDataPoints, upperLatDataPoints);
 
-        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithLonLat(interpolationPoint, upperLatDataPoints, lowerLatDataPoints);
         assertEquals(expectedResultDataPoint.getTemperatureK(), resultDataPoint.getTemperatureK());
     }
 }
