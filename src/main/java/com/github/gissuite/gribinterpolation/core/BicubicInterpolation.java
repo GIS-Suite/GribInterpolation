@@ -4,7 +4,15 @@ import org.apache.commons.math3.analysis.interpolation.BicubicInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 public class BicubicInterpolation {
+    //would be bad to use a points array smaller than a 4x4
+    //Apache also states that interpolated points near the edge of the known points will be inaccurate
 
+    /**
+     * @param points 2d array of known data points to interpolate with
+     * @param unknownTemp the data point with the missing temp
+     * @return the data point with the interpolated temp
+     */
+    //interplates based off latitude and longitude
     public static DataPoint interpolateLatLong(DataPoint[][] points, DataPoint unknownTemp){
         BicubicInterpolator bicubic = new BicubicInterpolator();
 
@@ -28,6 +36,12 @@ public class BicubicInterpolation {
         return unknownTemp;
     }
 
+    /**
+     * @param points 2d array of known data points to interpolate with
+     * @param unknownTemp the data point with the missing temp
+     * @return the data point with the interpolated temp
+     */
+    //interpolates based off latitude and depth
     public static DataPoint interpolateLatDepth(DataPoint[][] points, DataPoint unknownTemp){
         BicubicInterpolator bicubic = new BicubicInterpolator();
 
@@ -49,7 +63,13 @@ public class BicubicInterpolation {
         unknownTemp.setTemperatureK((float)bicubicfunc.value(unknownTemp.getLatitude(), unknownTemp.getDepth()));
         return unknownTemp;
     }
-    
+
+    /**
+     * @param points 2d array of known data points to interpolate with
+     * @param unknownTemp the data point with the missing temp
+     * @return the data point with the interpolated temp
+     */
+    //interpolates based off longitude and depth
     public static DataPoint interpolateLongDepth(DataPoint[][] points, DataPoint unknownTemp){
         BicubicInterpolator bicubic = new BicubicInterpolator();
 
@@ -71,56 +91,4 @@ public class BicubicInterpolation {
         unknownTemp.setTemperatureK((float)bicubicfunc.value(unknownTemp.getLongitude(), unknownTemp.getDepth()));
         return unknownTemp;
     }    
-
-    public static void main(String args[]){
-        //creating fake data points
-        DataPoint[][] fakepoints = new DataPoint[4][4];
-        float latitude = 60;
-        float longitude = 60;
-        float depth = 10;
-        float tempk = 300;
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                fakepoints[i][j] = new DataPoint(longitude, latitude, tempk, depth);
-                longitude += 0.5;
-                tempk += 5;
-            }
-            longitude = 60;
-            latitude += 0.5;
-            depth += 5;
-        }
-
-        //fake data points created to show interpolating with l
-        DataPoint[][] fakepoints2 = new DataPoint[4][4];
-        latitude = 60;
-        longitude = 60;
-        depth = 10;
-        tempk = 300;
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                fakepoints2[i][j] = new DataPoint(longitude, latitude, tempk, depth);
-                latitude += 0.5;
-                tempk += 5;
-            }
-            latitude = 60;
-            depth += 5;
-        }
-
-        //should be about 327.5
-        DataPoint pointToFind = new DataPoint((float)(60.55), (float)(60.55), (float)(0), (float)(22.5));
-        pointToFind = BicubicInterpolation.interpolateLatLong(fakepoints, pointToFind);
-        System.out.println(pointToFind.getTemperatureK());
-
-        //347.5
-        DataPoint pointToFind2 = new DataPoint((float)(61), (float)(61), (float)(0), (float)(17.5));
-        pointToFind2 = BicubicInterpolation.interpolateLatDepth(fakepoints2, pointToFind2);
-        System.out.println(pointToFind2.getTemperatureK());
-
-        //347.5
-        DataPoint pointToFind3 = new DataPoint((float)(61), (float)(61), (float)(0), (float)(17.5));
-        pointToFind3 = BicubicInterpolation.interpolateLongDepth(fakepoints, pointToFind3);
-        System.out.println(pointToFind3.getTemperatureK());
-    }
 }
