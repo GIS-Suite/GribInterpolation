@@ -3,13 +3,11 @@ package com.github.gissuite.gribinterpolation;
 import com.github.gissuite.gribinterpolation.core.TrilinearInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TrilinearInterpolatorWithLonLatTests {
+public class TrilinearInterpolatorWithDynamicLonTests {
     @Test
     public void trilinearInterpolation_Should_Return_DataPoint() {
 
@@ -22,7 +20,7 @@ public class TrilinearInterpolatorWithLonLatTests {
         DataPoint lowerDepthLowerLonLowerLat = new DataPoint(97, -5, 50, 8);
         DataPoint lowerDepthUpperLonLowerLat = new DataPoint(103, -5, 51,8);
 
-        //Add the 4 upper latitude data points by lower longitude and upper depth first
+        //Add the 4 lower latitude data points by lower longitude and upper depth first
         ArrayList<DataPoint> lowerLatDataPoints = new ArrayList<>();
         lowerLatDataPoints.add(upperDepthLowerLonLowerLat);
         lowerLatDataPoints.add(upperDepthUpperLonLowerLat);
@@ -35,7 +33,7 @@ public class TrilinearInterpolatorWithLonLatTests {
         DataPoint lowerDepthLowerLonUpperLat = new DataPoint(98, 1, 89, 8);
         DataPoint lowerDepthUpperLonUpperLat = new DataPoint(102, 1, 89, 8);
 
-        //Add the 4 lower latitude data points by lower longitude and upper depth first
+        //Add the 4 higher latitude data points by lower longitude and upper depth first
         ArrayList<DataPoint> upperLatDataPoints = new ArrayList<>();
         upperLatDataPoints.add(upperDepthLowerLonUpperLat);
         upperLatDataPoints.add(upperDepthUpperLonUpperLat);
@@ -45,7 +43,7 @@ public class TrilinearInterpolatorWithLonLatTests {
         //expected data point with interpolated temperature value
         DataPoint expectedResultDataPoint = new DataPoint(100, 0, 93f, 6);
 
-        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithLonLat(interpolationPoint, lowerLatDataPoints, upperLatDataPoints);
+        DataPoint resultDataPoint = TrilinearInterpolator.interpolateWithDynamicLon(interpolationPoint, lowerLatDataPoints, upperLatDataPoints);
 
         assertEquals(expectedResultDataPoint.getTemperatureK(), resultDataPoint.getTemperatureK());
     }
