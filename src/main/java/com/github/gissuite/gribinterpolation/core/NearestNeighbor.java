@@ -1,26 +1,17 @@
 package com.github.gissuite.gribinterpolation.core;
-
-
 import com.github.gissuite.gribinterpolation.data.DataPoint;
-import org.tribuo.*;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class NearestNeighbor {
-    public static HashMap<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map) {
-        List<Map.Entry<DataPoint, Double>> list = new LinkedList<>(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<DataPoint, Double>>() {
-            @Override
-            public int compare(Map.Entry<DataPoint, Double> o1, Map.Entry<DataPoint, Double> o2) {
-                return o1.getValue().compareTo(o2.getValue());
-            }
-        });
-        HashMap<DataPoint, Double> sortedMap = new LinkedHashMap<>();
-        for (Map.Entry<DataPoint, Double> entry : list) {
-            sortedMap.put(entry.getKey(), entry.getValue());
-
-        }
-        return sortedMap;
-    }
+public static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map) {
+    Map<DataPoint, Double> sortedMap = map.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (firstValue, streamValue) -> firstValue, LinkedHashMap::new));
+    return sortedMap;
+}
     public static void main(String[] args) {
         DataPoint first = new DataPoint(-66, 38.8f, 271.4f, 300);
         DataPoint second = new DataPoint(-62, 38.8f, 273.3f, 400);
@@ -34,8 +25,6 @@ public class NearestNeighbor {
         DataPoint a = nearestNeighbors[0];
         System.out.println(a.getTemperatureK());
     }
-//still need to find a way to get the amount of datapoints...
-    //also need to know k
     public static DataPoint[] getNearestNeighbor(DataPoint[] dataPoint, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
         DataPoint[] nearestNeighbors = new DataPoint[k];
         HashMap<DataPoint, Double> hashMap = new HashMap<>();
@@ -45,7 +34,8 @@ public class NearestNeighbor {
 //            System.out.println(hashMap.get(dataPoint[i]));
         }
         System.out.println(hashMap.values());
-        HashMap sortedHashMap = sortByValue(hashMap);
+//        HashMap sortedHashMap = sortByValue(hashMap);
+        Map<DataPoint, Double> sortedHashMap = sortByValue(hashMap);
         System.out.println(sortedHashMap.values());
 //            System.out.println(sortedHashMap.keySet());
         Set<DataPoint> keySet = sortedHashMap.keySet();
