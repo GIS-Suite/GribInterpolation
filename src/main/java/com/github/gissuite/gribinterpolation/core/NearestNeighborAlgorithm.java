@@ -14,7 +14,7 @@ import org.tribuo.regression.evaluation.RegressionEvaluator;
 
 import static com.github.gissuite.gribinterpolation.core.NearestNeighbor.getNearestNeighbor;
 import static ucar.nc2.util.rc.RC.log;
-
+//fixing account details
 public class NearestNeighborAlgorithm {
     public static void main (String[] args) {
         NearestNeighborAlgorithm nearestNeighbor = new NearestNeighborAlgorithm();
