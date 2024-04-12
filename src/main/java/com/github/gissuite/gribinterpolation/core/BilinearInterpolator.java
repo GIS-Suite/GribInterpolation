@@ -16,6 +16,12 @@ public class BilinearInterpolator {
     public static DataPoint interpolateWithDynamicLon(DataPoint interpolationPoint,DataPoint upperDepthDataPoint1, DataPoint upperDepthDataPoint2, DataPoint lowerDepthDataPoint1, DataPoint lowerDepthDataPoint2) {
         LinearInterpolator linearInterpolator = new LinearInterpolator();
 
+        //if(lower longitude > higher longitude && interpolation longitude > higher longitude)
+        //  lower longitude - 360
+        //  interpolation longitude - 360
+        //else if(lower longitude > higher longitude)
+        //  lower longitude - 360
+
         //interpolate temperature value from upperDepthDataPoint1 and upperDepthDataPoint2; (this is linear interpolation in the x-direction)
         double[] upperDepthDataPointLongitudes = {upperDepthDataPoint1.getLongitude(), upperDepthDataPoint2.getLongitude()};
         double[] upperDepthDataPointTemperatures = {upperDepthDataPoint1.getTemperatureK(), upperDepthDataPoint2.getTemperatureK()};
