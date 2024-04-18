@@ -6,6 +6,7 @@ import com.github.gissuite.gribinterpolation.data.DataPoint;
 public class BicubicInterpolation {
     //would be bad to use a points array smaller than a 4x4
     //Apache also states that interpolated points near the edge of the known points will be inaccurate
+    //Input points have to be in a square grid Apache wont take anything else
 
     /**
      * @param points 2d array of known data points to interpolate with
@@ -26,8 +27,8 @@ public class BicubicInterpolation {
             for(int j = 0; j < rowlen; j++){
                 temps[i][j] = points[i][j].getTemperatureK();
             }
-            lats[i] = points[i][0].getLatitude();
             longs[i] = points[0][i].getLongitude();
+            lats[i] = points[i][0].getLatitude();
         }
 
         BicubicInterpolatingFunction bicubicfunc = bicubic.interpolate(longs, lats, temps);

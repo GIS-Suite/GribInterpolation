@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.gissuite.gribinterpolation.core.BicubicInterpolation;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+
 import org.junit.jupiter.api.Test;
 
 public class BicubicInterpolationTest{
