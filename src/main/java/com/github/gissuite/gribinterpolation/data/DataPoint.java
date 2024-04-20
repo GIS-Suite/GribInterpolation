@@ -6,6 +6,7 @@ public class DataPoint {
     private float latitude;
     private float temperatureK;
     private float depth;
+    private float distance;
 
     public DataPoint(float longitude, float latitude, float temperaturek, float depth) {
         this.longitude = longitude;
@@ -39,4 +40,6 @@ public class DataPoint {
     public void setTemperatureK(float temperatureK) {
         this.temperatureK = temperatureK;
     }
+    public float getDistance(){ return distance; }
+    public void setDistance(float distance){ this.distance = distance; }
 }
