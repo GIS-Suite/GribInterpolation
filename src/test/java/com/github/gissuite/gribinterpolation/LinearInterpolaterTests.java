@@ -16,7 +16,7 @@ public class LinearInterpolaterTests {
         DataPoint expectedResult = new DataPoint(-62, 38.8f, 272.44498f, 355);
 
         DataPoint result = LinearInt.interpolate(upperDepthDataPoint, lowerDepthDataPoint, targetDataPoint);
-        System.out.print(result.getLongitude() + " " + result.getLatitude() + " " + result.getTemperatureK() + " " + result.getDepth());
+        System.out.println("Lon:" + result.getLongitude() +  " Lat:" + result.getLatitude() + " Temperature:" + result.getTemperatureK() + " Depth:" + result.getDepth());
         assertEquals(expectedResult.getTemperatureK(), result.getTemperatureK());
     }
 }
