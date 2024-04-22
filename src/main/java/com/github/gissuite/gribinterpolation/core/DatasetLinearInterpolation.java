@@ -3,7 +3,7 @@ package com.github.gissuite.gribinterpolation.core;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 import java.util.ArrayList;
-import java.util.stream.*;
+import java.util.stream.Stream;
 
 public class DatasetLinearInterpolation {
     /**
