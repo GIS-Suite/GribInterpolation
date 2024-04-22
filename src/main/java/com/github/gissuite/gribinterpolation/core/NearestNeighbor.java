@@ -3,17 +3,15 @@ import com.github.gissuite.gribinterpolation.data.DataPoint;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-//gets k nearest neighbors' memory locations stored in a DataPoint array
-//amountOfDataPoints is how many points to find the distance for; so should be how many DataPoints in total we have.
-//k is how many neighbors to look for
-
-//can get temperature this way:
-//ArrayList<DataPoint> nearestNeighbors = (getNearestNeighbor(arrayOfDataPoints, longitudeToInterpolate, latitudeToInterpolate, k, amountOfDataPoints));
-//DataPoint a = (DataPoint) nearestNeighbors.get(0);
-//System.out.println(a.getTemperatureK());
 public class NearestNeighbor {
-
+    /**
+     * @param dataPoints All the DataPoints in the data set
+     * @param longitudeToInterpolate The longitude value of the point needed to be interpolated
+     * @param latitudeToInterpolate  The latitude value of the point needed to be interpolated
+     * @param k How many nearest neighbors to return
+     * @param amountOfDataPoints The total about of DataPoints
+     * @return ArrayList of nearest neighbors (DataPoints)
+     */
         public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
             ArrayList<DataPoint> nearestNeighbors = new ArrayList<>();
             HashMap<DataPoint, Double> hashMap = new HashMap<>();
