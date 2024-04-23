@@ -13,16 +13,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InverseWeightedDataInterpolatorTest {
     @Test
     public void InverseWeightedDataInterpolator_Should_Return_ArrayList1(){
-//        //sample data points
-//        ArrayList<DataPoint> dataPoints = new ArrayList<>();
-//        dataPoints.add(new DataPoint((float)34, (float)-118, 72));
-//        dataPoints.add(new DataPoint((float)40, (float)-74, 65));
-//        dataPoints.add(new DataPoint((float)51, (float)-0.1, 55));
-//        dataPoints.add(new DataPoint((float)-33, (float)151, 78));
-//        dataPoints.add(new DataPoint((float)19, (float)70, NaN));
-//        dataPoints.add(new DataPoint((float)-30, (float)150, NaN));
-//        dataPoints.add(new DataPoint((float)42, (float)-70, NaN));
-//
+        //sample data points
+        ArrayList<DataPoint> dataPoints = new ArrayList<>();
+        dataPoints.add(new DataPoint((float)34, (float)-118, 72));
+        dataPoints.add(new DataPoint((float)40, (float)-74, 65));
+        dataPoints.add(new DataPoint((float)51, (float)-0.1, 55));
+        dataPoints.add(new DataPoint((float)-33, (float)151, 78));
+        dataPoints.add(new DataPoint((float)19, (float)70, NaN));
+        dataPoints.add(new DataPoint((float)-30, (float)150, NaN));
+        dataPoints.add(new DataPoint((float)42, (float)-70, NaN));
+
 //        //check that InverseWeightedDataInterpolator returns the correct data points
 //        InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
 //        for (DataPoint dataPoint : dataPoints){
