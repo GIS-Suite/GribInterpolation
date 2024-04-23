@@ -36,7 +36,14 @@ import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSin
 //System.out.println(a.getTemperatureK());
 
 public class NearestNeighbor {
-
+    /**
+     * @param dataPoints All the DataPoints in the data set
+     * @param longitudeToInterpolate The longitude value of the point needed to be interpolated
+     * @param latitudeToInterpolate  The latitude value of the point needed to be interpolated
+     * @param k How many nearest neighbors to return
+     * @param amountOfDataPoints The total about of DataPoints
+     * @return ArrayList of nearest neighbors (DataPoints)
+     */
         public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
             ArrayList<DataPoint> nearestNeighbors = new ArrayList<>();
             HashMap<DataPoint, Double> hashMap = new HashMap<>();

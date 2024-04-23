@@ -8,12 +8,14 @@ import static com.github.gissuite.gribinterpolation.core.NearestNeighbor.getNear
 import static com.github.gissuite.gribinterpolation.core.NearestNeighbor.knnInterpolation;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-// import org.junit.jupiter.api.Test;
-// import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class NearestNeighborTest {
-    public static void main(String[] args){
+    @Test
+    public void knn_Should_Return_DataPoint(){
+
         // testing data
         ArrayList<DataPoint> neighbors = new ArrayList<>();
         neighbors.add(new DataPoint(3, 3, 37, -4));
@@ -23,6 +25,7 @@ public class NearestNeighborTest {
 
         // Creating point that we are interpolating
         DataPoint interpolatedPoint = new DataPoint(2, 3, NaN, -4);
+
         try{
             // testing only ArrayList<DataPoint> getNearestNeighbor
             try{
