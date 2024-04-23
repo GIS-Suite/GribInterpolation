@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import static java.lang.Float.NaN;
 
 public class InverseWeightedDataInterpolator {
-//        /**
-//     * @param dataPoints An array list of all the data points with known and unknown temperatures
-//     *
-//     * @return the dataPoints array list with all the unknown temperature values replaced with interpolated values
-//     */
+        /**
+     * @param dataPoints An array list of all the data points with known and unknown temperatures
+     *
+     * @return the dataPoints array list with all the unknown temperature values replaced with interpolated values
+     */
     public static ArrayList<DataPoint> DataInterpolator(ArrayList<DataPoint> dataPoints){
 
         //create 2 arraylists of points with known and unknown temperatures
