@@ -23,11 +23,11 @@ public class InverseWeightedDataInterpolatorTest {
         dataPoints.add(new DataPoint((float)-30, (float)150, NaN));
         dataPoints.add(new DataPoint((float)42, (float)-70, NaN));
 
-//        //check that InverseWeightedDataInterpolator returns the correct data points
-//        InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
-//        for (DataPoint dataPoint : dataPoints){
-//            System.out.println(dataPoint.getTemperatureK());
-//        }
+        //check that InverseWeightedDataInterpolator returns the correct data points
+        InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
+        for (DataPoint dataPoint : dataPoints){
+            System.out.println(dataPoint.getTemperatureK());
+        }
 //
 //        float expected1;
 //        float expected2;
