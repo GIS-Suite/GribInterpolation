@@ -15,26 +15,26 @@ public class InverseWeightedDataInterpolatorTest {
     public void InverseWeightedDataInterpolator_Should_Return_ArrayList1(){
         //sample data points
         ArrayList<DataPoint> dataPoints = new ArrayList<>();
-        dataPoints.add(new DataPoint((float)34, (float)-118, 72));
-        dataPoints.add(new DataPoint((float)40, (float)-74, 65));
-        dataPoints.add(new DataPoint((float)51, (float)-0.1, 55));
-        dataPoints.add(new DataPoint((float)-33, (float)151, 78));
-        dataPoints.add(new DataPoint((float)19, (float)70, NaN));
-        dataPoints.add(new DataPoint((float)-30, (float)150, NaN));
-        dataPoints.add(new DataPoint((float)42, (float)-70, NaN));
+        dataPoints.add(new DataPoint((float)-118, (float)34, 72));
+        dataPoints.add(new DataPoint((float)-74, (float)40, 65));
+        dataPoints.add(new DataPoint((float)-0.1, (float)51, 55));
+        dataPoints.add(new DataPoint((float)151, (float)-33, 78));
+        dataPoints.add(new DataPoint((float)70, (float)19, NaN));
+        dataPoints.add(new DataPoint((float)150, (float)-30, NaN));
+        dataPoints.add(new DataPoint((float)-70, (float)42, NaN));
 
         //check that InverseWeightedDataInterpolator returns the correct data points
         InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
         for (DataPoint dataPoint : dataPoints){
             System.out.println(dataPoint.getTemperatureK());
         }
-//
-//        float expected1;
-//        float expected2;
-//        float expected3;
-//        DataPoint result1 = dataPoints.get(4);
-//        DataPoint result2 = dataPoints.get(5);
-//        DataPoint result3 = dataPoints.get(6);
+
+        float expected1;
+        float expected2;
+        float expected3;
+        DataPoint result1 = dataPoints.get(4);
+        DataPoint result2 = dataPoints.get(5);
+        DataPoint result3 = dataPoints.get(6);
 //        System.out.println("Expected temp of 1st: " + expected);
 //        System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
 
