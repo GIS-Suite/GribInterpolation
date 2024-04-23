@@ -28,11 +28,11 @@ public class InverseWeightedDataInterpolator {
             }
         }
 
-//        //call the inverseWeighted interpolation method finding the
-//        //temperatures of pointsToInterpolate using knownDataPoints
-//        for (DataPoint interpolatePoint : pointsToInterpolate) {
-//            InverseWeighted.inverseWeighted(knownDataPoints, interpolatePoint);
-//        }
+        //call the inverseWeighted interpolation method finding the
+        //temperatures of pointsToInterpolate using knownDataPoints
+        for (DataPoint interpolatePoint : pointsToInterpolate) {
+            InverseWeighted.inverseWeighted(knownDataPoints, interpolatePoint);
+        }
 //
 //        //return updated arraylist
 //        return dataPoints;
