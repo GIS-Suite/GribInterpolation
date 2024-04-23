@@ -22,10 +22,10 @@ public class InverseWeightedDataInterpolator {
                 pointsToInterpolate.add(dataPoint);
                 System.out.println("Point to interpolate " + dataPoint.getLongitude());
             }
-//            else {
-//                knownDataPoints.add(dataPoint);
-//                System.out.println("Point with known temperature " + dataPoint.getLongitude());
-//            }
+            else {
+                knownDataPoints.add(dataPoint);
+                System.out.println("Point with known temperature " + dataPoint.getLongitude());
+            }
         }
 
 //        //call the inverseWeighted interpolation method finding the
