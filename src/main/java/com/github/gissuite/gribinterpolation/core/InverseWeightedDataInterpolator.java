@@ -33,8 +33,8 @@ public class InverseWeightedDataInterpolator {
         for (DataPoint interpolatePoint : pointsToInterpolate) {
             InverseWeighted.inverseWeighted(knownDataPoints, interpolatePoint);
         }
-//
-//        //return updated arraylist
-//        return dataPoints;
-//    }
+
+        //return updated arraylist
+        return dataPoints;
+    }
 }
