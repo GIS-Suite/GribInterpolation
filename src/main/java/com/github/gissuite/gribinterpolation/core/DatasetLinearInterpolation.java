@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.*;
 
-import static java.lang.Float.NaN;
-
 public class DatasetLinearInterpolation {
     /**
      * @param dataPointArrayList The ArrayList of all the data points including NaN-temperature data points
@@ -20,9 +18,7 @@ public class DatasetLinearInterpolation {
         Map<Pair<Float, Float>, List<DataPoint>> allDataPointsByLatLon = dataPointArrayList
                 .stream()
                 .collect(
-                        Collectors.groupingBy(
-                                dp -> new Pair<>(dp.getLatitude(),dp.getLongitude())
-                        )
+                        Collectors.groupingBy(dp -> new Pair<>(dp.getLatitude(),dp.getLongitude()))
                 );
         //Test print (DELETE LATER)
         for (Map.Entry<?, ?> entry : allDataPointsByLatLon.entrySet()) {
@@ -33,9 +29,12 @@ public class DatasetLinearInterpolation {
         //filter group of data points with non NaN temperatures
         Map<Pair<Float, Float>, List<DataPoint>> dataPointsByLatLonWithTemp = allDataPointsByLatLon.entrySet()
                 .stream()
-                .filter(x -> x.getValue()
+                .filter(
+                        x -> x.getValue()
                         .stream()
-                        .anyMatch(y -> !Float.isNaN(y.getTemperatureK()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        .anyMatch(y -> !Float.isNaN(y.getTemperatureK()))
+                )
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         //Test print (Delete Later)
         for (Map.Entry<?, ?> entry : dataPointsByLatLonWithTemp.entrySet()) {
