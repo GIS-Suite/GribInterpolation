@@ -28,10 +28,10 @@ public class DatasetLinearInterpolationTests {
         DataPoint pointG0 = new DataPoint(102, -89, NaN, 0);
         DataPoint pointH0 = new DataPoint(103, -89, NaN, 0);
 
-        DataPoint pointE2 = new DataPoint(100, -89, 48.9f, 2);
-        DataPoint pointF2 = new DataPoint(101, -89, 47.9f, 2);
-        DataPoint pointG2 = new DataPoint(102, -89, 46.9f, 2);
-        DataPoint pointH2 = new DataPoint(103, -89, 45.9f, 2);
+        DataPoint pointE2 = new DataPoint(100, -89, NaN, 2);
+        DataPoint pointF2 = new DataPoint(101, -89, NaN, 2);
+        DataPoint pointG2 = new DataPoint(102, -89, NaN, 2);
+        DataPoint pointH2 = new DataPoint(103, -89, NaN, 2);
 
         //add all data points to an ArrayList
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
