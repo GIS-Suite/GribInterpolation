@@ -2,6 +2,7 @@ package com.github.gissuite.gribinterpolation;
 
 import com.github.gissuite.gribinterpolation.core.InverseWeightedDataInterpolator;
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class InverseWeightedDataInterpolatorTest {
         assertEquals(expected1, result1.getTemperatureK());
         assertEquals(expected2, result2.getTemperatureK());
         assertEquals(expected3, result3.getTemperatureK());
+        for (DataPoint dataPoint : dataPoints) {
+            Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
+        }
 
     }
 }
