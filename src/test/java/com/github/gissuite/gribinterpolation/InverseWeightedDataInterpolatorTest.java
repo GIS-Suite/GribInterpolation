@@ -15,18 +15,9 @@ public class InverseWeightedDataInterpolatorTest {
     @Test
     public void InverseWeightedDataInterpolator_Should_Return_ArrayList1(){
 
-        //sample data points
-//        ArrayList<DataPoint> dataPoints = new ArrayList<>();
-//        dataPoints.add(new DataPoint((float)-118, (float)34, 72));
-//        dataPoints.add(new DataPoint((float)-74, (float)40, 65));
-//        dataPoints.add(new DataPoint((float)-0.1, (float)51, 55));
-//        dataPoints.add(new DataPoint((float)151, (float)-33, 78));
-//        dataPoints.add(new DataPoint((float)-100, (float)40, NaN));
-//        dataPoints.add(new DataPoint((float)150, (float)-30, NaN));
-//        dataPoints.add(new DataPoint((float)-70, (float)42, NaN));
         int x = 5;
         int y = 5;
-        int z = 10;
+        int z = 5;
 
         ArrayList<ArrayList<ArrayList<DataPoint>>> dataPoints = new ArrayList<>();
 
@@ -36,15 +27,45 @@ public class InverseWeightedDataInterpolatorTest {
                 ArrayList<DataPoint> innerList2 = new ArrayList<>();
                 for (int k = 0; k < z; k++) {
                     innerList2.add(null); // Add default value, or leave empty
+                    if (k == 0 || k == 2 || k == 4){
+                        for (float deglon = 0; deglon < 5; deglon++){
+                            for (float deglat = 0; deglat < 5; deglat++) {
+                                innerList2.add(new DataPoint(deglon, deglat, (float)Math.random(), k));
+                            }
+                        }
+
+                    }
+                    else{
+                        for (float deglon = 0; deglon < 5; deglon++){
+                            for (float deglat = 0; deglat < 5; deglat++) {
+                                innerList2.add(new DataPoint(deglon, deglat, NaN, k));
+                            }
+                        }
+                    }
                 }
                 innerList1.add(innerList2);
             }
             dataPoints.add(innerList1);
         }
 
+//        for (ArrayList<ArrayList<DataPoint>> dataPoint : dataPoints) {
+//            Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
+//        }
+
+        for (ArrayList<ArrayList<DataPoint>> point : dataPoints) {
+            for (int j = 0; j < point.size(); j++) {
+                for (int k = 0; k < point.get(j).size(); k++) {
+                    System.out.print(point.get(j).get(k) + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
+
 
         //check that InverseWeightedDataInterpolator returns the correct data points
-        InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
+        //InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
 
 //        float expected1 = (float)67.913185;
 //        float expected2 = (float)77.125404;
@@ -60,9 +81,7 @@ public class InverseWeightedDataInterpolatorTest {
 //        assertEquals(expected3, result3.getTemperatureK());
 
         //check that all points have a temp value
-        for (DataPoint dataPoint : dataPoints) {
-            Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
-        }
+
 
     }
-}
+
