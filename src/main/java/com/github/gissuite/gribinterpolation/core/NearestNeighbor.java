@@ -23,6 +23,8 @@ import org.tribuo.math.la.SparseVector;
 import org.tribuo.math.neighbour.NeighboursQuery;
 import org.tribuo.math.neighbour.NeighboursQueryFactory;
 import org.tribuo.provenance.ModelProvenance;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSine;
 
@@ -38,17 +40,17 @@ import static com.github.gissuite.gribinterpolation.core.DistanceFinder.haverSin
 public class NearestNeighbor {
     /**
      * @param dataPoints All the DataPoints in the data set
-     * @param longitudeToInterpolate The longitude value of the point needed to be interpolated
-     * @param latitudeToInterpolate  The latitude value of the point needed to be interpolated
+     * @param lonInterpolate The longitude value of the point needed to be interpolated
+     * @param latInterpolate  The latitude value of the point needed to be interpolated
      * @param k How many nearest neighbors to return
      * @param amountOfDataPoints The total about of DataPoints
      * @return ArrayList of nearest neighbors (DataPoints)
      */
-        public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints, float longitudeToInterpolate, float latitudeToInterpolate, int k, int amountOfDataPoints) {
+        public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints, float lonInterpolate, float latInterpolate, int k, int amountOfDataPoints) {
             ArrayList<DataPoint> nearestNeighbors = new ArrayList<>();
             HashMap<DataPoint, Double> hashMap = new HashMap<>();
             for (int i = 0; i < amountOfDataPoints; i++) {
-                double distance = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), latitudeToInterpolate, longitudeToInterpolate);
+                double distance = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), latInterpolate, lonInterpolate);
                 hashMap.put(dataPoints.get(i), distance);
             }
             Map<DataPoint, Double> sortedHashMap = sortByValue(hashMap);
@@ -71,12 +73,13 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
 }
 
     /**
+     * @param nearestNeighbors list of nearest neighbors
+     * @param toInterpolate point we are interpolating
      * for the interpolation of temperature, we'll need the
      * (summation from 1 to k of (temp over distance)) over
      * the (summation from 1 to k of (the inverse of distance))
      */
     public static double knnInterpolation(ArrayList<DataPoint> nearestNeighbors, DataPoint toInterpolate){
-        DecimalFormat df = new DecimalFormat("#.##");
         // placeholder values
         double interpolatedTemp = 0.0;
         double totalDistance = 0.0;
@@ -95,8 +98,6 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
                 tempOverDist = (nearestNeighbor.getTemperatureK()) / distance;
                 // getting total temperature over distance
                 totalTempOverDist += tempOverDist; // the numerator of our formula
-
-
                 if(Double.isFinite(distance)){
                     // need to check for when distance is zero because I was getting infinity (not good)
                     if (distance != 0){
@@ -112,8 +113,7 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
                 }
                 totalDistance += distance; // store the distance
             }
-            num = totalTempOverDist/totalDistanceInverse;
-            interpolatedTemp = Double.parseDouble(df.format(num));
+            interpolatedTemp = totalTempOverDist/totalDistanceInverse;
         }
         catch(Exception e){
             System.out.println("Problem with knnInterpolation: " + e);
