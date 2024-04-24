@@ -24,11 +24,11 @@ public class InverseWeighted {
         // Iterate through the data points
         for (DataPoint dataPoint : dataPoints) {
             //convert lat+long points into distance
-            float hdistance = (float) haverSine(latitude, longitude, dataPoint.getLatitude(), dataPoint.getLongitude());
+            float horizontalDistance = (float) haverSine(latitude, longitude, dataPoint.getLatitude(), dataPoint.getLongitude());
 
-            float vdistance = Math.abs((float)dataPoint.getDepth()-interpolatedPoint.getDepth());
+            float verticalDistance = Math.abs((float)dataPoint.getDepth()-interpolatedPoint.getDepth());
 
-            float totalDistance = (float)Math.sqrt(Math.pow(hdistance, 2) + Math.pow(vdistance, 2) );
+            float totalDistance = (float)Math.sqrt(Math.pow(horizontalDistance, 2) + Math.pow(verticalDistance, 2) );
 
             //calculate the inverse weighted sum
             float inverseWeight = (float) (1.0 / totalDistance);
