@@ -19,7 +19,7 @@ public class InverseWeightedDataInterpolatorTest {
         dataPoints.add(new DataPoint((float)-74, (float)40, 65));
         dataPoints.add(new DataPoint((float)-0.1, (float)51, 55));
         dataPoints.add(new DataPoint((float)151, (float)-33, 78));
-        dataPoints.add(new DataPoint((float)70, (float)19, NaN));
+        dataPoints.add(new DataPoint((float)-100, (float)40, NaN));
         dataPoints.add(new DataPoint((float)150, (float)-30, NaN));
         dataPoints.add(new DataPoint((float)-70, (float)42, NaN));
 
@@ -29,9 +29,9 @@ public class InverseWeightedDataInterpolatorTest {
             System.out.println(dataPoint.getTemperatureK());
         }
 
-        float expected1;
-        float expected2;
-        float expected3;
+        float expected1 = (float)67.913185;
+        float expected2 = (float)77.125404;
+        float expected3 = (float)65.18114;
         DataPoint result1 = dataPoints.get(4);
         DataPoint result2 = dataPoints.get(5);
         DataPoint result3 = dataPoints.get(6);
