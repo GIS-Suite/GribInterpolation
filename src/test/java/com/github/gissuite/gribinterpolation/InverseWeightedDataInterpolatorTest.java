@@ -25,9 +25,6 @@ public class InverseWeightedDataInterpolatorTest {
 
         //check that InverseWeightedDataInterpolator returns the correct data points
         InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
-        for (DataPoint dataPoint : dataPoints){
-            System.out.println(dataPoint.getTemperatureK());
-        }
 
         float expected1 = (float)67.913185;
         float expected2 = (float)77.125404;
@@ -35,13 +32,12 @@ public class InverseWeightedDataInterpolatorTest {
         DataPoint result1 = dataPoints.get(4);
         DataPoint result2 = dataPoints.get(5);
         DataPoint result3 = dataPoints.get(6);
-//        System.out.println("Expected temp of 1st: " + expected);
-//        System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
+
 
         //test
-//        assertEquals(expected1, result1.getTemperatureK());
-//        assertEquals(expected2, result2.getTemperatureK());
-//        assertEquals(expected3, result3.getTemperatureK());
+        assertEquals(expected1, result1.getTemperatureK());
+        assertEquals(expected2, result2.getTemperatureK());
+        assertEquals(expected3, result3.getTemperatureK());
 
     }
 }

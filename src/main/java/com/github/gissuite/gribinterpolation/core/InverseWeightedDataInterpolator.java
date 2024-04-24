@@ -20,11 +20,9 @@ public class InverseWeightedDataInterpolator {
         for (DataPoint dataPoint : dataPoints){
             if (Float.isNaN(dataPoint.getTemperatureK())) {
                 pointsToInterpolate.add(dataPoint);
-                System.out.println("Point to interpolate " + dataPoint.getLongitude());
             }
             else {
                 knownDataPoints.add(dataPoint);
-                System.out.println("Point with known temperature " + dataPoint.getLongitude());
             }
         }
 
