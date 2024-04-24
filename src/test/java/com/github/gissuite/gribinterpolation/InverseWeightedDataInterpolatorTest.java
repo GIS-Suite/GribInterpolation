@@ -28,19 +28,10 @@ public class InverseWeightedDataInterpolatorTest {
                 for (int k = 0; k < z; k++) {
                     innerList2.add(null); // Add default value, or leave empty
                     if (k == 0 || k == 2 || k == 4){
-                        for (float deglon = 0; deglon < 5; deglon++){
-                            for (float deglat = 0; deglat < 5; deglat++) {
-                                innerList2.add(new DataPoint(deglon, deglat, (float)Math.random(), k));
-                            }
-                        }
-
+                        innerList2.add(new DataPoint(i, j, (float)Math.random(), k));
                     }
                     else{
-                        for (float deglon = 0; deglon < 5; deglon++){
-                            for (float deglat = 0; deglat < 5; deglat++) {
-                                innerList2.add(new DataPoint(deglon, deglat, NaN, k));
-                            }
-                        }
+                        innerList2.add(new DataPoint(i, j, NaN, k));
                     }
                 }
                 innerList1.add(innerList2);
@@ -48,14 +39,15 @@ public class InverseWeightedDataInterpolatorTest {
             dataPoints.add(innerList1);
         }
 
-//        for (ArrayList<ArrayList<DataPoint>> dataPoint : dataPoints) {
-//            Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
-//        }
+        for (ArrayList<ArrayList<DataPoint>> dataPoint : dataPoints) {
+            for (ArrayList<DataPoint> point : dataPoint) {
+            Assertions.assertNotEquals(point.getTemperatureK(), NaN);
+        }}
 
         for (ArrayList<ArrayList<DataPoint>> point : dataPoints) {
-            for (int j = 0; j < point.size(); j++) {
-                for (int k = 0; k < point.get(j).size(); k++) {
-                    System.out.print(point.get(j).get(k) + " ");
+            for (ArrayList<DataPoint> points : point) {
+                for (int k = 0; k < points.size(); k++) {
+                    System.out.print(points.get(k) + " ");
                 }
                 System.out.println();
             }
