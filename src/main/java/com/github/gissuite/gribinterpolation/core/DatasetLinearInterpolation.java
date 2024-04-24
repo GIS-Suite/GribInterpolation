@@ -41,6 +41,8 @@ public class DatasetLinearInterpolation {
             System.out.printf("%-15s : %s%n", entry.getKey(), entry.getValue());
         }
 
+        //Sort dataPointsByLatLonWithTemp by depth
+
         return dataPointArrayList;
     }
 
