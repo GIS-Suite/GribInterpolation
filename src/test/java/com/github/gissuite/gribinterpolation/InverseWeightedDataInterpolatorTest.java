@@ -45,8 +45,3 @@ public class InverseWeightedDataInterpolatorTest {
 
     }
 }
-//        dataPoints.add(new DataPoint((float)-37.8136, (float)144.9631, 82));
-//        dataPoints.add(new DataPoint((float)35.6895, (float)139.6917, 70));
-//        dataPoints.add(new DataPoint((float)19.0760, (float)72.8777, 80));
-//        dataPoints.add(new DataPoint((float)55.7558, (float)37.6176, 45));
-//        dataPoints.add(new DataPoint((float)41.9028, (float)12.4964, 68));
