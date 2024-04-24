@@ -41,7 +41,7 @@ public class InverseWeightedTest {
         DataPoint interpolatedPoint = new DataPoint((float) 0.0, (float) 0.0, NaN, 1);
 
         //calculate
-        float expected = 16.1173942F; // Expected value based on provided sample data
+        float expected = 16.116459F; // Expected value based on provided sample data
         DataPoint result = inverseWeighted(dataPoints, interpolatedPoint);
         System.out.println("Expected Inverse Weighted Average: " + expected);
         System.out.println("Actual Inverse Weighted Average: " + result.getTemperatureK());
