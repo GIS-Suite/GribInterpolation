@@ -24,7 +24,7 @@ public class NearestNeighborTest {
         // Creating point that we are interpolating
         DataPoint interpolatingPoint = new DataPoint(2, 3, NaN, -4);
         // expected result to compare
-        DataPoint expectedResultDataPoint = new DataPoint(2, 3, 56, -4);
+        DataPoint expectedResultDataPoint = new DataPoint(2, 3, 56.6666667f, -4);
 
         try{
             int k = 3;
