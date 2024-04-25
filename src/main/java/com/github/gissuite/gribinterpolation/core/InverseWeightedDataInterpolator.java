@@ -15,14 +15,21 @@ public class InverseWeightedDataInterpolator {
         //create 2 arraylists of points with known and unknown temperatures
         ArrayList<DataPoint> knownDataPoints = new ArrayList<>();
         ArrayList<DataPoint> pointsToInterpolate = new ArrayList<>();
-        for (DataPoint dataPoint : dataPoints){
-            if (Float.isNaN(dataPoint.getTemperatureK())) {
-                pointsToInterpolate.add(dataPoint);
-            }
-            else {
-                knownDataPoints.add(dataPoint);
+
+        for (ArrayList<ArrayList<DataPoint>> dataPoints1 : dataPoints) {
+            for(ArrayList<DataPoint> points : dataPoints1){
+                for (DataPoint dataPoint : points){
+                    if (Float.isNaN(dataPoint.getTemperatureK())) {
+                        pointsToInterpolate.add(dataPoint);
+                    }
+                    else {
+                        knownDataPoints.add(dataPoint);
+                    }
+                }
             }
         }
+        
+
 
         //call the inverseWeighted interpolation method finding the
         //temperatures of pointsToInterpolate using knownDataPoints
