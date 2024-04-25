@@ -16,6 +16,7 @@ public class InverseWeightedDataInterpolator {
         ArrayList<DataPoint> knownDataPoints = new ArrayList<>();
         ArrayList<DataPoint> pointsToInterpolate = new ArrayList<>();
 
+        //extrapolate data points and allocate to the correct list
         for (ArrayList<ArrayList<DataPoint>> dataPoints1 : dataPoints) {
             for(ArrayList<DataPoint> points : dataPoints1){
                 for (DataPoint dataPoint : points){
@@ -28,7 +29,6 @@ public class InverseWeightedDataInterpolator {
                 }
             }
         }
-        
 
 
         //call the inverseWeighted interpolation method finding the
