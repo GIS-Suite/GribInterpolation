@@ -28,7 +28,6 @@ public class InverseWeightedDataInterpolatorTest {
             for (int j = 0; j < y; j++) {
                 innerList2 = new ArrayList<>();
                 for (int k = 0; k < z; k++) {
-                    innerList2.add(null); // Add default value, or leave empty
                     if (k == 0 || k == 2 || k == 4) {
                         innerList2.add(new DataPoint(i, j, (float) Math.random(), k));
                     } else {
@@ -39,15 +38,33 @@ public class InverseWeightedDataInterpolatorTest {
             }
             dataPoints.add(innerList1);
         }
+        InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
+
+
+        for (ArrayList<ArrayList<DataPoint>> dataPoints1 : dataPoints){
+            for (ArrayList<DataPoint> points : dataPoints1){
+                for (DataPoint point : points ){
+                    for (int k = 0; k < innerList1.size(); k++) {
+                        System.out.print("(" + point.getLatitude() + ", " + point.getLongitude() + ", " + point.getTemperatureK() + ", " + point.getDepth() + ") ");
+                    }
+                    System.out.println();
+
+                }
+            }
+        }
+        System.out.println();
+
+
 
         for (DataPoint dataPoint : innerList2) {
                 Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
         }
-        
+
+
 
 
         //check that InverseWeightedDataInterpolator returns the correct data points
-        //InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
+
 
 //        float expected1 = (float)67.913185;
 //        float expected2 = (float)77.125404;
@@ -65,5 +82,5 @@ public class InverseWeightedDataInterpolatorTest {
         //check that all points have a temp value
 
 
-    }
+    }}
 
