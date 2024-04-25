@@ -18,7 +18,9 @@ public class DatasetLinearInterpolation {
                 .collect(
                         Collectors.groupingBy(dp -> new Pair<>(dp.getLatitude(),dp.getLongitude()))
                 );
-        // Test print (DELETE LATER)
+
+        // Test print all data points grouped by Lat/Lon (DELETE LATER)
+        System.out.println("All data points grouped by Lat/Lon");
         for (Map.Entry<?, ?> entry : allDataPointsByLatLon.entrySet()) {
             System.out.printf("%-15s : %s%n", entry.getKey(), entry.getValue());
         }
@@ -34,28 +36,34 @@ public class DatasetLinearInterpolation {
                 )
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        // Test print (Delete Later)
+        // Test print data points without all-NaN data points (Delete Later)
+        System.out.println("data points without all-NaN data points");
         for (Map.Entry<?, ?> entry : dataPointsByLatLonWithTemp.entrySet()) {
             System.out.printf("%-15s : %s%n", entry.getKey(), entry.getValue());
         }
+        System.out.println();
 
         // Sort dataPointsByLatLonWithTemp by depth:
-        //      for each entry: pull depth values out, binary sort, use streams to match up the order
+        //      for each entry: sort data points by depth for each LatLon entry, use streams to match up the order
         for(Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonEntry: dataPointsByLatLonWithTemp.entrySet()){
 
             List<DataPoint> dataPointsAtSpecificLatLon = latLonEntry.getValue();
 
-            // get all depths
-            ArrayList<Float> depthsFromDataPoints = new ArrayList<>();
-            for(DataPoint dataPoint : dataPointsAtSpecificLatLon) {
-                 float depth = dataPoint.getDepth();
-                depthsFromDataPoints.add(depth);
-            }
+            //test print order of data points before sort (DELETE LATER)
+            System.out.println("data points for each Lat/Lon before and after sort by depth");
+            System.out.print(latLonEntry.getKey() + "=");
+            System.out.println(dataPointsAtSpecificLatLon);
 
             // sort depths
-            Collections.sort(depthsFromDataPoints);
+            dataPointsAtSpecificLatLon.sort(Comparator.comparing(DataPoint::getDepth));
 
-            //
+            //  update map with depth-sorted data points
+            dataPointsByLatLonWithTemp.put(latLonEntry.getKey(), dataPointsAtSpecificLatLon);
+
+            //Test print order of data points after sort (DELETE LATER)
+            System.out.print(latLonEntry.getKey() + "=");
+            System.out.println(dataPointsAtSpecificLatLon);
+            System.out.println();
 
         }
         return dataPointArrayList;

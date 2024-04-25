@@ -14,12 +14,12 @@ public class DatasetLinearInterpolationTests {
     public void datasetLinearInterpolation_Should_Return_DataPointArrayList(){
         //Data points that represent the dataset
         DataPoint pointA0 = new DataPoint(100, -90, 51, 0);
-        DataPoint pointB0 = new DataPoint(101, -90, 49, 0);
+        DataPoint pointB0 = new DataPoint(101, -90, 49, 2);
         DataPoint pointC0 = new DataPoint(102, -90, 50, 0);
         DataPoint pointD0 = new DataPoint(103, -90, 48, 0);
 
         DataPoint pointA3 = new DataPoint(100, -90, 48, 3);
-        DataPoint pointB3 = new DataPoint(101, -90, 46, 3);
+        DataPoint pointB3 = new DataPoint(101, -90, 46, 1);
         DataPoint pointC3 = new DataPoint(102, -90, 47, 3);
         DataPoint pointD3 = new DataPoint(103, -90, 45, 3);
 
