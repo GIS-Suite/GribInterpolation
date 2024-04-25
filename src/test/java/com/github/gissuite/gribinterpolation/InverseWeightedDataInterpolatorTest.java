@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InverseWeightedDataInterpolatorTest {
     @Test
-    public void InverseWeightedDataInterpolator_Should_Return_ArrayList1(){
+    public void InverseWeightedDataInterpolator_Should_Return_ArrayList1() {
 
         int x = 5;
         int y = 5;
@@ -21,16 +21,17 @@ public class InverseWeightedDataInterpolatorTest {
 
         ArrayList<ArrayList<ArrayList<DataPoint>>> dataPoints = new ArrayList<>();
 
+        ArrayList<ArrayList<DataPoint>> innerList1 = null;
+        ArrayList<DataPoint> innerList2 = null;
         for (int i = 0; i < x; i++) {
-            ArrayList<ArrayList<DataPoint>> innerList1 = new ArrayList<>();
+            innerList1 = new ArrayList<>();
             for (int j = 0; j < y; j++) {
-                ArrayList<DataPoint> innerList2 = new ArrayList<>();
+                innerList2 = new ArrayList<>();
                 for (int k = 0; k < z; k++) {
                     innerList2.add(null); // Add default value, or leave empty
-                    if (k == 0 || k == 2 || k == 4){
-                        innerList2.add(new DataPoint(i, j, (float)Math.random(), k));
-                    }
-                    else{
+                    if (k == 0 || k == 2 || k == 4) {
+                        innerList2.add(new DataPoint(i, j, (float) Math.random(), k));
+                    } else {
                         innerList2.add(new DataPoint(i, j, NaN, k));
                     }
                 }
@@ -39,21 +40,10 @@ public class InverseWeightedDataInterpolatorTest {
             dataPoints.add(innerList1);
         }
 
-        for (ArrayList<ArrayList<DataPoint>> dataPoint : dataPoints) {
-            for (ArrayList<DataPoint> point : dataPoint) {
-            Assertions.assertNotEquals(point.getTemperatureK(), NaN);
-        }}
-
-        for (ArrayList<ArrayList<DataPoint>> point : dataPoints) {
-            for (ArrayList<DataPoint> points : point) {
-                for (int k = 0; k < points.size(); k++) {
-                    System.out.print(points.get(k) + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
+        for (DataPoint dataPoint : innerList2) {
+                Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
         }
-    }
+        
 
 
         //check that InverseWeightedDataInterpolator returns the correct data points
