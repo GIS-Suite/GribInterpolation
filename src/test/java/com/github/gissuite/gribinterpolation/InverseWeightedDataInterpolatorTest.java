@@ -41,46 +41,9 @@ public class InverseWeightedDataInterpolatorTest {
         InverseWeightedDataInterpolator.DataInterpolator(dataPoints);
 
 
-        for (ArrayList<ArrayList<DataPoint>> dataPoints1 : dataPoints){
-            for (ArrayList<DataPoint> points : dataPoints1){
-                for (DataPoint point : points ){
-                    for (int k = 0; k < innerList1.size(); k++) {
-                        System.out.print("(" + point.getLatitude() + ", " + point.getLongitude() + ", " + point.getTemperatureK() + ", " + point.getDepth() + ") ");
-                    }
-                    System.out.println();
-
-                }
-            }
-        }
-        System.out.println();
-
-
-
         for (DataPoint dataPoint : innerList2) {
                 Assertions.assertNotEquals(dataPoint.getTemperatureK(), NaN);
         }
-
-
-
-
-        //check that InverseWeightedDataInterpolator returns the correct data points
-
-
-//        float expected1 = (float)67.913185;
-//        float expected2 = (float)77.125404;
-//        float expected3 = (float)65.18114;
-//        DataPoint result1 = dataPoints.get(4);
-//        DataPoint result2 = dataPoints.get(5);
-//        DataPoint result3 = dataPoints.get(6);
-
-
-        //test
-//        assertEquals(expected1, result1.getTemperatureK());
-//        assertEquals(expected2, result2.getTemperatureK());
-//        assertEquals(expected3, result3.getTemperatureK());
-
-        //check that all points have a temp value
-
-
-    }}
+    }
+}
 
