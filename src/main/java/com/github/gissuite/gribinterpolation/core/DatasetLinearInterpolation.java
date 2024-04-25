@@ -58,10 +58,6 @@ public class DatasetLinearInterpolation {
             //
 
         }
-
         return dataPointArrayList;
     }
-
-
-
 }
