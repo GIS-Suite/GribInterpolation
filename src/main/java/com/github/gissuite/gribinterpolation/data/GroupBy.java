@@ -1,5 +1,7 @@
 package com.github.gissuite.gribinterpolation.data;
 
+import org.apache.commons.math3.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
