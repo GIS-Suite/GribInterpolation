@@ -34,14 +34,14 @@ public class GroupByTests {
         DataPoint pointD6 = new DataPoint(103, -90, 45, 6);
 
         DataPoint pointE0 = new DataPoint(100, -89, NaN, 0);
-        DataPoint pointF0 = new DataPoint(101, -89, NaN, 0);
-        DataPoint pointG0 = new DataPoint(102, -89, NaN, 0);
-        DataPoint pointH0 = new DataPoint(103, -89, NaN, 0);
+        DataPoint pointF0 = new DataPoint(101, -89, NaN, 22);
+        DataPoint pointG0 = new DataPoint(102, -89, NaN, 3);
+        DataPoint pointH0 = new DataPoint(103, -89, NaN, 6);
 
-        DataPoint pointE2 = new DataPoint(100, -89, NaN, 2);
-        DataPoint pointF2 = new DataPoint(101, -89, NaN, 2);
+        DataPoint pointE2 = new DataPoint(100, -89, NaN, 5);
+        DataPoint pointF2 = new DataPoint(101, -89, NaN, 6);
         DataPoint pointG2 = new DataPoint(102, -89, NaN, 2);
-        DataPoint pointH2 = new DataPoint(103, -89, NaN, 2);
+        DataPoint pointH2 = new DataPoint(103, -89, NaN, 40);
 
         //add all data points to an ArrayList unsorted
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
