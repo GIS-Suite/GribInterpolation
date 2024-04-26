@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 public class GroupBy {
 
+    /**
+     * @param dataPointArrayList An Arraylist of all the data points in the dataset
+     * @return A Map of the data points grouped by Latitude & Longitude and sorted by depth without the all-NaN temperature groups
+     */
     public static Map<Pair<Float, Float>, List<DataPoint>> groupByLatLonWithDepthSort(ArrayList<DataPoint> dataPointArrayList) {
 
         // group all data points by latitude and longitude
@@ -19,13 +23,6 @@ public class GroupBy {
                         Collectors.groupingBy(dp -> new Pair<>(dp.getLatitude(),dp.getLongitude()))
                 );
 
-        // Test print all data points grouped by Lat/Lon (DELETE LATER)
-        System.out.println("All data points grouped by Lat/Lon");
-        for (Map.Entry<?, ?> entry : allDataPointsGroupByLatLon.entrySet()) {
-            System.out.printf("%-15s : %s%n", entry.getKey(), entry.getValue());
-        }
-        System.out.println();
-
         // filter group of data points with non NaN temperatures
         Map<Pair<Float, Float>, List<DataPoint>> filteredDataPointsGroupByLatLon = allDataPointsGroupByLatLon.entrySet()
                 .stream()
@@ -34,37 +31,17 @@ public class GroupBy {
                                 .stream()
                                 .anyMatch(y -> !Float.isNaN(y.getTemperatureK()))
                 )
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        // Test print data points without all-NaN data points (Delete Later)
-        System.out.println("data points without all-NaN data points");
-        for (Map.Entry<?, ?> entry : filteredDataPointsGroupByLatLon.entrySet()) {
-            System.out.printf("%-15s : %s%n", entry.getKey(), entry.getValue());
-        }
-        System.out.println();
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
+                );
 
         // Sort filteredDataPointsGroupByLatLon by depth:
-        for(Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonEntry: filteredDataPointsGroupByLatLon.entrySet()){
-
-            List<DataPoint> dataPointsAtSpecificLatLon = latLonEntry.getValue();
-
-            //test print order of data points before sort (DELETE LATER)
-            System.out.println("data points for each Lat/Lon before and after sort by depth");
-            System.out.print(latLonEntry.getKey() + "=");
-            System.out.println(dataPointsAtSpecificLatLon);
-
-            // sort depths
+        for(Map.Entry<Pair<Float, Float>, List<DataPoint>> mapEntry : filteredDataPointsGroupByLatLon.entrySet()){
+            List<DataPoint> dataPointsAtSpecificLatLon = mapEntry.getValue();
             dataPointsAtSpecificLatLon.sort(Comparator.comparing(DataPoint::getDepth));
 
             //  update map with depth-sorted data points
-            filteredDataPointsGroupByLatLon.put(latLonEntry.getKey(), dataPointsAtSpecificLatLon);
-
-            //Test print order of data points after sort (DELETE LATER)
-            System.out.print(latLonEntry.getKey() + "=");
-            System.out.println(dataPointsAtSpecificLatLon);
-            System.out.println();
+            filteredDataPointsGroupByLatLon.put(mapEntry.getKey(), dataPointsAtSpecificLatLon);
         }
         return filteredDataPointsGroupByLatLon;
     }
-
 }
