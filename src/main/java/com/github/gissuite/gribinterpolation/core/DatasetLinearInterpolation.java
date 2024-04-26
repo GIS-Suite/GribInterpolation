@@ -64,8 +64,23 @@ public class DatasetLinearInterpolation {
             System.out.print(latLonEntry.getKey() + "=");
             System.out.println(dataPointsAtSpecificLatLon);
             System.out.println();
+        }
+
+        //traverse through every key(lat/lon) in the map to get each list of data points
+        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonEntry: dataPointsByLatLonWithTemp.entrySet()) {
+
+            List<DataPoint> dataPointsAtSpecificLatLon = latLonEntry.getValue();
+
+            //traverse through List of data points starting with depth at 0.
+//            for
+//            if (dataPoint.getDepth() != NaN) {
+//                DataPoint upperBoundaryPoint =
+//            }
+
 
         }
+
+
         return dataPointArrayList;
     }
 }
