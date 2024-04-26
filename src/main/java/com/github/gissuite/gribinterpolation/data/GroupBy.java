@@ -16,7 +16,7 @@ public class GroupBy {
      */
     public static Map<Pair<Float, Float>, List<DataPoint>> groupByLatLonWithDepthSort(ArrayList<DataPoint> dataPointArrayList) {
 
-        // group all data points by latitude and longitude
+        // group all data points by latitude & longitude
         Map<Pair<Float, Float>, List<DataPoint>> allDataPointsGroupByLatLon = dataPointArrayList
                 .stream()
                 .collect(

@@ -5,9 +5,9 @@ import org.apache.commons.math3.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.github.gissuite.gribinterpolation.data.GroupBy.groupByLatLonWithDepthSort;
 import static java.lang.Float.NaN;
@@ -51,19 +51,31 @@ public class GroupByTests {
         dataPointArrayList.add(pointE0);dataPointArrayList.add(pointF0);dataPointArrayList.add(pointG0);dataPointArrayList.add(pointH0);
         dataPointArrayList.add(pointE2);dataPointArrayList.add(pointF2);dataPointArrayList.add(pointG2);dataPointArrayList.add(pointH2);
 
-        //get result
+        //get result map from method
         Map<Pair<Float, Float>, List<DataPoint>> resultMap = groupByLatLonWithDepthSort(dataPointArrayList);
 
-        //add all data points to an ArrayList with manual sort & filter (added to array list by lowest depth first for each lat/lon) and get expected result
-        ArrayList<DataPoint> dataPointArrayListManualSort = new ArrayList<>();
-        dataPointArrayListManualSort.add(pointA0);dataPointArrayListManualSort.add(pointA3);dataPointArrayListManualSort.add(pointA7);dataPointArrayListManualSort.add(pointB1);
-        dataPointArrayListManualSort.add(pointB2);dataPointArrayListManualSort.add(pointB9);dataPointArrayListManualSort.add(pointC1);dataPointArrayListManualSort.add(pointC4);
-        dataPointArrayListManualSort.add(pointC10);dataPointArrayListManualSort.add(pointD3);dataPointArrayListManualSort.add(pointD6);dataPointArrayListManualSort.add(pointD11);
+        //create manually sorted list of data points for each latitude & longitude group
+        List<DataPoint> dataPointsA = new ArrayList<>();
+        dataPointsA.add(pointA0);dataPointsA.add(pointA3);dataPointsA.add(pointA7);
 
-        //get expected result
-        Map<Pair<Float, Float>, List<DataPoint>> expectedResultMap = dataPointArrayListManualSort.stream().collect(Collectors.groupingBy(dp -> new Pair<>(dp.getLatitude(),dp.getLongitude())));
+        List<DataPoint> dataPointsB = new ArrayList<>();
+        dataPointsB.add(pointB1);dataPointsB.add(pointB2);dataPointsB.add(pointB9);
 
-        //test
+        List<DataPoint> dataPointsC = new ArrayList<>();
+        dataPointsC.add(pointC1);dataPointsC.add(pointC4);dataPointsC.add(pointC10);
+
+        List<DataPoint> dataPointsD = new ArrayList<>();
+        dataPointsD.add(pointD3);dataPointsD.add(pointD6);dataPointsD.add(pointD11);
+
+        //create expected result Map grouped by latitude & longitude, sorted by depth, and without groups with NaN temperature at all depths
+        Map<Pair<Float, Float>, List<DataPoint>> expectedResultMap = new HashMap<>() {{
+            put(new Pair<>(-90f, 100f), dataPointsA);
+            put(new Pair<>(-90f, 101f), dataPointsB);
+            put(new Pair<>(-90f, 102f), dataPointsC);
+            put(new Pair<>(-90f, 103f), dataPointsD);
+        }};
+
+        //check both Maps
         assertEquals(expectedResultMap, resultMap);
     }
 }
