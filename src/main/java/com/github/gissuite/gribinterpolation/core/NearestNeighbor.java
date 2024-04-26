@@ -56,7 +56,7 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
      * @param neighbors list of neighbors
      * @param toInterpolate point we are interpolating
      */
-    public static double knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint toInterpolate, int k){
+    public static DataPoint knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint toInterpolate, int k){
         int amount = neighbors.size();
         ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,toInterpolate.getLongitude(),toInterpolate.getLatitude(),k, amount);
         // placeholder values
@@ -70,6 +70,7 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
             interpolatedTemp = totalTemp/k;
         }
         catch(Exception e){ logger.warning("Error with interpolation: " + e); }
-        return interpolatedTemp;
+        toInterpolate.setTemperatureK((float)interpolatedTemp);
+        return toInterpolate;
     } // end of knnInterpolation() :)
 }
