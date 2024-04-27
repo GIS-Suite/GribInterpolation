@@ -2,13 +2,12 @@ package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
 import org.apache.commons.math3.util.Pair;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.gissuite.gribinterpolation.data.GroupBy.groupByLatLonWithDepthSort;
+import static java.lang.Float.NaN;
 
 public class DatasetLinearInterpolation {
 
@@ -22,16 +21,38 @@ public class DatasetLinearInterpolation {
 
         //Use linear interpolation on each group of data points
         //traverse through every key(lat/lon) in the map to get each list of data points
-        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonEntry: dataPointsMap.entrySet()) {
+        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonEntry : dataPointsMap.entrySet()) {
 
+            //get list of data points at current latitude and longitude
             List<DataPoint> groupedDataPointsList = latLonEntry.getValue();
 
-            //traverse through List of data points starting with depth at 0.
-//            for
-//            if (dataPoint.getDepth() != NaN) {
-//                DataPoint upperBoundaryPoint =
-//            }
+            int listIndex = 0;
+            DataPoint upperBoundDataPoint = null;
+            DataPoint lowerBoundDataPoint = null;
 
+            //traverse through list and use linear interpolation for the data points at missing depths
+            while (listIndex < groupedDataPointsList.size()) {
+                DataPoint currentDataPoint = groupedDataPointsList.get(listIndex);
+                if (!Float.isNaN(currentDataPoint.getTemperatureK())) {
+
+                    //get upper and lower data point boundaries for linear interpolation
+                    while (upperBoundDataPoint == null || lowerBoundDataPoint == null) {
+                        if (upperBoundDataPoint == null) {
+                            upperBoundDataPoint = currentDataPoint;
+                        } else {
+                            lowerBoundDataPoint = currentDataPoint;
+                        }
+                    }
+
+
+
+
+                }
+            }
+
+            //sort list
+
+            //update map entry with updated list
 
         }
 
