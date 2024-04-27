@@ -27,27 +27,35 @@ public class DatasetLinearInterpolation {
             List<DataPoint> groupedDataPointsList = latLonEntry.getValue();
 
             int listIndex = 0;
+            int upperBoundIndex;
+            int lowerBoundIndex;
             DataPoint upperBoundDataPoint = null;
             DataPoint lowerBoundDataPoint = null;
 
-            //traverse through list and use linear interpolation for the data points at missing depths
             while (listIndex < groupedDataPointsList.size()) {
                 DataPoint currentDataPoint = groupedDataPointsList.get(listIndex);
                 if (!Float.isNaN(currentDataPoint.getTemperatureK())) {
 
                     //get upper and lower data point boundaries for linear interpolation
-                    while (upperBoundDataPoint == null || lowerBoundDataPoint == null) {
+                    if (upperBoundDataPoint == null || lowerBoundDataPoint == null) {
                         if (upperBoundDataPoint == null) {
                             upperBoundDataPoint = currentDataPoint;
+                            upperBoundIndex = listIndex;
                         } else {
                             lowerBoundDataPoint = currentDataPoint;
+                            lowerBoundIndex = listIndex;
                         }
                     }
+                    else if(upperBoundDataPoint != null && lowerBoundDataPoint != null) {
+
+                        //
 
 
-
+                    }
 
                 }
+
+                ++listIndex;
             }
 
             //sort list
