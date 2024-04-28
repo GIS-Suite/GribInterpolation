@@ -22,7 +22,6 @@ public class DatasetLinearInterpolation {
         // shape the dataset
         Map<Pair<Float, Float>, List<DataPoint>> dataPointsMap = groupByLatLonWithDepthSort(dataPointArrayList);
 
-        printMap(dataPointsMap);
         //Use linear interpolation on each group of data points
         //traverse through every key(lat/lon) in the map to get each list of data points
         for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonKey : dataPointsMap.entrySet()) {
@@ -55,7 +54,6 @@ public class DatasetLinearInterpolation {
                             lowerBoundDataPoint = currentDataPoint;
                             lowerBoundIndex = listIndex;
 
-                            //
                             int nextListIndex = upperBoundIndex + 1;
                             int numberOfMissingDepths = (int)(lowerBoundDataPoint.getDepth() - upperBoundDataPoint.getDepth()) - 1;
                             int currentTargetDepth = (int)upperBoundDataPoint.getDepth() + 1;
@@ -100,30 +98,7 @@ public class DatasetLinearInterpolation {
             interpolatedDataPointArrayList.addAll(groupedDataPointsList);
         }
 
-        System.out.println("Data shape after Linear Interpolation:");
-        printMap(dataPointsMap);
-
         //return all data points
         return interpolatedDataPointArrayList;
     }
-
-    /**
-     *
-     * @param dataPointsMap Map of data points in the dataset
-     */
-    public static void printMap(Map<Pair<Float, Float>, List<DataPoint>> dataPointsMap) {
-        System.out.println("\n------------------Data Shape------------------");
-
-        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonKey : dataPointsMap.entrySet()) {
-
-            List<DataPoint> dataPointsOfKey = latLonKey.getValue();
-
-            System.out.println(latLonKey.getKey() + "=");
-            for (DataPoint dataPointEntry : dataPointsOfKey) {
-                System.out.println("Depth: " + dataPointEntry.getDepth() + ", " + "Temp: " + dataPointEntry.getTemperatureK());
-            }
-            System.out.println();
-        }
-    }
-
 }
