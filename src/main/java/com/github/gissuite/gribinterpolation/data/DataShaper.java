@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GroupBy {
+public class DataShaper {
 
     /**
      * @param dataPointArrayList An Arraylist of all the data points in the dataset

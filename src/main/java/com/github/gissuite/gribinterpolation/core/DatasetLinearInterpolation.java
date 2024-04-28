@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.github.gissuite.gribinterpolation.core.LinearInt.interpolate;
-import static com.github.gissuite.gribinterpolation.data.GroupBy.groupByLatLonWithDepthSort;
+import static com.github.gissuite.gribinterpolation.data.DataShaper.groupByLatLonWithDepthSort;
 import static java.lang.Float.NaN;
 
 public class DatasetLinearInterpolation {
