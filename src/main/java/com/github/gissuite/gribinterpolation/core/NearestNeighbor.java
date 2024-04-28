@@ -45,11 +45,12 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
 
     /**
      * @param neighbors list of neighbors
-     * @param dataPointToInterpolate point we are interpolating
+     * @param toInterpolate point we are interpolating
+     * @param k number of neighbors we are considering
      */
     public static DataPoint knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint toInterpolate, int k){
         int amount = neighbors.size();
-        ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,dataPointToInterpolate,k);
+        ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,toInterpolate,k);
         // placeholder values
         double interpolatedTemp = 0.0;
         float totalTemp = 0;
