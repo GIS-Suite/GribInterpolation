@@ -91,7 +91,7 @@ public class DatasetLinearInterpolation {
                 }
             }
 
-            //update map entry with updated list
+            //update map entry with updated data point list
             dataPointsMap.put(latLonKey.getKey(), groupedDataPointsList);
 
             //add updated list of data points to ArrayList
