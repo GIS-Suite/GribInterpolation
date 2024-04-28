@@ -20,7 +20,7 @@ public class NearestNeighborTest {
         neighbors.add(new DataPoint(3, 4, 43, 4));
         neighbors.add(new DataPoint(10, 9, 73, 5));
         neighbors.add(new DataPoint(2, 3, 90, 3));
-
+        neighbors.add(new DataPoint(2, 3, 1000, 30)); // testing if the depth
         // Creating point that we are interpolating
         DataPoint interpolatingPoint = new DataPoint(2, 3, NaN, 4);
         // expected result to compare
