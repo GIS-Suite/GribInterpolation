@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static com.github.gissuite.gribinterpolation.core.DatasetLinearInterpolation.dataPointsLinearInterpolation;
+import static com.github.gissuite.gribinterpolation.core.DatasetLinearInterpolation.dataPointsLinearInterpolator;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -47,7 +47,7 @@ public class DatasetLinearInterpolationTests {
         dataPointArrayList.add(pointE0);dataPointArrayList.add(pointF0);dataPointArrayList.add(pointG0);dataPointArrayList.add(pointH0);
         dataPointArrayList.add(pointE2);dataPointArrayList.add(pointF2);dataPointArrayList.add(pointG2);dataPointArrayList.add(pointH2);
 
-        ArrayList<DataPoint> result = dataPointsLinearInterpolation(dataPointArrayList);
+        ArrayList<DataPoint> result = dataPointsLinearInterpolator(dataPointArrayList);
 
         //Dataset for testing
         DataPoint point1A = new DataPoint(100.0f, -90.0f, 50.0f, 3.0f);

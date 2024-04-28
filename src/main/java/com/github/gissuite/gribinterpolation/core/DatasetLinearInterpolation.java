@@ -16,7 +16,7 @@ public class DatasetLinearInterpolation {
      * @param dataPointArrayList The ArrayList of all the data points including NaN-temperature data points
      * @return The ArrayList of all the data points with NaN-temperature replaced with linear interpolated temperature
      */
-    public static ArrayList<DataPoint> dataPointsLinearInterpolation(ArrayList<DataPoint> dataPointArrayList){
+    public static ArrayList<DataPoint> dataPointsLinearInterpolator(ArrayList<DataPoint> dataPointArrayList){
         ArrayList<DataPoint> interpolatedDataPointArrayList = new ArrayList<>();
 
         // shape the dataset
