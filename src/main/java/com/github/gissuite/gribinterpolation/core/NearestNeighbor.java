@@ -6,31 +6,22 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.logging.Logger;
-
-//gets k nearest neighbors' memory locations stored in a DataPoint array
-//amountOfDataPoints is how many points to find the distance for; so should be how many DataPoints in total we have.
-//k is how many neighbors to look for
-
-//can get temperature this way:
-//ArrayList<DataPoint> nearestNeighbors = (getNearestNeighbor(arrayOfDataPoints, longitudeToInterpolate, latitudeToInterpolate, k, amountOfDataPoints));
-//DataPoint a = (DataPoint) nearestNeighbors.get(0);
-//System.out.println(a.getTemperatureK());
-
 public class NearestNeighbor {
     static Logger logger = Logger.getLogger(NearestNeighbor.class.getName());
     /**
      * @param dataPoints All the DataPoints in the data set
-     * @param lonInterpolate The longitude value of the point needed to be interpolated
-     * @param latInterpolate  The latitude value of the point needed to be interpolated
+     * @param dataPointToInterpolate The DataPoint needed to be interpolated
      * @param k How many nearest neighbors to return
-     * @param amountOfDataPoints The total about of DataPoints
      * @return ArrayList of nearest neighbors (DataPoints)
      */
-        public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints, float lonInterpolate, float latInterpolate, int k, int amountOfDataPoints) {
+        public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints,DataPoint dataPointToInterpolate, int k) {
             ArrayList<DataPoint> nearestNeighbors = new ArrayList<>();
             HashMap<DataPoint, Double> hashMap = new HashMap<>();
-            for (int i = 0; i < amountOfDataPoints; i++) {
-                double distance = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), latInterpolate, lonInterpolate);
+            for (int i = 0; i < dataPoints.size(); i++) {
+                double distanceHaversine = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), dataPointToInterpolate.getLatitude(), dataPointToInterpolate.getLongitude());
+                double subtractedDepth = (dataPointToInterpolate.getDepth() - dataPoints.get(i).getDepth());
+                double distance = Math.pow(distanceHaversine,2) + Math.pow(subtractedDepth,2);
+
                 hashMap.put(dataPoints.get(i), distance);
             }
             Map<DataPoint, Double> sortedHashMap = sortByValue(hashMap);
@@ -54,11 +45,11 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
 
     /**
      * @param neighbors list of neighbors
-     * @param toInterpolate point we are interpolating
+     * @param dataPointToInterpolate point we are interpolating
      */
     public static DataPoint knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint toInterpolate, int k){
         int amount = neighbors.size();
-        ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,toInterpolate.getLongitude(),toInterpolate.getLatitude(),k, amount);
+        ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,dataPointToInterpolate,k);
         // placeholder values
         double interpolatedTemp = 0.0;
         float totalTemp = 0;
