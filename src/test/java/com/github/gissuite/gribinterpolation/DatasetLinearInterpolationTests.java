@@ -47,7 +47,7 @@ public class DatasetLinearInterpolationTests {
         dataPointArrayList.add(pointE2);dataPointArrayList.add(pointF2);dataPointArrayList.add(pointG2);dataPointArrayList.add(pointH2);
 
         ArrayList<DataPoint>interpolatedDataPointArrayList = dataPointsLinearInterpolation(dataPointArrayList);
-        System.out.println(interpolatedDataPointArrayList.size());
+        System.out.println("Number of data points in ArrayList: " + interpolatedDataPointArrayList.size());
 
     }
 }
