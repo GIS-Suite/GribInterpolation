@@ -65,7 +65,7 @@ public class DatasetBicubicInterpolation {//need to look at interval being 0.04,
         //if the square gets too big without finding enough points. This goes to a set size and finds the NaN points via inverse weighted//
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
-                inputArr[i][j] = shapedDataPoints.get(new Pair<>(dp.getLatitude() - (2*i-3) * 0.04f, dp.getLongitude() + (2*j-3) * 0.04f))
+                inputArr[i][j] = shapedDataPoints.get(new Pair<>(dp.getLatitude() - (2*i-3) * 0.08f, dp.getLongitude() + (2*j-3) * 0.08f))
                                                 .stream()
                                                 .filter(
                                                     x -> x.getDepth() == dp.getDepth()
