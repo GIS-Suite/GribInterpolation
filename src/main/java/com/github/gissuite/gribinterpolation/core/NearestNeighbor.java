@@ -1,6 +1,9 @@
 package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+import org.apache.commons.math3.util.Pair;
+
+
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -10,12 +13,12 @@ public class NearestNeighbor {
 
     public static void main(String[] args) {
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>(Arrays.asList(
-                new DataPoint(3, 4, Float.NaN, 4),
-                new DataPoint(3, 4, 49, 4),
-                new DataPoint(2, 3, Float.NaN, 5),
-                new DataPoint(3, 4, Float.NaN, 10)
+                new DataPoint(101, 90, Float.NaN, 10),
+                new DataPoint(102, 90, 49, 11),
+                new DataPoint(100, 90, Float.NaN, 10),
+                new DataPoint(103, 90, Float.NaN, 40)
         ));
-        DataPoint dataPointToInterpolate = new DataPoint(3, 4,40,4);
+        DataPoint dataPointToInterpolate = new DataPoint(103, 90,40,11);
         ArrayList<DataPoint> result = new ArrayList<>();
         result = NearestNeighbor.getNearestNeighbor(dataPointArrayList,dataPointToInterpolate,4);
 
@@ -26,6 +29,17 @@ public class NearestNeighbor {
 //        assertEquals(expectedResult.get(0), result.get(0));
         System.out.println(result.get(0).getDepth());
     }
+//    public static ArrayList<DataPoint> DataShaper(ArrayList<DataPoint> dataPointArrayList){
+//        Map<Pair<Float, Float>, List<DataPoint>> allDataPointsGroupByLatLon = dataPointArrayList
+//                .stream()
+//                .collect(
+//                        Collectors.groupingBy(dp -> new Pair<>(dp.getLatitude(),dp.getLongitude()))
+//                );
+//        Map<Pair<Float, Float>, List<DataPoint>> filter = allDataPointsGroupByLatLon.entrySet().stream().filter(x->x.getValue().stream().anyMatch(y -> !Float.isNaN(y.getTemperatureK()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//    return;
+//    }
+
+
     static Logger logger = Logger.getLogger(NearestNeighbor.class.getName());
     /**
      * @param dataPoints All the DataPoints in the data set
@@ -36,12 +50,20 @@ public class NearestNeighbor {
         public static ArrayList<DataPoint> getNearestNeighbor(ArrayList<DataPoint> dataPoints,DataPoint dataPointToInterpolate, int k) {
             ArrayList<DataPoint> nearestNeighbors = new ArrayList<>();
             HashMap<DataPoint, Double> hashMap = new HashMap<>();
+            double distance = 0;
+            double subtractedDepth= 0;
+            double abssubstractedDepth =0;
             for (int i = 0; i < dataPoints.size(); i++) {
-                double distanceHaversine = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), dataPointToInterpolate.getLatitude(), dataPointToInterpolate.getLongitude());
-                double subtractedDepth = (dataPointToInterpolate.getDepth() - dataPoints.get(i).getDepth());
-                double abssubstractedDepth = Math.abs(subtractedDepth);
-                double distanceSquared = Math.pow(distanceHaversine,2) + (Math.pow(abssubstractedDepth,2));
-                double distance = Math.sqrt(distanceSquared);
+                subtractedDepth = (dataPointToInterpolate.getDepth() - dataPoints.get(i).getDepth())/1000;
+                abssubstractedDepth = Math.abs(subtractedDepth);
+                if ((dataPoints.get(i).getLatitude() == dataPointToInterpolate.getLatitude() && (dataPoints.get(i).getLongitude() == dataPointToInterpolate.getLongitude()))){
+                    distance= abssubstractedDepth;
+                }
+                else {
+                    double distanceHaversine = DistanceFinder.haverSine(dataPoints.get(i).getLatitude(), dataPoints.get(i).getLongitude(), dataPointToInterpolate.getLatitude(), dataPointToInterpolate.getLongitude());
+                    distance = Math.pow(distanceHaversine, 2) + (Math.pow(abssubstractedDepth, 2));
+//                    distance = Math.sqrt(distanceSquared);
+                }
                 hashMap.put(dataPoints.get(i), distance);
             }
             Map<DataPoint, Double> sortedHashMap = sortByValue(hashMap);
