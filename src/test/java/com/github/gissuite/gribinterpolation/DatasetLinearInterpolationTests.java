@@ -1,12 +1,17 @@
 package com.github.gissuite.gribinterpolation;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+import org.apache.commons.math3.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static com.github.gissuite.gribinterpolation.core.DatasetLinearInterpolation.dataPointsLinearInterpolator;
+import static com.github.gissuite.gribinterpolation.data.DataShaper.groupByLatLonWithDepthSort;
+import static com.github.gissuite.gribinterpolation.data.DataShaper.printGroupByLatLonMap;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,8 +43,16 @@ public class DatasetLinearInterpolationTests {
                 new DataPoint(103, -89, NaN, 40)
         ));
 
-        //get result from interpolation method
+        //print out data shape before interpolation
+        Map<Pair<Float, Float>, List<DataPoint>> dataPointsMap = groupByLatLonWithDepthSort(dataPointArrayList);
+        printGroupByLatLonMap(dataPointsMap);
+
+        //get result ArrayList from with interpolation method
         ArrayList<DataPoint> result = dataPointsLinearInterpolator(dataPointArrayList);
+
+        //print out data shape after interpolation
+        Map<Pair<Float, Float>, List<DataPoint>> interpolatedDataPointsMap = groupByLatLonWithDepthSort(result);
+        printGroupByLatLonMap(interpolatedDataPointsMap);
 
         //Dataset for testing
         ArrayList<DataPoint> expectedResult = new ArrayList<>(Arrays.asList(
