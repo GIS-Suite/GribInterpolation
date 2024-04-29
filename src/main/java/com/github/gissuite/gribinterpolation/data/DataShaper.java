@@ -46,7 +46,6 @@ public class DataShaper {
     }
 
     /**
-     *
      * @param dataPointsMap Map of data points in the dataset
      */
     public static void printGroupByLatLonMap(Map<Pair<Float, Float>, List<DataPoint>> dataPointsMap) {
