@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.gissuite.gribinterpolation.data.GroupBy.groupByLatLonWithDepthSort;
+import static com.github.gissuite.gribinterpolation.data.DataShaper.groupByLatLonWithDepthSort;
 import static java.lang.Float.NaN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GroupByTests {
+public class DataShaperTests {
     @Test
     public void GroupBy_Should_Return_DataPointMap(){
 

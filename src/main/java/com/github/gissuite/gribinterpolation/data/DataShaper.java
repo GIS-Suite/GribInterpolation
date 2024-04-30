@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GroupBy {
+public class DataShaper {
 
     /**
      * @param dataPointArrayList An Arraylist of all the data points in the dataset
@@ -43,5 +43,23 @@ public class GroupBy {
             filteredDataPointsGroupByLatLon.put(mapEntry.getKey(), dataPointsAtSpecificLatLon);
         }
         return filteredDataPointsGroupByLatLon;
+    }
+
+    /**
+     * @param dataPointsMap Map of data points in the dataset
+     */
+    public static void printGroupByLatLonMap(Map<Pair<Float, Float>, List<DataPoint>> dataPointsMap) {
+        System.out.println("\n------------------Data Shape------------------");
+
+        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> latLonKey : dataPointsMap.entrySet()) {
+
+            List<DataPoint> dataPointsOfKey = latLonKey.getValue();
+
+            System.out.println("[Lat, Lon]=" + latLonKey.getKey());
+            for (DataPoint dataPointEntry : dataPointsOfKey) {
+                System.out.println("Depth: " + dataPointEntry.getDepth() + ", " + "Temp: " + dataPointEntry.getTemperatureK());
+            }
+            System.out.println();
+        }
     }
 }
