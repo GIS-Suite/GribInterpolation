@@ -15,6 +15,7 @@ public class FilterNaN {
 
         ArrayList<DataPoint> filteredDataPoints = dataPointArrayList.stream()
                 .filter(dataPoint -> !Float.isNaN(dataPoint.getTemperatureK()))
+                .sorted(Comparator.comparing(DataPoint::getDepth))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         return filteredDataPoints;

@@ -30,9 +30,9 @@ public class NearestNeighbor {
 //                new DataPoint(101, -90, 49, 22)
 //
 //        ));
-        DataPoint pointA0 = new DataPoint(100, -90, 51, 0);
+        DataPoint pointA0 = new DataPoint(100, -90, 51, 10);
         DataPoint pointB2 = new DataPoint(101, -90, Float.NaN, 2);
-        DataPoint pointC10 = new DataPoint(102, -90, 50, 10);
+        DataPoint pointC10 = new DataPoint(102, -90, 50, 0);
         DataPoint pointD11 = new DataPoint(103, -90, 48, 11);
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
         dataPointArrayList.add(pointA0);dataPointArrayList.add(pointB2);dataPointArrayList.add(pointC10);dataPointArrayList.add(pointD11);
@@ -44,7 +44,20 @@ public class NearestNeighbor {
     public static void KnnInterpolation(ArrayList<DataPoint> arrayListOfDataPoints) {
         ArrayList<DataPoint> myArrayListWithoutNaNValues = FilterNaN.Filter(arrayListOfDataPoints);
 
+        for(int i =0; i < myArrayListWithoutNaNValues.size(); i++){
+            //may need to group by depth
+            Float myDepth = myArrayListWithoutNaNValues.get(i).getDepth();
+            myDepth+=1;
+//            myDepth.equals(myArrayListWithoutNaNValues.get(i+1).getDepth());
 
+            if( !(myDepth.equals(myArrayListWithoutNaNValues.get(i+1).getDepth())){
+                System.out.println("It got true");
+            }
+        }
+//        ArrayList<DataPoint> nearestNeighbors = getNearestNeighbor(myArrayListWithoutNaNValues,dataPointToInterpolate,3);
+
+
+        //how do i know what is the dataPointToInterpolate?
 
         }
 
