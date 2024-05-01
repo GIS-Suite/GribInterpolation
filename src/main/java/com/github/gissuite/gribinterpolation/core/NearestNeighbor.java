@@ -1,6 +1,7 @@
 package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
+import com.github.gissuite.gribinterpolation.data.FilterNaN;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.*;
@@ -30,32 +31,27 @@ public class NearestNeighbor {
 //
 //        ));
         DataPoint pointA0 = new DataPoint(100, -90, 51, 0);
-        DataPoint pointB2 = new DataPoint(101, -90, 49, 2);
+        DataPoint pointB2 = new DataPoint(101, -90, Float.NaN, 2);
         DataPoint pointC10 = new DataPoint(102, -90, 50, 10);
         DataPoint pointD11 = new DataPoint(103, -90, 48, 11);
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
         dataPointArrayList.add(pointA0);dataPointArrayList.add(pointB2);dataPointArrayList.add(pointC10);dataPointArrayList.add(pointD11);
-        Map<Pair<Float, Float>, List<DataPoint>> resultMap = groupByLatLonWithDepthSort(dataPointArrayList);
-//        System.out.println(resultMap);
-        KnnInterpolation(resultMap);
+        KnnInterpolation(dataPointArrayList);
+
+
     }
-    //use GroupBy.java
 
-    public static void KnnInterpolation(Map<Pair<Float, Float>, List<DataPoint>> mapOfDataPoints) {
-//        System.out.println(mapOfDataPoints.get());
-        List<DataPoint> dataPoints = null;
-        for (Map.Entry<Pair<Float, Float>, List<DataPoint>> entry : mapOfDataPoints.entrySet()) {
-            Pair<Float, Float> a  = entry.getKey();
-//            a.getKey();
-            System.out.println(a.getKey());
-            System.out.println(a.getValue());
+    public static void KnnInterpolation(ArrayList<DataPoint> arrayListOfDataPoints) {
+        ArrayList<DataPoint> myArrayListWithoutNaNValues = FilterNaN.Filter(arrayListOfDataPoints);
 
-//            System.out.println(dataPoints.get(0).getDepth());
-//            System.out.println(dataPoints.get(0).getLatitude());
+
+
         }
 
 
-    }
+
+
+
 
     static Logger logger = Logger.getLogger(NearestNeighbor.class.getName());
     /**
