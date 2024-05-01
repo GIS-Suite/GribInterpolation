@@ -1,9 +1,6 @@
 package com.github.gissuite.gribinterpolation.core;
 
 import com.github.gissuite.gribinterpolation.data.DataPoint;
-import org.apache.commons.math3.util.Pair;
-
-
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -89,11 +86,11 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
      * @param neighbors list of neighbors
      * @param dataPointToInterpolate point we are interpolating
      */
-    public static double knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint dataPointToInterpolate, int k){
+    public static DataPoint knnInterpolation(ArrayList<DataPoint> neighbors, DataPoint dataPointToInterpolate, int k){
         int amount = neighbors.size();
         ArrayList<DataPoint> nearest = getNearestNeighbor(neighbors,dataPointToInterpolate,k);
         // placeholder values
-        double interpolatedTemp = 0.0;
+        float interpolatedTemp = 0.0f;
         float totalTemp = 0;
         try {
             for (DataPoint nearestNeighbor : nearest) { // look through the array list of nearest neighbor
@@ -101,8 +98,9 @@ private static Map<DataPoint, Double> sortByValue(HashMap<DataPoint, Double> map
                 totalTemp += nearestNeighbor.getTemperatureK();
             }
             interpolatedTemp = totalTemp/k;
+            dataPointToInterpolate.setTemperatureK(interpolatedTemp);
         }
         catch(Exception e){ logger.warning("Error with interpolation: " + e); }
-        return interpolatedTemp;
+        return dataPointToInterpolate;
     } // end of knnInterpolation() :)
 }

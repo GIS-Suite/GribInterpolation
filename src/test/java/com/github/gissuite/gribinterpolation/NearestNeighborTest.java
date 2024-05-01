@@ -30,8 +30,8 @@ public class NearestNeighborTest {
 
         try{
             int k = 3;
-            double resultTemp = NearestNeighbor.knnInterpolation(neighbors, interpolatingPoint, k);
-            interpolatingPoint.setTemperatureK((float)resultTemp);
+            DataPoint resultTemp = NearestNeighbor.knnInterpolation(neighbors, interpolatingPoint, k);
+//            interpolatingPoint.setTemperatureK(resultTemp);
             assertEquals(expectedResultDataPoint.getTemperatureK(), interpolatingPoint.getTemperatureK());
         }
         catch (Exception e){ logger.warning("Error with knn_should_return_datapoint" + e); }
