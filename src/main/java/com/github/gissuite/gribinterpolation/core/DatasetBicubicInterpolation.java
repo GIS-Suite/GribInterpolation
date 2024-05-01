@@ -15,7 +15,6 @@ public class DatasetBicubicInterpolation {
      */
     public static ArrayList<DataPoint> dataPointsBicubicInterpolation(ArrayList<DataPoint> dataPoints){
 
-        //shapedDataPoints = GroupBy.groupByLatLonWithDepthSort(dataPoints);
         shapedDataPoints = ShapeData(dataPoints);
         ArrayList<DataPoint> pointsToReturn = new ArrayList<DataPoint>();
         
@@ -35,53 +34,6 @@ public class DatasetBicubicInterpolation {
 
         return pointsToReturn;
     }
-    /*
-    private static DataPoint interpolate(DataPoint dp){
-        float interval = 0.01f;
-        DataPoint[][] inputArr = new DataPoint[4][4];
-        DataPoint pointToReturn;
-
-        //Interpolating by making a square around the point, expanding if neccessary//
-        while(interval < 1f){
-            try{
-                for(int i = 0; i < 4; i++){
-                    for(int j = 0; j < 4; j++){
-                        inputArr[i][j] = shapedDataPoints.get(new Pair<>(dp.getLatitude() - (2*i-3) * interval, dp.getLongitude() + (2*j - 3) * interval))
-                                                        .stream()
-                                                        .filter(
-                                                            x -> x.getDepth() == dp.getDepth()
-                                                        ).findFirst().get();
-                    }
-                }
-
-                pointToReturn = BicubicInterpolation.interpolateLatLong(inputArr, dp);
-                return pointToReturn;
-            }
-            catch(Exception e){
-                System.out.println(e);// please for the love of God don't forget to delete this later ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                interval = interval + 0.01f;
-            }
-        }
-
-        //if the square gets too big without finding enough points. This goes to a set size and finds the NaN points via inverse weighted//
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                inputArr[i][j] = shapedDataPoints.get(new Pair<>(dp.getLatitude() - (2*i-3) * 0.08f, dp.getLongitude() + (2*j-3) * 0.08f))
-                                                .stream()
-                                                .filter(
-                                                    x -> x.getDepth() == dp.getDepth()
-                                                ).findFirst().get();
-
-                if(Float.isNaN(inputArr[i][j].getTemperatureK())){
-                    inputArr[i][j] = InverseWeighted.inverseWeighted(new ArrayList<DataPoint>(shapedDataPoints.get(new Pair<>(dp.getLatitude() - (2*i-3) * 0.04f, dp.getLongitude() + (2*j-3) * 0.04f))), inputArr[i][j]);
-                }
-            }
-        }
-
-        pointToReturn = BicubicInterpolation.interpolateLatLong(inputArr, dp);
-        return pointToReturn;
-    }
-    */
 
     private static DataPoint interpolate(DataPoint dp){
         float interval = 0.01f;
@@ -97,7 +49,7 @@ public class DatasetBicubicInterpolation {
                         arr[i][j] = shapedDataPoints.get(dp.getLatitude() - (2*i-3) * interval)
                             .stream()
                             .filter(
-                                x -> x.getLongitude() == dp.getLongitude() + (2*j1-3) * interval1 && x.getDepth() == dp.getDepth()
+                                x -> x.getLongitude() == Math.round(dp.getLongitude()*100.0)/100.0f + (2*j1-3) * interval1 && x.getDepth() == dp.getDepth()
                             ).findFirst().get();
                     }
                 }
@@ -105,25 +57,29 @@ public class DatasetBicubicInterpolation {
                 return pointToReturn;
             }
             catch(Exception e){//Map throws an error when trying to get a null point
-                System.out.println(e);//Delete Later///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 interval = interval + 0.01f;
             }
         }
-        //if the point doesn't exist and we want it too this will break fix later//
+        //if the point doesn't exist and we want it too this will break fix later//////////////////////////////////////////////////////////////////////////////////////////
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
                 final int j1 = j;
-                arr[i][j] = shapedDataPoints.get(dp.getLatitude() - (2*i-3) * 0.08f)
-                    .stream()
-                    .filter(
-                        x -> x.getLongitude() == dp.getLongitude() + (2*j1-3) * 0.08f && x.getDepth() == dp.getDepth()
-                    ).findFirst().get();
-                if(Float.isNaN(arr[i][j].getTemperatureK())){
-                    arr[i][j] = InverseWeighted.inverseWeighted(new ArrayList<DataPoint>(shapedDataPoints.get(dp.getLatitude() - (2*i-3))), arr[i][j]);
-                }
+                try{
+                    arr[i][j] = shapedDataPoints.get(dp.getLatitude() - (2*i-3) * 0.08f)
+                        .stream()
+                        .filter(
+                            x -> x.getLongitude() == Math.round(dp.getLongitude() * 100.0)/100.0f + (2*j1-3) * 0.08f && x.getDepth() == dp.getDepth()
+                        ).findFirst().get();
+                    if(Float.isNaN(arr[i][j].getTemperatureK())){
+                        arr[i][j] = InverseWeighted.inverseWeighted(new ArrayList<DataPoint>(shapedDataPoints.get(Math.round(dp.getLatitude()*100.0)/100.0f - (2*i-3) * 0.08f)), arr[i][j]);
+                    }
+                } 
+                catch(Exception e){
+                    arr[i][j] = InverseWeighted.inverseWeighted(new ArrayList<DataPoint>(shapedDataPoints.get(dp.getLatitude())), new DataPoint(Math.round(dp.getLongitude()*100.0)/100.0f + (2*j-3) * 0.08f, dp.getLatitude() - (2*i-3) * 0.08f, NaN, dp.getDepth()));
+                }  
             }
         }
-        //maybe add another default case where it just returns NaN just so the program doesn't explode on unforseen edge cases//
+        //maybe add another default case where it just returns NaN just so the program doesn't explode on unforseen edge cases///////////////////////////////////////////////////////////
         pointToReturn = BicubicInterpolation.interpolateLatLong(arr, dp);
         return pointToReturn;
     }
@@ -131,7 +87,7 @@ public class DatasetBicubicInterpolation {
     private static Map<Object, List<DataPoint>> ShapeData(ArrayList<DataPoint> data){
         Map<Object, List<DataPoint>> filteredShapedData = data.stream()
             .collect(
-            Collectors.groupingBy(dp -> Math.round(dp.getLatitude() * 100.0) / 100.0)
+            Collectors.groupingBy(dp -> Math.round(dp.getLatitude() * 100.0) / 100.0f)
             );
 
         filteredShapedData.entrySet()
@@ -156,7 +112,7 @@ public class DatasetBicubicInterpolation {
             filteredShapedData.put(entry.getKey(), longs);
         }
 
-        /*
+        ///*
         System.out.println("Start\n");
         for(Map.Entry<Object, List<DataPoint>> entry : filteredShapedData.entrySet()){
             for(DataPoint dp : entry.getValue()){
@@ -172,6 +128,7 @@ public class DatasetBicubicInterpolation {
     }
 
     public static void main(String[] args){//make test data closer to actual grib file
+        /*/
         DataPoint pa1 = new DataPoint(0f, 0f, 300f, 0f);
         DataPoint pa2 = new DataPoint(0f, 0f, 301f, 1f);
         DataPoint pb1 = new DataPoint(0f, 1f, 302f, 0f);
@@ -196,8 +153,133 @@ public class DatasetBicubicInterpolation {
         arr.add(pb1n);
         arr.add(pb2n);
         arr.add(pb3n);
-
-        ShapeData(arr);
+        */
+        //ShapeData(arr);
         //dataPointsBicubicInterpolation(arr);
+
+        ArrayList<DataPoint> arr = new ArrayList<DataPoint>();
+
+        //column one//
+        arr.add(new DataPoint(3.60f, 2.96f, 299.4f, 0f));
+        arr.add(new DataPoint(3.60f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(3.60f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(3.60f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(3.60f, 3.28f, 299.2f, 0f));
+        arr.add(new DataPoint(3.60f, 3.36f, 299.2f, 0f));
+        arr.add(new DataPoint(3.60f, 3.44f, 299.2f, 0f));
+        arr.add(new DataPoint(3.60f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(3.60f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(3.60f, 3.68f, 299.2f, 0f));
+
+        //column two//
+        arr.add(new DataPoint(3.68f, 2.96f, 299.4f, 0f));
+        arr.add(new DataPoint(3.68f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(3.68f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(3.68f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(3.68f, 3.28f, 299.2f, 0f));
+        arr.add(new DataPoint(3.68f, 3.36f, 299.2f, 0f));
+        arr.add(new DataPoint(3.68f, 3.44f, 299.2f, 0f));
+        arr.add(new DataPoint(3.68f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(3.68f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(3.68f, 3.68f, 299.2f, 0f));
+
+        //column three//
+        arr.add(new DataPoint(3.76f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(3.76f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(3.76f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(3.76f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(3.76f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(3.76f, 3.36f, 299.2f, 0f));
+        arr.add(new DataPoint(3.76f, 3.44f, 299.2f, 0f));
+        arr.add(new DataPoint(3.76f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(3.76f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(3.76f, 3.68f, 299.2f, 0f));
+
+        //column four//
+        arr.add(new DataPoint(3.84f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(3.84f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(3.84f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(3.84f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(3.84f, 3.28f, 299.2f, 0f));
+        arr.add(new DataPoint(3.84f, 3.36f, 299.2f, 0f));
+        arr.add(new DataPoint(3.84f, 3.44f, 299.2f, 0f));
+        arr.add(new DataPoint(3.84f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(3.84f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(3.84f, 3.68f, 299.2f, 0f));
+
+        //column five//
+        arr.add(new DataPoint(3.92f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.36f, 399.2f, 0f));
+        arr.add(new DataPoint(3.92f, 3.44f, 399.2f, 0f));
+        arr.add(new DataPoint(3.92f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(3.92f, 3.60f, 299.3f, 0f));
+        arr.add(new DataPoint(3.92f, 3.68f, 299.3f, 0f));
+
+        //column six//
+        arr.add(new DataPoint(4.00f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.36f, 299.3f, 0f));
+        arr.add(new DataPoint(4.00f, 3.44f, 299.2f, 0f));
+        arr.add(new DataPoint(4.00f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(4.00f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(4.00f, 3.68f, 299.2f, 0f));
+
+        //column seven//
+        arr.add(new DataPoint(4.08f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.36f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.44f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.52f, 299.3f, 0f));
+        arr.add(new DataPoint(4.08f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(4.08f, 3.68f, 299.2f, 0f));
+
+        //column eight//
+        arr.add(new DataPoint(4.16f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.36f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.44f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.52f, 299.3f, 0f));
+        arr.add(new DataPoint(4.16f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(4.16f, 3.68f, 299.2f, 0f));
+
+        //column nine//
+        arr.add(new DataPoint(4.24f, 2.96f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.36f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.44f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.52f, 299.3f, 0f));
+        arr.add(new DataPoint(4.24f, 3.60f, 299.2f, 0f));
+        arr.add(new DataPoint(4.24f, 3.68f, 299.2f, 0f));
+
+        //column ten//
+        arr.add(new DataPoint(4.32f, 2.96f, 299.4f, 0f));
+        arr.add(new DataPoint(4.32f, 3.04f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.12f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.20f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.28f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.36f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.44f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.52f, 299.2f, 0f));
+        arr.add(new DataPoint(4.32f, 3.60f, 299.3f, 0f));
+        arr.add(new DataPoint(4.32f, 3.68f, 299.2f, 0f));
+
+        //dataPointsBicubicInterpolation(arr);
+        //ShapeData(arr);
     }
 }
