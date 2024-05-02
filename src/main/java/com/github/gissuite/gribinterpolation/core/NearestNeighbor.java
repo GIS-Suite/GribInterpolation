@@ -32,10 +32,17 @@ public class NearestNeighbor {
 //        ));
         DataPoint pointA0 = new DataPoint(100, -90, 51, 10);
         DataPoint pointB2 = new DataPoint(101, -90, Float.NaN, 2);
-        DataPoint pointC10 = new DataPoint(102, -90, 50, 0);
+        DataPoint pointC10 = new DataPoint(103, -90, 50, 0);
         DataPoint pointD11 = new DataPoint(103, -90, 48, 11);
+
+        DataPoint pointA2 = new DataPoint(101, -90, 51, 10);
+        DataPoint pointB3 = new DataPoint(102, -90, Float.NaN, 2);
+        DataPoint pointC11 = new DataPoint(104, -90, 50, 0);
+        DataPoint pointD12 = new DataPoint(104, -90, 48, 11);
         ArrayList<DataPoint> dataPointArrayList = new ArrayList<>();
         dataPointArrayList.add(pointA0);dataPointArrayList.add(pointB2);dataPointArrayList.add(pointC10);dataPointArrayList.add(pointD11);
+        dataPointArrayList.add(pointA2);dataPointArrayList.add(pointB3);
+        dataPointArrayList.add(pointC11);dataPointArrayList.add(pointD12);
         KnnInterpolation(dataPointArrayList);
 
 
@@ -47,12 +54,13 @@ public class NearestNeighbor {
         for(int i =0; i < myArrayListWithoutNaNValues.size(); i++){
             //may need to group by depth
             Float myDepth = myArrayListWithoutNaNValues.get(i).getDepth();
-            myDepth+=1;
+
+//            myDepth+=1;
 //            myDepth.equals(myArrayListWithoutNaNValues.get(i+1).getDepth());
 
-            if( !(myDepth.equals(myArrayListWithoutNaNValues.get(i+1).getDepth())){
-                System.out.println("It got true");
-            }
+//            if( !(myDepth.equals(myArrayListWithoutNaNValues.get(i+1).getDepth())){
+//                System.out.println("It got true");
+//            }
         }
 //        ArrayList<DataPoint> nearestNeighbors = getNearestNeighbor(myArrayListWithoutNaNValues,dataPointToInterpolate,3);
 

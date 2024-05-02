@@ -30,7 +30,7 @@ public class NearestNeighborTest {
 
         try{
             int k = 3;
-            DataPoint resultTemp = NearestNeighbor.knnInterpolation(neighbors, interpolatingPoint, k);
+            DataPoint resultTemp = NearestNeighbor.knnInterpolationForOneDataPoint(neighbors, interpolatingPoint, k);
 //            interpolatingPoint.setTemperatureK(resultTemp);
             assertEquals(expectedResultDataPoint.getTemperatureK(), interpolatingPoint.getTemperatureK());
         }
